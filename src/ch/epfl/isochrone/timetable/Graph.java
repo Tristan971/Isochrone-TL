@@ -11,8 +11,8 @@ public final class Graph {
     /**
      * Un graphe est défini par les arrêts qu'il décrit, et par les arcs de graphe liant lesdits arrêts entre eux. On a donc un système de deux tables associatives dont une contient des listes.
      */
-    private static Set<Stop> stops;
-    private static Map<Stop, List<GraphEdge>> outgoingEdges;
+    private static Set<Stop> stops = new HashSet<>();
+    private static Map<Stop, List<GraphEdge>> outgoingEdges = new HashMap<>();
 
     /**
      * Constructeur principal de Graph
