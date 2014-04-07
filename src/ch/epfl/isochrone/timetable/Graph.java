@@ -126,8 +126,12 @@ public final class Graph {
          */
         private GraphEdge.Builder getBatisseur(Stop fromStop, Stop toStop) {
             if (batisseurArcDepuisVers.containsKey(fromStop)) {
-                batisseurArcDepuisVers.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
-                return batisseurArcDepuisVers.get(fromStop).get(toStop);
+                if (batisseurArcDepuisVers.get(fromStop).containsKey(toStop)){
+                    return batisseurArcDepuisVers.get(fromStop).get(toStop);
+                } else {
+                    batisseurArcDepuisVers.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
+                    return batisseurArcDepuisVers.get(fromStop).get(toStop);
+                }
             } else {
                 Map<Stop, GraphEdge.Builder> toStopMap = new HashMap<>();
                 toStopMap.put(toStop, new GraphEdge.Builder(toStop));
