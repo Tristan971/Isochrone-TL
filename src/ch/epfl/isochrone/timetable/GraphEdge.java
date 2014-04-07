@@ -1,6 +1,8 @@
 package ch.epfl.isochrone.timetable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Classe gérant la notion d'arc de graphe
@@ -58,7 +60,7 @@ public final class GraphEdge {
      *          Heure de départ (en spm)
      */
     public static int unpackTripDepartureTime(int packedTrip) {
-        return ch.epfl.isochrone.math.Math.divF(packedTrip,10000);
+        return ch.epfl.isochrone.math.Math.divF(packedTrip, 10000);
     }
 
     /**
@@ -99,58 +101,22 @@ public final class GraphEdge {
      *          L'heure d'arrivée la plus proche en utilisant cet arc
      */
     public int earliestArrivalTime(int departureTime) {
-        if (minimalPublicTransportationTime(departureTime) < walktime) {
-            return departureTime + minimalPublicTransportationTime(departureTime);
-        }
-        if (walktime > -1) {
-            return departureTime+walktime;
-        }
-        else return SecondsPastMidnight.INFINITE;
-    }
+        Integer[] packTripsArray = new Integer[packedTrips.size()];
+        packedTrips.toArray(packTripsArray);
 
-    /**
-     * Recherche du trajet le plus rapide en transports publics
-     * @param departureTime
-     *          Heure de départ en secondes après minuit
-     * @return
-     *          Le temps mis par le trajet le plus court
-     */
-    private int minimalPublicTransportationTime(int departureTime) {
-        Integer[] packedTripsArray = packedTrips.toArray(new Integer[packedTrips.size()]);
+        Integer[] durationsArray = new Integer[packedTrips.size()];
 
-        Map<Integer, Integer> durationsMap = new HashMap<>();
+        for (int i = 0; i < packTripsArray.length; i++) {
+            int tripDepartureTime = unpackTripDepartureTime(packTripsArray[i]);
 
-        Map<Integer, Integer> departureTimesAdded = new HashMap<>();
-
-        for (Integer aPackedTrip : packedTripsArray) {
-            if (departureTimesAdded.containsKey(unpackTripDepartureTime(aPackedTrip))){
-                if (departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) > unpackTripDuration(aPackedTrip) && departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) == null) {
-                    durationsMap.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
-                    departureTimesAdded.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
-                }
+            if (tripDepartureTime > departureTime) {
+                durationsArray[i] = (tripDepartureTime - departureTime) + (unpackTripDuration(packTripsArray[i]));
             }
         }
 
-        List<Integer> durationList = new LinkedList<>();
+        Arrays.sort(durationsArray);
 
-        for (int aDepartureTime = 0; aDepartureTime < durationsMap.keySet().size(); aDepartureTime++) {
-            if (aDepartureTime >= departureTime) {
-                Integer i = (aDepartureTime-departureTime)+durationsMap.get(aDepartureTime);
-                if (i < SecondsPastMidnight.INFINITE) {
-                    durationList.add(i);
-                } else {
-                    durationList.add(SecondsPastMidnight.INFINITE);
-                }
-            }
-        }
-
-        Collections.sort(durationList);
-
-        if (durationList.isEmpty()) {
-            return SecondsPastMidnight.INFINITE;
-        }
-
-        return durationList.get(0);
+        return durationsArray[0];
     }
 
     /**
