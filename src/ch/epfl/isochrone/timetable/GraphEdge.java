@@ -1,8 +1,6 @@
 package ch.epfl.isochrone.timetable;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe gérant la notion d'arc de graphe
@@ -119,17 +117,29 @@ public final class GraphEdge {
      */
     private int minimalPublicTransportationTime(int departureTime) {
         Integer[] packedTripsArray = packedTrips.toArray(new Integer[packedTrips.size()]);
-        Arrays.sort(packedTripsArray);
 
-        int minimalTime = SecondsPastMidnight.INFINITE;
+        Map<Integer, Integer> durationsMap = new HashMap<>();
 
-        for(int i = 0; i < packedTrips.size(); i++) {
-            if (packedTripsArray[i] < minimalTime && unpackTripDepartureTime(packedTripsArray[i]) >= departureTime) {
-                minimalTime = packedTripsArray[i];
+        for (Integer aPackedTrip : packedTripsArray) {
+            durationsMap.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
+        }
+
+        List<Integer> durationList = new LinkedList<>();
+
+
+
+        for (int aDepartureTime = 0; aDepartureTime < durationsMap.keySet().size(); aDepartureTime++) {
+            if (aDepartureTime > departureTime) {
+                Integer i = (aDepartureTime-departureTime)+durationsMap.get(aDepartureTime);
+                if (i < SecondsPastMidnight.INFINITE) {
+                    durationList.add(i);
+                }
             }
         }
 
-        return minimalTime;
+        Collections.sort(durationList);
+
+        return durationList.get(0);
     }
 
     /**
