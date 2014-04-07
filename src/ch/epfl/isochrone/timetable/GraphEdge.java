@@ -126,8 +126,6 @@ public final class GraphEdge {
 
         List<Integer> durationList = new LinkedList<>();
 
-
-
         for (int aDepartureTime = 0; aDepartureTime < durationsMap.keySet().size(); aDepartureTime++) {
             if (aDepartureTime > departureTime) {
                 Integer i = (aDepartureTime-departureTime)+durationsMap.get(aDepartureTime);
