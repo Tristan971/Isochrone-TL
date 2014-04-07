@@ -124,8 +124,9 @@ public final class GraphEdge {
 
         for (Integer aPackedTrip : packedTripsArray) {
             if (departureTimesAdded.containsKey(unpackTripDepartureTime(aPackedTrip))){
-                if (departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) > unpackTripDuration(aPackedTrip)) {
+                if (departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) > unpackTripDuration(aPackedTrip) && departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) == null) {
                     durationsMap.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
+                    departureTimesAdded.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
                 }
             }
         }
