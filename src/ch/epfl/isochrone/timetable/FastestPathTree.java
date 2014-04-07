@@ -76,7 +76,9 @@ public final class FastestPathTree {
     /**
      * Renvoie une liste ordonnée des arrêts nécessaire pour se rendre de l'arrêt de départ à un arrêt donné
      * @param stop
+     *      Stop de destination
      * @return
+     *      Liste ordonnée représentant le chemin à emprunter
      */
     public List<Stop> pathTo (Stop stop) {
         if (!arrivalTime.containsKey(stop)) {
