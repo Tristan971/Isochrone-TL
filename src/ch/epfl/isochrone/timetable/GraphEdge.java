@@ -113,6 +113,8 @@ public final class GraphEdge {
 
             if (tripDepartureTime > departureTime) {
                 arrivalTimesArray[i] = departureTime + (tripDepartureTime - departureTime) + (unpackTripDuration(packTripsArray[i]));
+            } else {
+                arrivalTimesArray[i] = SecondsPastMidnight.INFINITE;
             }
         }
 
