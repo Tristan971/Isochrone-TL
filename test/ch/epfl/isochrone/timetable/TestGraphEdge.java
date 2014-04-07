@@ -57,7 +57,7 @@ public class TestGraphEdge {
         b4.addTrip(100, 3000).addTrip(2000, 3500).addTrip(7000, 7500).setWalkingTime(100);
         b5.addTrip(100, 6000).addTrip(1500, 3500).addTrip(4000, 4500).setWalkingTime(4000);
 
-        assertEquals(2500, b1.build().earliestArrivalTime(1000));
+        assertEquals(2300, b1.build().earliestArrivalTime(1000));
         assertEquals(SecondsPastMidnight.INFINITE , b2.build().earliestArrivalTime(3000));
         assertEquals(3000 , b3.build().earliestArrivalTime(2000));
         assertEquals(1600 , b4.build().earliestArrivalTime(1500));

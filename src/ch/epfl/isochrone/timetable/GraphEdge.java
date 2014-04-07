@@ -104,29 +104,33 @@ public final class GraphEdge {
         Integer[] packTripsArray = new Integer[packedTrips.size()];
         packedTrips.toArray(packTripsArray);
 
-        Integer[] durationsArray = new Integer[packedTrips.size()];
+        Integer[] arrivalTimesArray = new Integer[packedTrips.size()];
+
+        int earliestArrivalByWalking = departureTime + walktime;
 
         for (int i = 0; i < packTripsArray.length; i++) {
             int tripDepartureTime = unpackTripDepartureTime(packTripsArray[i]);
 
             if (tripDepartureTime > departureTime) {
-                durationsArray[i] = (tripDepartureTime - departureTime) + (unpackTripDuration(packTripsArray[i]));
+                arrivalTimesArray[i] = departureTime + (tripDepartureTime - departureTime) + (unpackTripDuration(packTripsArray[i]));
             }
         }
 
-        Arrays.sort(durationsArray);
+        if (arrivalTimesArray.length > 0) {
+            Arrays.sort(arrivalTimesArray);
+        }
 
-        if (durationsArray.length == 0) {
+        if (arrivalTimesArray.length == 0) {
             if (walktime != -1) {
-                return walktime;
+                return earliestArrivalByWalking;
             } else {
                 return SecondsPastMidnight.INFINITE;
             }
         } else {
-            if (walktime != -1) {
-                return durationsArray[0];
+            if (walktime == -1) {
+                return arrivalTimesArray[0];
             } else {
-                return walktime > durationsArray[0] ? durationsArray[0] : walktime;
+                return earliestArrivalByWalking > arrivalTimesArray[0] ? arrivalTimesArray[0] : earliestArrivalByWalking;
             }
         }
     }
