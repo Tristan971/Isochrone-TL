@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
  */
 
 public class TestTimeTable {
-    @Test
+    @Test (expected = java.lang.UnsupportedOperationException.class)
     public void testStops() throws Exception {
         Set<Stop> testStopSet = new HashSet<>();
         Random r = new Random();
@@ -27,6 +27,7 @@ public class TestTimeTable {
         servicesTest.add(new Service("test", new Date(1,1,1), new Date(1,1,1), new HashSet<Date.DayOfWeek>(), new HashSet<Date>(), new HashSet<Date>()));
 
         assertEquals(new TimeTable(testStopSet, servicesTest).stops(), testStopSet);
+        new TimeTable(testStopSet, servicesTest).stops().add(new Stop("testModify", new PointWGS84(0,0)));
     }
 
     @Test
