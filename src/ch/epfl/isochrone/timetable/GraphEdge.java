@@ -116,7 +116,19 @@ public final class GraphEdge {
 
         Arrays.sort(durationsArray);
 
-        return durationsArray[0];
+        if (durationsArray.length == 0) {
+            if (walktime != -1) {
+                return walktime;
+            } else {
+                return SecondsPastMidnight.INFINITE;
+            }
+        } else {
+            if (walktime != -1) {
+                return durationsArray[0];
+            } else {
+                return walktime > durationsArray[0] ? durationsArray[0] : walktime;
+            }
+        }
     }
 
     /**
