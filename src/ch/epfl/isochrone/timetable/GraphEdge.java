@@ -99,13 +99,13 @@ public final class GraphEdge {
      *          L'heure d'arrivée la plus proche en utilisant cet arc
      */
     public int earliestArrivalTime(int departureTime) {
-        int publicTransportationTime = minimalPublicTransportationTime(departureTime);
-
-        if (publicTransportationTime < walktime) {
-            return publicTransportationTime;
-        } else {
-            return walktime;
+        if (minimalPublicTransportationTime(departureTime) < walktime) {
+            return departureTime + minimalPublicTransportationTime(departureTime);
         }
+        if (walktime > -1) {
+            return departureTime+walktime;
+        }
+        else return SecondsPastMidnight.INFINITE;
     }
 
     /**
@@ -120,22 +120,34 @@ public final class GraphEdge {
 
         Map<Integer, Integer> durationsMap = new HashMap<>();
 
+        Map<Integer, Integer> departureTimesAdded = new HashMap<>();
+
         for (Integer aPackedTrip : packedTripsArray) {
-            durationsMap.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
+            if (departureTimesAdded.containsKey(unpackTripDepartureTime(aPackedTrip))){
+                if (departureTimesAdded.get(unpackTripDepartureTime(aPackedTrip)) > unpackTripDuration(aPackedTrip)) {
+                    durationsMap.put(unpackTripDepartureTime(aPackedTrip), unpackTripDuration(aPackedTrip));
+                }
+            }
         }
 
         List<Integer> durationList = new LinkedList<>();
 
         for (int aDepartureTime = 0; aDepartureTime < durationsMap.keySet().size(); aDepartureTime++) {
-            if (aDepartureTime > departureTime) {
+            if (aDepartureTime >= departureTime) {
                 Integer i = (aDepartureTime-departureTime)+durationsMap.get(aDepartureTime);
                 if (i < SecondsPastMidnight.INFINITE) {
                     durationList.add(i);
+                } else {
+                    durationList.add(SecondsPastMidnight.INFINITE);
                 }
             }
         }
 
         Collections.sort(durationList);
+
+        if (durationList.isEmpty()) {
+            return SecondsPastMidnight.INFINITE;
+        }
 
         return durationList.get(0);
     }
