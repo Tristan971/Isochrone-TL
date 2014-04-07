@@ -11,8 +11,8 @@ public final class Graph {
     /**
      * Un graphe est défini par les arrêts qu'il décrit, et par les arcs de graphe liant lesdits arrêts entre eux. On a donc un système de deux tables associatives dont une contient des listes.
      */
-    private static Set<Stop> stops = new HashSet<>();
-    private static Map<Stop, List<GraphEdge>> outgoingEdges = new HashMap<>();
+    private Set<Stop> stops = new HashSet<>();
+    private Map<Stop, List<GraphEdge>> outgoingEdges = new HashMap<>();
 
     /**
      * Constructeur principal de Graph
@@ -35,6 +35,7 @@ public final class Graph {
          */
         private Set<Stop> stops = new HashSet<>();
         private Map<Stop, Map<Stop, GraphEdge.Builder>> batisseurArcDepuisVers = new HashMap<>();
+        private Map<Stop, List<GraphEdge>> outgoingEdges = new HashMap<>();
 
         /**
          * Constructeur par défaut du bâtisseur
@@ -59,7 +60,7 @@ public final class Graph {
          *          Le bâtisseur pour permettre les appels chaînés
          */
         public Builder addTripEdge(Stop fromStop, Stop toStop, int departureTime, int arrivalTime) {
-            if (!outgoingEdges.containsKey(fromStop) || !outgoingEdges.containsKey(toStop)) {
+            if (!stops.contains(fromStop) || !stops.contains(toStop)) {
                 throw new IllegalArgumentException("Adding an edge from or to a stop that isn't valid");
             } else if (departureTime < 0 || arrivalTime < 0 || arrivalTime < departureTime) {
                 throw new IllegalArgumentException("departure or arrival time is < 0 ; or arrival is before departure");
@@ -68,7 +69,12 @@ public final class Graph {
             GraphEdge.Builder graphBuilder = getBatisseur(fromStop,toStop);
             graphBuilder.addTrip(departureTime,arrivalTime);
 
-            outgoingEdges.get(fromStop).add(graphBuilder.build());
+            if (outgoingEdges.containsKey(fromStop)) {
+                outgoingEdges.get(fromStop).add(graphBuilder.build());
+            } else {
+                outgoingEdges.put(fromStop, new LinkedList<GraphEdge>());
+                outgoingEdges.get(fromStop).add(graphBuilder.build());
+            }
 
             return this;
         }
@@ -119,13 +125,13 @@ public final class Graph {
          *          L'arc de graphe associant ces deux arrêts
          */
         private GraphEdge.Builder getBatisseur(Stop fromStop, Stop toStop) {
-            if (batisseurArcDepuisVers.get(fromStop).containsValue(toStop)) {
+            if (batisseurArcDepuisVers.containsKey(fromStop)) {
+                batisseurArcDepuisVers.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
                 return batisseurArcDepuisVers.get(fromStop).get(toStop);
             } else {
-                Map<Stop, GraphEdge.Builder> tempmap = new HashMap<>();
-                tempmap.put(toStop,new GraphEdge.Builder(toStop));
-                batisseurArcDepuisVers.put(fromStop, tempmap);
-
+                Map<Stop, GraphEdge.Builder> toStopMap = new HashMap<>();
+                toStopMap.put(toStop, new GraphEdge.Builder(toStop));
+                batisseurArcDepuisVers.put(fromStop, toStopMap);
                 return batisseurArcDepuisVers.get(fromStop).get(toStop);
             }
         }

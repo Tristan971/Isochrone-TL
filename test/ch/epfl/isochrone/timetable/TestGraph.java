@@ -16,7 +16,7 @@ public class TestGraph {
 
         Graph.Builder gb = new Graph.Builder(stops);
         gb.addTripEdge(stop, stop, 0, 0);
-        gb.addAllWalkEdges(0, 0);
+        gb.addAllWalkEdges(0, 0.1); //0.1 car 0 throw l'Illegal...; car walkspeed > 0
         gb.build();
     }
 }
