@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe créant un horaire à l'aide de fichiers CSV de données
@@ -53,40 +50,44 @@ public final class TimeTableReader {
 
 
         while (calendarReader.readLine() != null) {
-            String[] lineDataArray = calendarReader.readLine().split(";");
-            String name = lineDataArray[0];
+            if (calendarReader.readLine() != null) {
+                String[] lineDataArray = calendarReader.readLine().split(";");
+                String name = lineDataArray[0];
 
-            Date startingDate = makeDateWithString(lineDataArray[8]);
-            Date endingDate = makeDateWithString(lineDataArray[9]);
+                Date startingDate = makeDateWithString(lineDataArray[8]);
+                Date endingDate = makeDateWithString(lineDataArray[9]);
 
-            Service.Builder serviceBuilder = new Service.Builder(lineDataArray[0],startingDate,endingDate);
+                Service.Builder serviceBuilder = new Service.Builder(lineDataArray[0],startingDate,endingDate);
 
-            for (Date.DayOfWeek aDay : getOperatingDays(lineDataArray)) {
-                serviceBuilder.addOperatingDay(aDay);
-            }
-
-            while (calendarDatesReader.readLine() != null) {
-                String[] lineArray = calendarDatesReader.readLine().split(";");
-                if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==2) {
-                    excludedDatesSet.add(makeDateWithString(lineArray[1]));
-                } else if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==1) {
-                    includedDatesSet.add(makeDateWithString(lineArray[1]));
+                for (Date.DayOfWeek aDay : getOperatingDays(lineDataArray)) {
+                    serviceBuilder.addOperatingDay(aDay);
                 }
-            }
 
-            for (Date aDate : excludedDatesSet) {
-                serviceBuilder.addExcludedDate(aDate);
-            }
-            for (Date aDate : includedDatesSet) {
-                serviceBuilder.addIncludedDate(aDate);
-            }
+                while (calendarDatesReader.readLine() != null) {
+                    String[] lineArray = calendarDatesReader.readLine().split(";");
+                    if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==2) {
+                        excludedDatesSet.add(makeDateWithString(lineArray[1]));
+                    } else if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==1) {
+                        includedDatesSet.add(makeDateWithString(lineArray[1]));
+                    }
+                }
 
-            serviceSet.add(serviceBuilder.build());
+                for (Date aDate : excludedDatesSet) {
+                    serviceBuilder.addExcludedDate(aDate);
+                }
+                for (Date aDate : includedDatesSet) {
+                    serviceBuilder.addIncludedDate(aDate);
+                }
+
+                serviceSet.add(serviceBuilder.build());
+            }
         }
 
         while (stopsReader.readLine() != null) {
-            String[] stopsArray = stopsReader.readLine().split(";");
-            stopSet.add(makeStopWithLine(stopsArray));
+            if (stopsReader.readLine() != null) {
+                String[] stopsArray = stopsReader.readLine().split(";");
+                stopSet.add(makeStopWithLine(stopsArray));
+            }
         }
 
         return new TimeTable(stopSet, serviceSet);
