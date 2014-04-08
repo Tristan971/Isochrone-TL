@@ -92,13 +92,16 @@ public final class FastestPathTree {
         }
 
         List<Stop> pathList = new LinkedList<>();
-        ArrayList<Stop> stopArray = new ArrayList<>(predecessor.keySet());
 
-        for (Stop aStop : stopArray) {
-            if (stopArray.indexOf(aStop) >= stopArray.indexOf(startingStop()) && stopArray.indexOf(aStop) <= stopArray.indexOf(stop)) {
-                pathList.add(aStop);
-            }
+        Stop s1 = stop, s2 = stop;
+
+        while (s1 != startingStop()) {
+            pathList.add(s1);
+            pathList.add(predecessor.get(s2));
+            s1=s2;
         }
+
+        Collections.reverse(pathList);
 
         return pathList;
     }
