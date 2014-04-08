@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -199,16 +201,27 @@ public final class TimeTableReader {
     public Graph readGraphForServices(Set<Stop> stops, Set<Service> services, int walkingTime, double walkingSpeed) throws IOException {
         Graph.Builder graphBuilder = new Graph.Builder(stops);
 
+        Map<String, Stop> stringStopMap = new HashMap<>();
+        for (Stop aStop : stops) {
+            stringStopMap.put(aStop.name(), aStop);
+        }
+
+        Map<String, Service> stringServiceMap = new HashMap<>();
+        for (Service aService : services) {
+            stringServiceMap.put(aService.name(), aService);
+        }
+
         BufferedReader stopTimesReader = new BufferedReader(new InputStreamReader(stopTimesInputStream, StandardCharsets.UTF_8));
 
+        while (stopTimesReader.readLine() != null) {
+            String[] lineDataArray = stopTimesReader.readLine().split(";");
+            if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {
+                graphBuilder.addTripEdge(stringStopMap.get(lineDataArray[1]), stringStopMap.get(lineDataArray[3]), Integer.parseInt(lineDataArray[2]), Integer.parseInt(lineDataArray[4]));
+            }
+        }
+
+        graphBuilder.addAllWalkEdges(walkingTime, walkingSpeed);
+
         return graphBuilder.build();
-    }
-
-    private boolean isSameStop(String test, Stop s) {
-        return s.name().equals(test);
-    }
-
-    private boolean isSameService(String test, Service s) {
-        return s.name().equals(test);
     }
 }
