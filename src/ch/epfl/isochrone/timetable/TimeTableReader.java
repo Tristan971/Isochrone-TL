@@ -196,11 +196,19 @@ public final class TimeTableReader {
      * @return
      *      Le graphe associant les services et stops donnés
      */
-    public Graph readGraphForServices(Set<Stop> stops, Set<Service> services, int walkingTime, double walkingSpeed) {
+    public Graph readGraphForServices(Set<Stop> stops, Set<Service> services, int walkingTime, double walkingSpeed) throws IOException {
         Graph.Builder graphBuilder = new Graph.Builder(stops);
 
-        //TODO : Lot of stuff...
+        BufferedReader stopTimesReader = new BufferedReader(new InputStreamReader(stopTimesInputStream, StandardCharsets.UTF_8));
 
         return graphBuilder.build();
+    }
+
+    private boolean isSameStop(String test, Stop s) {
+        return s.name().equals(test);
+    }
+
+    private boolean isSameService(String test, Service s) {
+        return s.name().equals(test);
     }
 }
