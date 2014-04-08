@@ -28,58 +28,10 @@ public final class TimeTableReader {
      *          Si les fichiers sont introuvables ou illisibles
      */
     public TimeTableReader(String baseResourceName) throws IOException {
-        this.calendarInputStream = getCalendarInputStream(baseResourceName);
-        this.calendarDatesInputStream = getCalendarDatesInputStream(baseResourceName);
-        this.stopsInputStream = getStopsInputStream(baseResourceName);
-        this.stopTimesInputStream = getStopTimesInputStream(baseResourceName);
-    }
-
-    public static void main(String[] arg) {
-
-    }
-
-    /**
-     * Crée un InputStream pour le fichier calendar.csv
-     * @param baseResourceName
-     *      Dossier dans lequel chercher le fichier
-     * @return
-     *      L'InputStream de calendar.csv
-     */
-    private InputStream getCalendarInputStream(String baseResourceName) {
-        return getClass().getResourceAsStream(baseResourceName+"calendar.csv");
-    }
-
-    /**
-     * Crée un InputStream pour le fichier calendar_dates.csv
-     * @param baseResourceName
-     *      Dossier dans lequel chercher le fichier
-     * @return
-     *      L'InputStream de calendar_dates.csv
-     */
-    private InputStream getCalendarDatesInputStream(String baseResourceName) {
-        return getClass().getResourceAsStream(baseResourceName+"calendar_dates.csv");
-    }
-
-    /**
-     * Crée un InputStream pour le fichier stops.csv
-     * @param baseResourceName
-     *      Dossier dans lequel chercher le fichier
-     * @return
-     *      L'InputStream de stops.csv
-     */
-    private InputStream getStopsInputStream(String baseResourceName) {
-        return getClass().getResourceAsStream(baseResourceName+"stops.csv");
-    }
-
-    /**
-     * Crée un InputStream pour le fichier stop_times.csv
-     * @param baseResourceName
-     *      Dossier dans lequel chercher le fichier
-     * @return
-     *      L'InputStream de stop_times.csv
-     */
-    private InputStream getStopTimesInputStream(String baseResourceName) {
-        return getClass().getResourceAsStream(baseResourceName+"stop_times.csv");
+        this.calendarInputStream = getClass().getResourceAsStream(baseResourceName+"calendar.csv");
+        this.calendarDatesInputStream = getClass().getResourceAsStream(baseResourceName+"calendar_dates.csv");
+        this.stopsInputStream = getClass().getResourceAsStream(baseResourceName+"stops.csv");
+        this.stopTimesInputStream = getClass().getResourceAsStream(baseResourceName+"stop_times.csv");
     }
 
     /**
@@ -150,8 +102,8 @@ public final class TimeTableReader {
     private Date makeDateWithString (String s) {
         Integer[] dateArray = new Integer[3];
         dateArray[0]=Integer.parseInt(s.substring(6,8));
-        dateArray[1]=Integer.parseInt(s.substring(4,5));
-        dateArray[2]=Integer.parseInt(s.substring(0,3));
+        dateArray[1]=Integer.parseInt(s.substring(4,6));
+        dateArray[2]=Integer.parseInt(s.substring(0,4));
 
         return new Date(dateArray[0],dateArray[1],dateArray[2]);
     }
