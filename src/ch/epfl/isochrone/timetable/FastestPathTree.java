@@ -26,9 +26,15 @@ public final class FastestPathTree {
      *          Arrêt précédant un arrêt donnée dans notre trajet
      */
     public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime, Map<Stop, Stop> predecessor) {
-        this.startingStop = new Stop(startingStop.name(), startingStop.position());
-        this.arrivalTime = new HashMap<>(arrivalTime);
-        this.predecessor = new HashMap<>(predecessor);
+        Set<Stop> fullStopSet = new HashSet<>();
+        fullStopSet.addAll(predecessor.keySet());
+        fullStopSet.add(startingStop);
+
+        if (fullStopSet.equals(arrivalTime.keySet())) {
+            this.startingStop = startingStop;
+            this.arrivalTime = new HashMap<>(arrivalTime);
+            this.predecessor = new HashMap<>(predecessor);
+        }
     }
 
     /**
@@ -46,7 +52,7 @@ public final class FastestPathTree {
      *      Heure à laquelle on arrive au premier arrêt du trajet
      */
     public int startingTime() {
-        return arrivalTime.get(startingStop);
+        return arrivalTime.get(startingStop());
     }
 
     /**
@@ -118,6 +124,10 @@ public final class FastestPathTree {
             }
             this.startingStop = startingStop;
             arrivalTime.put(startingStop, startingTime);
+        }
+
+        public Map<Stop, Integer> arrivalTimes() {
+            return this.arrivalTime;
         }
 
         /**

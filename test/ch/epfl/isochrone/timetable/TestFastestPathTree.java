@@ -1,35 +1,36 @@
 package ch.epfl.isochrone.timetable;
 
-import org.junit.Ignore;
+import ch.epfl.isochrone.geo.PointWGS84;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public class TestFastestPathTree {
-    // Le "test" suivant n'en est pas un à proprement parler, raison pour
-    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
-    // que les noms des classes et méthodes sont corrects.
+
     @Test
-    @Ignore
     public void namesAreOk() {
-        Stop stop = null;
-        Map<Stop, Integer> arrivalTimes = null;
-        Map<Stop, Stop> predecessors = null;
+        Stop stop = new Stop("test", new PointWGS84(0,0));
+        Map<Stop, Integer> arrivalTimes = new HashMap<>();
+        arrivalTimes.put(stop,1);
+
+        Map<Stop, Stop> predecessors = new HashMap<>();
+
         FastestPathTree f = new FastestPathTree(stop, arrivalTimes, predecessors);
+
         Stop s = f.startingStop();
-        int i = f.startingTime();
+        int i1 = f.startingTime();
         Set<Stop> ss = f.stops();
-        i = f.arrivalTime(stop);
+        int i = f.arrivalTime(stop);
         List<Stop> p = f.pathTo(stop);
-        System.out.println("" + s + i + ss + p);
+        System.out.println("" + s + i + ss + p + i1);
 
         FastestPathTree.Builder fb = new FastestPathTree.Builder(stop, 0);
         fb.setArrivalTime(stop, 0, stop);
-        //i = fb.arrivalTime(stop);
-        //f = fb.build();
+        i = fb.arrivalTimes().get(stop);
+        f = fb.build();
     }
 
-    // A compléter avec de véritables méthodes de test...
 }
