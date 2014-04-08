@@ -181,8 +181,7 @@ public final class TimeTableReader {
      *      Le stop associé
      */
     private Stop makeStopWithLine (String[] line) {
-        //TODO : Gérer unités
-        return new Stop(line[0], new PointWGS84(Double.parseDouble(line[1]), Double.parseDouble(line[2])));
+        return new Stop(line[0], new PointWGS84(Math.toRadians(Double.parseDouble(line[1])), Math.toRadians(Double.parseDouble(line[2]))));
     }
 
     /**
