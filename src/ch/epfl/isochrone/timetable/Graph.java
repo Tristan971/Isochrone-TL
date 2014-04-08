@@ -106,8 +106,13 @@ public final class Graph {
 
                         GraphEdge.Builder builder = getBatisseur(aStopsArray, aStop);
                         builder.setWalkingTime(walkingtime);
-
-                        outgoingEdges.get(aStop).add(builder.build());
+                        if (outgoingEdges.containsKey(aStop)) {
+                            outgoingEdges.get(aStop).add(builder.build());
+                        } else {
+                            List<GraphEdge> tempList = new LinkedList<>();
+                            tempList.add(builder.build());
+                            outgoingEdges.put(aStop, tempList);
+                        }
                     }
                 }
             }

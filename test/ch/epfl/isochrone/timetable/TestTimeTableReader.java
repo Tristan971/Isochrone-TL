@@ -13,7 +13,17 @@ public class TestTimeTableReader {
     public void namesAreOk() throws IOException {
         TimeTableReader r = new TimeTableReader("/time-table/");
         TimeTable t = r.readTimeTable();
-        Graph g = r.readGraphForServices(t.stops(), Collections.<Service>emptySet(), 0, 0d);
+        Graph g = r.readGraphForServices(t.stops(), Collections.<Service>emptySet(), 1, 1);
         System.out.println(g); // Evite l'avertissement que g n'est pas utilisé
+    }
+
+    @Test
+    public void testReadTimeTable() throws Exception {
+
+    }
+
+    @Test
+    public void testReadGraphForServices() throws Exception {
+
     }
 }
