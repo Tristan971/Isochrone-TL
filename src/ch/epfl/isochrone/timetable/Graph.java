@@ -175,7 +175,7 @@ public final class Graph {
         }
 
         public List<Stop> applyDijkstra (DijkstraPriorityQueue dijkstraPriorityQueue) {
-
+            return new LinkedList<>();
         }
 
         public Stop getNextElement() {

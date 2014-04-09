@@ -87,11 +87,11 @@
       <file leaf-file-name="Graph.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60148776" vertical-offset="2104" max-vertical-offset="3105">
-              <caret line="182" column="9" selection-start-line="182" selection-start-column="9" selection-end-line="182" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.456869" vertical-offset="2166" max-vertical-offset="3105">
+              <caret line="177" column="38" selection-start-line="177" selection-start-column="38" selection-end-line="177" selection-end-column="38" />
               <folding>
-                <element signature="e#7133#7134#0" expanded="true" />
-                <element signature="e#7186#7187#0" expanded="true" />
+                <element signature="e#7171#7172#0" expanded="true" />
+                <element signature="e#7224#7225#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -183,8 +183,8 @@
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableReader.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TimeTableReaderTest.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTableReader.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Stop.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
       </list>
     </option>
   </component>
@@ -500,29 +500,7 @@
       <recent name="ch.epfl.isochrone" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.TestTimeTableReader">
-    <configuration default="false" name="TestTimeTable" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Isochrone-TL" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="ch.epfl.isochrone.timetable" />
-      <option name="MAIN_CLASS_NAME" value="ch.epfl.isochrone.timetable.TestTimeTable" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="moduleWithDependencies" />
-      </option>
-      <envs />
-      <patterns />
-      <RunnerSettings RunnerId="Run" />
-      <ConfigurationWrapper RunnerId="Run" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="JUnit.All in Isochrone-TL">
     <configuration default="false" name="TestGraphEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Isochrone-TL" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -611,6 +589,28 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
+    <configuration default="false" name="All in Isochrone-TL" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Isochrone-TL" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <patterns />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -673,19 +673,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.TestTimeTable" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.TestGraphEdge" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.TestGraph" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.TestFastestPathTree" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.TestTimeTableReader" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.TestGraphEdge" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.TestGraph" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.TestFastestPathTree" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.TestTimeTableReader" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.All in Isochrone-TL" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.TestTimeTableReader" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.TestFastestPathTree" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.TestGraph" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.TestGraphEdge" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.TestTimeTable" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.All in Isochrone-TL" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.TestGraph" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.TestTimeTableReader" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.TestFastestPathTree" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.TestGraphEdge" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -823,7 +823,11 @@
       <created>1397004732351</created>
       <updated>1397004732351</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="dijkstra and priority queue are on a boat... dijsktra tombalo... qui reste sur un bato?">
+      <created>1397032800383</created>
+      <updated>1397032800383</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -848,7 +852,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32595217" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32772365" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -857,19 +861,19 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4642857" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283186" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18157661" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3268379" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16178267" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30973452" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16178267" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5755102" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295053" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18157661" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -912,7 +916,8 @@
     <MESSAGE value="let's play a game" />
     <MESSAGE value="dijkstra and priority queue are on a boat..." />
     <MESSAGE value="dijkstra and priority queue are on a boat... dijsktra tombalo" />
-    <option name="LAST_COMMIT_MESSAGE" value="dijkstra and priority queue are on a boat... dijsktra tombalo" />
+    <MESSAGE value="dijkstra and priority queue are on a boat... dijsktra tombalo... qui reste sur un bato?" />
+    <option name="LAST_COMMIT_MESSAGE" value="dijkstra and priority queue are on a boat... dijsktra tombalo... qui reste sur un bato?" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1291,11 +1296,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60148776" vertical-offset="2104" max-vertical-offset="3105">
-          <caret line="182" column="9" selection-start-line="182" selection-start-column="9" selection-end-line="182" selection-end-column="9" />
+        <state vertical-scroll-proportion="0.456869" vertical-offset="2166" max-vertical-offset="3105">
+          <caret line="177" column="38" selection-start-line="177" selection-start-column="38" selection-end-line="177" selection-end-column="38" />
           <folding>
-            <element signature="e#7133#7134#0" expanded="true" />
-            <element signature="e#7186#7187#0" expanded="true" />
+            <element signature="e#7171#7172#0" expanded="true" />
+            <element signature="e#7224#7225#0" expanded="true" />
           </folding>
         </state>
       </provider>
