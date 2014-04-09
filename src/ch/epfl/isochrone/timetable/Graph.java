@@ -26,6 +26,14 @@ public final class Graph {
         outgoingEdges = new HashMap<>(outgoingEdges);
     }
 
+    public FastestPathTree fastestPaths(Stop startingStop, int departureTime) {
+        FastestPathTree.Builder FPTBuilder = new FastestPathTree.Builder(startingStop, departureTime);
+
+
+
+        return FPTBuilder.build();
+    }
+
     /**
      * Bâtisseur permettant de créer un graphe pas-à-pas
      */
