@@ -163,17 +163,42 @@ public final class Graph {
         }
     }
 
-    private static class DijkstraPriorityQueue extends PriorityQueue {
+    private static class DijkstraPriorityQueue {
         private Map<Stop, Integer> minTimeMap = new HashMap<>();
+        private Stop firstStop;
         private Set<Stop> stopSet;
         private PriorityQueue<Stop> priorityQueue;
 
-        public DijkstraPriorityQueue(Map<Stop, GraphEdge> allEdges) {
+        public DijkstraPriorityQueue(Map<Stop, GraphEdge> allEdges, Stop firstStop) {
             this.stopSet = new HashSet<>(allEdges.keySet());
+            this.firstStop = firstStop;
         }
 
         public List<Stop> applyDijkstra (DijkstraPriorityQueue dijkstraPriorityQueue) {
 
+        }
+
+        public Stop getNextElement() {
+            return priorityQueue.remove();
+        }
+    }
+
+    private final class compareEarliestArrivals implements Comparator<Stop> {
+        private Map<Stop, Integer> arrivalMap = new HashMap<>();
+
+        public compareEarliestArrivals(Map<Stop, Integer> arrivalMap) {
+            this.arrivalMap = arrivalMap;
+        }
+
+        @Override
+        public int compare(Stop s1, Stop s2) {
+            if (arrivalMap.get(s1) < arrivalMap.get(s2)) {
+                return -1;
+            } else if (arrivalMap.get(s1).equals(arrivalMap.get(s2))) {
+                return 0;
+            } else {
+                return 1;
+            }
         }
     }
 
