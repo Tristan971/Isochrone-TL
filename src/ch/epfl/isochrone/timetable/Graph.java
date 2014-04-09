@@ -162,4 +162,19 @@ public final class Graph {
             return new Graph(stops, outgoingEdges);
         }
     }
+
+    private static class DijkstraPriorityQueue extends PriorityQueue {
+        private Map<Stop, Integer> minTimeMap = new HashMap<>();
+        private Set<Stop> stopSet;
+        private PriorityQueue<Stop> priorityQueue;
+
+        public DijkstraPriorityQueue(Map<Stop, GraphEdge> allEdges) {
+            this.stopSet = new HashSet<>(allEdges.keySet());
+        }
+
+        public List<Stop> applyDijkstra (DijkstraPriorityQueue dijkstraPriorityQueue) {
+
+        }
+    }
+
 }
