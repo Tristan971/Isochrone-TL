@@ -164,18 +164,24 @@ public final class Graph {
     }
 
     private static class DijkstraPriorityQueue {
-        private Map<Stop, Integer> timeToStopMap = new HashMap<>();
         private Stop firstStop;
         private Set<Stop> stopSet;
-        private PriorityQueue<Stop> priorityQueue = new PriorityQueue<>(stopSet.size(), new compareEarliestArrivals(timeToStopMap));
+        private FastestPathTree.Builder builder;
 
-        public DijkstraPriorityQueue(Map<Stop, GraphEdge> allEdges, Stop firstStop, int departure) {
+        private Comparator<Stop> stopComparator = new Comparator<Stop>() {
+            @Override
+            public int compare(Stop s1, Stop s2) {
+                return Integer.compare(builder.arrivalTimes().get(s1), builder.arrivalTimes().get(s2));
+            }
+        };
+
+        private PriorityQueue<Stop> priorityQueue = new PriorityQueue<>(stopSet.size(), stopComparator);
+
+        public DijkstraPriorityQueue(Map<Stop, List<GraphEdge>> allEdges, Stop firstStop, int departure) {
             this.stopSet = new HashSet<>(allEdges.keySet());
             this.firstStop = firstStop;
 
-            for (Stop aStop : allEdges.keySet()) {
-                timeToStopMap.put(aStop, allEdges.get(aStop).earliestArrivalTime(departure));
-            }
+            builder = new FastestPathTree.Builder(firstStop, departure);
         }
 
         public List<Stop> applyDijkstra (DijkstraPriorityQueue dijkstraPriorityQueue) {
@@ -184,25 +190,6 @@ public final class Graph {
 
         public Stop getNextElement() {
             return priorityQueue.remove();
-        }
-    }
-
-    private final static class compareEarliestArrivals implements Comparator<Stop> {
-        private Map<Stop, Integer> arrivalMap = new HashMap<>();
-
-        public compareEarliestArrivals(Map<Stop, Integer> arrivalMap) {
-            this.arrivalMap = arrivalMap;
-        }
-
-        @Override
-        public int compare(Stop s1, Stop s2) {
-            if (arrivalMap.get(s1) < arrivalMap.get(s2)) {
-                return -1;
-            } else if (arrivalMap.get(s1).equals(arrivalMap.get(s2))) {
-                return 0;
-            } else {
-                return 1;
-            }
         }
     }
 
