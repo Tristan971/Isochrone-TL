@@ -27,11 +27,7 @@ public final class Graph {
     }
 
     public FastestPathTree fastestPaths(Stop startingStop, int departureTime) {
-        FastestPathTree.Builder FPTBuilder = new FastestPathTree.Builder(startingStop, departureTime);
-
-
-
-        return FPTBuilder.build();
+        return new DijkstraPriorityQueue(outgoingEdges, startingStop, departureTime).dijkstraFastestPath();
     }
 
     /**
@@ -163,34 +159,56 @@ public final class Graph {
         }
     }
 
+    /**
+     * Implémentation de l'algorithme de Dijkstra au travers d'une queue de priorité
+     */
     private static class DijkstraPriorityQueue {
         private Stop firstStop;
         private Set<Stop> stopSet;
-        private FastestPathTree.Builder builder;
+        private Map<Stop, Integer> arrivalTimesMap = new HashMap<>();
+        private FastestPathTree.Builder theFastestPath;
 
+        /**
+         * Comparateur utilisant les heures d'arrivée pour gérer la "priorité" des éléemnts.
+         */
         private Comparator<Stop> stopComparator = new Comparator<Stop>() {
             @Override
             public int compare(Stop s1, Stop s2) {
-                return Integer.compare(builder.arrivalTimes().get(s1), builder.arrivalTimes().get(s2));
+                return Integer.compare(theFastestPath.arrivalTimes().get(s1), theFastestPath.arrivalTimes().get(s2));
             }
         };
 
         private PriorityQueue<Stop> priorityQueue = new PriorityQueue<>(stopSet.size(), stopComparator);
 
+        /**
+         * Constructeur de classe
+         * @param allEdges
+         *          Récupère l'ensemble des arcs desquels sera tirée l'heure d'arrivée d'un stop
+         * @param firstStop
+         *          Stop de départ utilisé pour le parcours
+         * @param departure
+         *          Heure de départ
+         */
         public DijkstraPriorityQueue(Map<Stop, List<GraphEdge>> allEdges, Stop firstStop, int departure) {
             this.stopSet = new HashSet<>(allEdges.keySet());
             this.firstStop = firstStop;
 
-            builder = new FastestPathTree.Builder(firstStop, departure);
-        }
+            for (Stop aStop : stopSet) {
+                arrivalTimesMap.put(aStop, SecondsPastMidnight.INFINITE);
+                priorityQueue.add(aStop);
+            }
+            arrivalTimesMap.put(firstStop, departure);
 
-        public List<Stop> applyDijkstra (DijkstraPriorityQueue dijkstraPriorityQueue) {
-            return new LinkedList<>();
+            theFastestPath = new FastestPathTree.Builder(firstStop, departure);
         }
 
         public Stop getNextElement() {
             return priorityQueue.remove();
         }
-    }
 
+        public FastestPathTree dijkstraFastestPath() {
+
+            return theFastestPath.build();
+        }
+    }
 }
