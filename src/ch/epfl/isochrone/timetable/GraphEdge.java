@@ -15,7 +15,7 @@ public final class GraphEdge {
      * Un arc de graphe est caractérisé par sa desitnation, son temps de parcours à pied, et les autres façon de le parcourir associées à leurs temps de parcours
      */
     private Stop destination;
-    private int walktime;
+    private int walkingTime;
     private Set<Integer> packedTrips;
 
     /**
@@ -31,9 +31,9 @@ public final class GraphEdge {
         if (walkingTime < -1) {
             throw new IllegalArgumentException("(-1>=walkingTime) non satisfait!");
         }
-        this.destination=destination;
-        this.walktime=walkingTime;
-        this.packedTrips= new HashSet<>(packedTrips);
+        this.destination = destination;
+        this.walkingTime = walkingTime;
+        this.packedTrips = new HashSet<>(packedTrips);
     }
 
     /**
@@ -104,36 +104,20 @@ public final class GraphEdge {
         Integer[] packTripsArray = new Integer[packedTrips.size()];
         packedTrips.toArray(packTripsArray);
 
-        Integer[] arrivalTimesArray = new Integer[packedTrips.size()];
+        Integer[] departureTimes = new Integer[packTripsArray.length];
 
-        int earliestArrivalByWalking = departureTime + walktime;
-
-        for (int i = 0; i < packTripsArray.length; i++) {
-            int tripDepartureTime = unpackTripDepartureTime(packTripsArray[i]);
-
-            if (tripDepartureTime > departureTime) {
-                arrivalTimesArray[i] = departureTime + (tripDepartureTime - departureTime) + (unpackTripDuration(packTripsArray[i]));
-            } else {
-                arrivalTimesArray[i] = SecondsPastMidnight.INFINITE;
-            }
+        for (int i = 0; i < departureTimes.length; i++) {
+            departureTimes[i]=unpackTripDepartureTime(packTripsArray[i]);
         }
 
-        if (arrivalTimesArray.length > 0) {
-            Arrays.sort(arrivalTimesArray);
-        }
+        Arrays.sort(departureTimes);
 
-        if (arrivalTimesArray.length == 0) {
-            if (walktime != -1) {
-                return earliestArrivalByWalking;
-            } else {
-                return SecondsPastMidnight.INFINITE;
-            }
+        int position = Arrays.binarySearch(departureTimes, departureTime);
+
+        if (position >= 0) {
+            return 0;
         } else {
-            if (walktime == -1) {
-                return arrivalTimesArray[0];
-            } else {
-                return earliestArrivalByWalking > arrivalTimesArray[0] ? arrivalTimesArray[0] : earliestArrivalByWalking;
-            }
+            return 0;
         }
     }
 

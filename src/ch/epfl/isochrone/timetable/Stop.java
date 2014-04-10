@@ -3,7 +3,7 @@ package ch.epfl.isochrone.timetable;
 import ch.epfl.isochrone.geo.PointWGS84;
 
 /**
- * Classe gérant la notion d'arrêt (stop)
+ * Classe gérant la notion d'arrêt
  * @author Tristan Deloche (234045)
  */
 

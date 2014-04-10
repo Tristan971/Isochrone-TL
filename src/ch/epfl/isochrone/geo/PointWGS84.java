@@ -62,7 +62,7 @@ public final class PointWGS84 {
     public PointOSM toOSM(int zoom){
 
         if (zoom<0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Zoom < 0 is invalid");
         }
 
         double s = Math.pow(2,zoom+8);

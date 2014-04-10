@@ -63,12 +63,13 @@ public final class Service {
      *      booléen, true pour actif et false pour inactif
      */
     boolean isOperatingOn(Date date) {
-        boolean isSpeciallyIncluded, isDefaultIncluded;
+        boolean isSpeciallyIncluded, isDefaultIncluded, isSpeciallyExcluded;
 
         isDefaultIncluded = (this.startingDate.compareTo(date) <= 0) && (this.endingDate.compareTo(date) >= 0) && this.operatingDays.contains(date.dayOfWeek());
-        isSpeciallyIncluded = this.includedDates.contains(date);
+        isSpeciallyIncluded = (this.startingDate.compareTo(date) <= 0) && (this.endingDate.compareTo(date) >= 0) && this.includedDates.contains(date);
+        isSpeciallyExcluded = this.excludedDates.contains(date);
 
-        return isDefaultIncluded || isSpeciallyIncluded;
+        return (!isSpeciallyExcluded && (isDefaultIncluded || isSpeciallyIncluded));
     }
 
     /**

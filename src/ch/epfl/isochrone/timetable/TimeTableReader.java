@@ -40,9 +40,8 @@ public final class TimeTableReader {
      */
     public TimeTable readTimeTable() throws IOException {
         Map<String, Service.Builder> stringBuilderMap = new HashMap<>();
-        Set<Stop> stopSet = new HashSet<>();
         String currentLine;
-
+        TimeTable.Builder TTBuilder = new TimeTable.Builder();
         //Reader des Services
         BufferedReader reader = makeReaderWithStream(calendarInputStream);
         while ((currentLine = reader.readLine()) != null) {
@@ -72,17 +71,17 @@ public final class TimeTableReader {
         reader = makeReaderWithStream(stopsInputStream);
         while ((currentLine = reader.readLine()) != null) {
             String[] stopsArray = currentLine.split(";");
-            stopSet.add(makeStopWithLine(stopsArray));
+            TTBuilder.addStop(makeStopWithLine(stopsArray));
         }
         reader.close();
 
         //Crée l'ensemble des services à partir des builders
         Set<Service> serviceSet = new HashSet<>();
         for (String aString : stringBuilderMap.keySet()) {
-            serviceSet.add(stringBuilderMap.get(aString).build());
+            TTBuilder.addService(stringBuilderMap.get(aString).build());
         }
 
-        return new TimeTable(stopSet, serviceSet);
+        return TTBuilder.build();
     }
 
     /**
