@@ -44,9 +44,9 @@ public class TimeTableSearch {
         String[] hourArray = arg[2].split(":");
         FastestPathTree fastestPaths = myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
 
-        for (Stop aStop : stopSet) {
+        for (Stop aStop : stopList) {
             System.out.println(aStop.name()+" : "+SecondsPastMidnight.toString(fastestPaths.arrivalTime(aStop)));
-            System.out.println(fastestPaths.pathTo(aStop));
+            System.out.println(" via : "+fastestPaths.pathTo(aStop));
         }
 
     }

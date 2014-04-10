@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -73,11 +73,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Graph.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TimeTableSearch.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
+              <caret line="48" column="41" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Service.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.59033614" vertical-offset="428" max-vertical-offset="2415">
+              <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Graph.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36741215" vertical-offset="15" max-vertical-offset="3075">
-              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="3075">
+              <caret line="25" column="58" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
               <folding>
                 <element signature="e#1501#1718#0" expanded="true" />
                 <element signature="e#1707#1708#0" expanded="true" />
@@ -117,7 +137,6 @@
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/math/Math.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/ServiceTest.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestService.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TimeTableTest.java" />
@@ -133,9 +152,10 @@
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableReader.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestFastestPathTree.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
       </list>
     </option>
   </component>
@@ -867,7 +887,11 @@
       <created>1397168336602</created>
       <updated>1397168336602</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="PRESQUEEEEEEE">
+      <created>1397169857095</created>
+      <updated>1397169857096</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -906,8 +930,8 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17277168" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3510204" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17277168" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.37857142" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -963,7 +987,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="readGraph might maybe work" />
     <MESSAGE value="added test" />
     <MESSAGE value="slowly fixing the shit that ttr is" />
     <MESSAGE value="slowly fixing the shit that ttr is PART 2" />
@@ -988,7 +1011,8 @@
     <MESSAGE value="YOLO WORKED" />
     <MESSAGE value="tts fuck you lol" />
     <MESSAGE value="yolt" />
-    <option name="LAST_COMMIT_MESSAGE" value="yolt" />
+    <MESSAGE value="PRESQUEEEEEEE" />
+    <option name="LAST_COMMIT_MESSAGE" value="PRESQUEEEEEEE" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1259,14 +1283,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1463" max-vertical-offset="2415">
-          <caret line="67" column="107" selection-start-line="67" selection-start-column="107" selection-end-line="67" selection-end-column="107" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/time-table/calendar_dates.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="4" max-vertical-offset="1170">
@@ -1345,17 +1361,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77832514" vertical-offset="58" max-vertical-offset="870">
-          <caret line="47" column="113" selection-start-line="47" selection-start-column="113" selection-end-line="47" selection-end-column="113" />
-          <folding>
-            <element signature="e#1043#1219#0" expanded="true" />
-            <element signature="e#1208#1209#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15756303" vertical-offset="0" max-vertical-offset="3735">
@@ -1366,12 +1371,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36741215" vertical-offset="15" max-vertical-offset="3075">
-          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="3075">
+          <caret line="25" column="58" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
           <folding>
             <element signature="e#1501#1718#0" expanded="true" />
             <element signature="e#1707#1708#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
+          <caret line="48" column="41" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.59033614" vertical-offset="428" max-vertical-offset="2415">
+          <caret line="69" column="8" selection-start-line="69" selection-start-column="8" selection-end-line="69" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
