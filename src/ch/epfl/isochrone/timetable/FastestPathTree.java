@@ -22,10 +22,8 @@ public final class FastestPathTree {
      *          Arrêt de départ
      * @param arrivalTime
      *          Heure d'arrivée à chacun des stops (sous forme de map)
-     * @param predecessor
-     *          Arrêt précédant un arrêt donnée dans notre trajet
      */
-    public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime, Map<Stop, Stop> predecessor) {
+    public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime) {
         Set<Stop> fullStopSet = new HashSet<>();
         fullStopSet.addAll(predecessor.keySet());
         fullStopSet.add(startingStop);
@@ -156,7 +154,7 @@ public final class FastestPathTree {
          *      Le nouvel FPT
          */
         public FastestPathTree build() {
-            return new FastestPathTree(startingStop, arrivalTime, predecessor);
+            return new FastestPathTree(startingStop, arrivalTime);
         }
     }
 }

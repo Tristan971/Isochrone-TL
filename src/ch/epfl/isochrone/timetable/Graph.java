@@ -171,6 +171,8 @@ public final class Graph {
         private FastestPathTree.Builder theFastestPath;
         private int departureTime;
 
+        private List<Stop> pathList = new LinkedList<>();
+
         /**
          * Comparateur utilisant les heures d'arrivée pour gérer la "priorité" des éléemnts.
          */
@@ -239,6 +241,11 @@ public final class Graph {
                 }
 
             }
+
+            for (Stop aStop : pathList) {
+                theFastestPath.setArrivalTime(aStop, arrivalTimesMap.get(aStop), pathList.get(pathList.indexOf(aStop)-1));
+            }
+
             return theFastestPath.build();
         }
     }
