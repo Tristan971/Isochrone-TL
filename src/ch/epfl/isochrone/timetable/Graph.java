@@ -167,7 +167,7 @@ public final class Graph {
         private Set<Stop> stopSet;
         private Map<Stop, Integer> arrivalTimesMap = new HashMap<>();
         private Map<Stop, List<GraphEdge>> edgesMap;
-        private Set<Stop> voisins = new HashSet<>();
+        private Set<GraphEdge> voisins = new HashSet<>();
         private FastestPathTree.Builder theFastestPath;
         private int departureTime;
 
@@ -217,23 +217,26 @@ public final class Graph {
                 Stop testedStop = getNextElement();
                 stopSet.remove(testedStop); // <- Possible?
 
-                int minArrivalForTestedStop = SecondsPastMidnight.INFINITE;
                 for (GraphEdge anEdge : edgesMap.get(testedStop)) {
-                    if (anEdge.earliestArrivalTime(departureTime) < minArrivalForTestedStop) {
-                        minArrivalForTestedStop = anEdge.earliestArrivalTime(departureTime);
+                    if (anEdge.earliestArrivalTime(departureTime) < arrivalTimesMap.get(testedStop)) {
+                        arrivalTimesMap.put(testedStop, anEdge.earliestArrivalTime(departureTime));
                     }
                 }
 
-                if (!(minArrivalForTestedStop < SecondsPastMidnight.INFINITE)) {
+                if (!(arrivalTimesMap.get(testedStop) < SecondsPastMidnight.INFINITE)) {
                     break;
                 }
 
                 voisins = new HashSet<>();
                 for (GraphEdge aGraphEdge : edgesMap.get(testedStop)) {
-                    voisins.add(aGraphEdge.destination());
+                    voisins.add(aGraphEdge);
                 }
 
-
+                for (GraphEdge anEdge : voisins) {
+                    if (anEdge.earliestArrivalTime(arrivalTimesMap.get(testedStop)) < arrivalTimesMap.get(anEdge.destination())) {
+                        arrivalTimesMap.put(anEdge.destination(), anEdge.earliestArrivalTime(arrivalTimesMap.get(testedStop)));
+                    }
+                }
 
             }
             return theFastestPath.build();
