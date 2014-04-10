@@ -169,7 +169,7 @@ public final class Date implements Comparable<Date> {
      * @return Jour de la semaine de la date en question.
      */
     public DayOfWeek dayOfWeek() {
-        return DayOfWeek.values()[(((this.getIntValue() + 6) % 7) + 7) % 7];
+        return DayOfWeek.values()[Math.modF(this.getIntValue()-1,7)];
     }
 
     /**

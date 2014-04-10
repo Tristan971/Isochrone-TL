@@ -173,14 +173,14 @@ public final class TimeTableReader {
             i++;
             String[] lineDataArray = currentLine.split(";");
             if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {
-                graphBuilder.addTripEdge(stringStopMap.get(lineDataArray[1]), stringStopMap.get(lineDataArray[3]), Integer.parseInt(lineDataArray[2]), Integer.parseInt(lineDataArray[4]));
+               graphBuilder.addTripEdge(stringStopMap.get(lineDataArray[1]), stringStopMap.get(lineDataArray[3]), Integer.parseInt(lineDataArray[2]), Integer.parseInt(lineDataArray[4]));
             }
-            System.out.println(i);
+            if (i%100000 == 0) {
+                System.out.println(i);
+            }
         }
         reader.close();
 
-        graphBuilder.addAllWalkEdges(walkingTime, walkingSpeed);
-
-        return graphBuilder.build();
+        return graphBuilder.addAllWalkEdges(walkingTime, walkingSpeed).build();
     }
 }
