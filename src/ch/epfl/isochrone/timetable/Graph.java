@@ -72,13 +72,6 @@ public final class Graph {
 
             getBatisseur(fromStop,toStop).addTrip(departureTime, arrivalTime);
 
-            if (outgoingEdges.containsKey(fromStop)) {
-                outgoingEdges.get(fromStop).add(getBatisseur(fromStop,toStop).build());
-            } else {
-                outgoingEdges.put(fromStop, new LinkedList<GraphEdge>());
-                outgoingEdges.get(fromStop).add(getBatisseur(fromStop,toStop).build());
-            }
-
             return this;
         }
 
@@ -153,6 +146,15 @@ public final class Graph {
          *      Le nouveau graphe
          */
         Graph build() {
+            List<GraphEdge> tempList;
+            for (Stop aStop : stops) {
+                tempList = new LinkedList<>();
+                for (Stop aStop2 : stops) {
+                    tempList.add(getBatisseur(aStop, aStop2).build());
+                }
+
+                outgoingEdges.put(aStop, tempList);
+            }
             return new Graph(stops, outgoingEdges);
         }
     }
