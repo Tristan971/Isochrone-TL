@@ -180,10 +180,11 @@ public final class GraphEdge {
          *          Le bâtisseur pour permettre les appels chaînés
          */
         public GraphEdge.Builder addTrip(int departureTime, int arrivalTime) {
-            if (departureTime < 0 || departureTime > 107999) {
+            int delta = arrivalTime-departureTime;
+            if (departureTime < 0 || departureTime > 107999 || delta > 9999 || delta < 0) {
                 throw new IllegalArgumentException("departureTime out of range!");
             }
-            packedTrips.add(10000*departureTime+(arrivalTime-departureTime));
+            packedTrips.add(packTrip(departureTime, arrivalTime));
             return this;
         }
 

@@ -64,21 +64,24 @@ public final class Graph {
          *          Le bâtisseur pour permettre les appels chaînés
          */
         public Builder addTripEdge(Stop fromStop, Stop toStop, int departureTime, int arrivalTime) {
+
             if (!stops.contains(fromStop) || !stops.contains(toStop)) {
                 throw new IllegalArgumentException("Adding an edge from or to a stop that isn't valid");
             } else if (departureTime < 0 || arrivalTime < 0 || arrivalTime < departureTime) {
                 throw new IllegalArgumentException("departure or arrival time is < 0 ; or arrival is before departure");
             }
 
-            GraphEdge.Builder graphBuilder = getBatisseur(fromStop,toStop);
-            graphBuilder.addTrip(departureTime,arrivalTime);
+            getBatisseur(fromStop,toStop).addTrip(departureTime, arrivalTime);
 
+            
             if (outgoingEdges.containsKey(fromStop)) {
-                outgoingEdges.get(fromStop).add(graphBuilder.build());
+                outgoingEdges.get(fromStop).add(getBatisseur(fromStop,toStop).build());
             } else {
                 outgoingEdges.put(fromStop, new LinkedList<GraphEdge>());
-                outgoingEdges.get(fromStop).add(graphBuilder.build());
+                outgoingEdges.get(fromStop).add(getBatisseur(fromStop,toStop).build());
             }
+
+
 
             return this;
         }
