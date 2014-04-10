@@ -168,15 +168,10 @@ public final class TimeTableReader {
 
         String currentLine;
         BufferedReader reader = makeReaderWithStream(stopTimesInputStream);
-        int i = 0;
         while ((currentLine = reader.readLine()) != null) {
-            i++;
             String[] lineDataArray = currentLine.split(";");
             if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {
                graphBuilder.addTripEdge(stringStopMap.get(lineDataArray[1]), stringStopMap.get(lineDataArray[3]), Integer.parseInt(lineDataArray[2]), Integer.parseInt(lineDataArray[4]));
-            }
-            if (i%100000 == 0) {
-                System.out.println(i);
             }
         }
         reader.close();

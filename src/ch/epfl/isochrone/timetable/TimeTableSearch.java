@@ -27,13 +27,14 @@ public class TimeTableSearch {
 
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
-        for (Stop aStop : stopList) {
-            Collections.sort(stopList, new Comparator<Stop>() {
-                @Override
-                public int compare(Stop s1, Stop s2) {
-                    return s1.name().compareToIgnoreCase(s2.name());
-                }
-            });
-        }
+        Collections.sort(stopList, new Comparator<Stop>() {
+            @Override
+            public int compare(Stop s1, Stop s2) {
+                return s1.name().compareToIgnoreCase(s2.name());
+            }
+        });
+
+
+
     }
 }
