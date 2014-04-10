@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -175,8 +173,8 @@
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTableReader.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Stop.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" />
       </list>
     </option>
   </component>
@@ -873,7 +871,11 @@
       <created>1397122353286</created>
       <updated>1397122353286</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="yolo">
+      <created>1397123302171</created>
+      <updated>1397123302171</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -943,7 +945,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="javadoc add" />
     <MESSAGE value="tests for graphedge" />
     <MESSAGE value="minimaltransportationtime" />
     <MESSAGE value="earliest Improvements" />
@@ -968,7 +969,8 @@
     <MESSAGE value="dijkstra algorithm, r u dolan?" />
     <MESSAGE value="disjkstra actually iz dolan" />
     <MESSAGE value="LOLOLOLOL MUCH COMMIT MESSAGE HAHAHAHAHA&#10;&#10;FUCK GIT LOLOL" />
-    <option name="LAST_COMMIT_MESSAGE" value="LOLOLOLOL MUCH COMMIT MESSAGE HAHAHAHAHA&#10;&#10;FUCK GIT LOLOL" />
+    <MESSAGE value="yolo" />
+    <option name="LAST_COMMIT_MESSAGE" value="yolo" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
