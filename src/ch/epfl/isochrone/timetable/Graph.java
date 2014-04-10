@@ -166,7 +166,10 @@ public final class Graph {
         private Stop firstStop;
         private Set<Stop> stopSet;
         private Map<Stop, Integer> arrivalTimesMap = new HashMap<>();
+        private Map<Stop, List<GraphEdge>> edgesMap;
+        private Set<Stop> voisins = new HashSet<>();
         private FastestPathTree.Builder theFastestPath;
+        private int departureTime;
 
         /**
          * Comparateur utilisant les heures d'arrivée pour gérer la "priorité" des éléemnts.
@@ -174,7 +177,7 @@ public final class Graph {
         private Comparator<Stop> stopComparator = new Comparator<Stop>() {
             @Override
             public int compare(Stop s1, Stop s2) {
-                return Integer.compare(theFastestPath.arrivalTimes().get(s1), theFastestPath.arrivalTimes().get(s2));
+                return Integer.compare(arrivalTimesMap.get(s1), arrivalTimesMap.get(s2));
             }
         };
 
@@ -190,13 +193,16 @@ public final class Graph {
          *          Heure de départ
          */
         public DijkstraPriorityQueue(Map<Stop, List<GraphEdge>> allEdges, Stop firstStop, int departure) {
+            this.departureTime = departure;
             this.stopSet = new HashSet<>(allEdges.keySet());
             this.firstStop = firstStop;
+            this.edgesMap = new HashMap<>(allEdges);
 
             for (Stop aStop : stopSet) {
                 arrivalTimesMap.put(aStop, SecondsPastMidnight.INFINITE);
                 priorityQueue.add(aStop);
             }
+
             arrivalTimesMap.put(firstStop, departure);
 
             theFastestPath = new FastestPathTree.Builder(firstStop, departure);
@@ -207,7 +213,29 @@ public final class Graph {
         }
 
         public FastestPathTree dijkstraFastestPath() {
+            while (!stopSet.isEmpty()) {
+                Stop testedStop = getNextElement();
+                stopSet.remove(testedStop); // <- Possible?
 
+                int minArrivalForTestedStop = SecondsPastMidnight.INFINITE;
+                for (GraphEdge anEdge : edgesMap.get(testedStop)) {
+                    if (anEdge.earliestArrivalTime(departureTime) < minArrivalForTestedStop) {
+                        minArrivalForTestedStop = anEdge.earliestArrivalTime(departureTime);
+                    }
+                }
+
+                if (!(minArrivalForTestedStop < SecondsPastMidnight.INFINITE)) {
+                    break;
+                }
+
+                voisins = new HashSet<>();
+                for (GraphEdge aGraphEdge : edgesMap.get(testedStop)) {
+                    voisins.add(aGraphEdge.destination());
+                }
+
+
+
+            }
             return theFastestPath.build();
         }
     }
