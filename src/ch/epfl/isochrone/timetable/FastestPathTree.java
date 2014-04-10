@@ -13,7 +13,7 @@ public final class FastestPathTree {
      * Un trajet est défini par son point de départ, son heure d'arrivée, et le stop d'arrivée et ses prédécesseurs jusqu'au stop de départ
      */
     private Stop startingStop;
-    private Map<Stop, Integer> arrivalTime;
+    private Map<Stop, Integer> arrivalTime = new HashMap<>();
     private Map<Stop, Stop> predecessor;
 
     /**
@@ -23,7 +23,16 @@ public final class FastestPathTree {
      * @param arrivalTime
      *          Heure d'arrivée à chacun des stops (sous forme de map)
      */
-    public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime) {
+    public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime, Map<Stop, Stop> predecessor) {
+
+        Set<Stop> test = new HashSet<>();
+        test.add(startingStop);
+        test.addAll(predecessor.keySet());
+        if (!test.equals(arrivalTime.keySet())) {
+            throw new IllegalArgumentException("startingStop + arrivaltimes keyset != predecessor keyset is NOT OK");
+        }
+
+        this.predecessor = predecessor;
         Set<Stop> fullStopSet = new HashSet<>();
         fullStopSet.addAll(predecessor.keySet());
         fullStopSet.add(startingStop);
@@ -59,7 +68,7 @@ public final class FastestPathTree {
      *      L'ensemble des arrêts
      */
     public Set<Stop> stops() {
-        return arrivalTime.keySet();
+        return Collections.unmodifiableSet(arrivalTime.keySet());
     }
 
     /**
@@ -86,20 +95,20 @@ public final class FastestPathTree {
      */
     public List<Stop> pathTo (Stop stop) {
         if (!arrivalTime.containsKey(stop)) {
-            throw new IllegalArgumentException("Given stop to go to is NOT in arrivalTime map");
+            throw new IllegalArgumentException("Given stop to go to is NOT in arrivalTime map (stop is : " + stop +")");
         }
 
-        List<Stop> pathList = new LinkedList<>();
+        LinkedList<Stop> pathList = new LinkedList<>();
 
         Stop s1 = stop, s2 = stop;
 
-        while (s1 != startingStop()) {
-            pathList.add(s1);
-            pathList.add(predecessor.get(s2));
+        while (!s1.equals(startingStop())) {
+            pathList.addFirst(s1);
+            s2=predecessor.get(s1);
             s1=s2;
         }
 
-        Collections.reverse(pathList);
+        pathList.addFirst(s1);
 
         return pathList;
     }
@@ -127,8 +136,11 @@ public final class FastestPathTree {
             arrivalTime.put(startingStop, startingTime);
         }
 
-        public Map<Stop, Integer> arrivalTimes() {
-            return this.arrivalTime;
+        public int arrivalTime(Stop stop) {
+            if (!arrivalTime.containsKey(stop)) {
+                return SecondsPastMidnight.INFINITE;
+            }
+            return this.arrivalTime.get(stop);
         }
 
         /**
@@ -143,6 +155,9 @@ public final class FastestPathTree {
          *          Le bâtisseur pour permettre les appels chaînés
          */
         public Builder setArrivalTime(Stop stop, int time, Stop predecessor) {
+            if (time < arrivalTime.get(startingStop)) {
+                throw new IllegalArgumentException("arrivalTime of a stop is NOT POSSIBLY before startingTime");
+            }
             arrivalTime.put(stop,time);
             this.predecessor.put(stop,predecessor);
             return this;
@@ -154,7 +169,7 @@ public final class FastestPathTree {
          *      Le nouvel FPT
          */
         public FastestPathTree build() {
-            return new FastestPathTree(startingStop, arrivalTime);
+            return new FastestPathTree(startingStop, arrivalTime, predecessor);
         }
     }
 }

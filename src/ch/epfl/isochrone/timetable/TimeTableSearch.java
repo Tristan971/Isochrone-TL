@@ -21,20 +21,33 @@ public class TimeTableSearch {
         }
 
         Set<Stop> stopSet = new HashSet<>(myTimeTable.stops());
-        Set<Service> serviceSet = new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0])));
 
-        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, serviceSet, 300, 5);
+        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), 300, 5);
 
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
         Collections.sort(stopList, new Comparator<Stop>() {
             @Override
             public int compare(Stop s1, Stop s2) {
-                return s1.name().compareToIgnoreCase(s2.name());
+                return s1.name().compareTo(s2.name());
             }
         });
 
+        Stop firstStop = new Stop("NULL", null);
 
+        for (Stop aStop : stopList) {
+            if (aStop.name().equals(arg[0])) {
+                firstStop = aStop;
+            }
+        }
+
+        String[] hourArray = arg[2].split(":");
+        FastestPathTree fastestPaths = myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
+
+        for (Stop aStop : stopSet) {
+            System.out.println(aStop.name()+" : "+SecondsPastMidnight.toString(fastestPaths.arrivalTime(aStop)));
+            System.out.println(fastestPaths.pathTo(aStop));
+        }
 
     }
 }

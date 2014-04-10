@@ -183,7 +183,7 @@ public final class Graph {
             }
         };
 
-        private PriorityQueue<Stop> priorityQueue = new PriorityQueue<>(stopSet.size(), stopComparator);
+        private PriorityQueue<Stop> priorityQueue;
 
         /**
          * Constructeur de classe
@@ -199,6 +199,8 @@ public final class Graph {
             this.stopSet = new HashSet<>(allEdges.keySet());
             this.firstStop = firstStop;
             this.edgesMap = new HashMap<>(allEdges);
+
+            priorityQueue = new PriorityQueue<>(stopSet.size(), stopComparator);
 
             for (Stop aStop : stopSet) {
                 arrivalTimesMap.put(aStop, SecondsPastMidnight.INFINITE);
