@@ -39,58 +39,61 @@ public final class TimeTableReader {
      *      S'il y a un problème de lecture/accès de fichiers quelque part
      */
     public TimeTable readTimeTable() throws IOException {
-        BufferedReader calendarReader = new BufferedReader(new InputStreamReader(calendarInputStream, StandardCharsets.UTF_8));
-        BufferedReader calendarDatesReader = new BufferedReader(new InputStreamReader(calendarDatesInputStream, StandardCharsets.UTF_8));
-        BufferedReader stopsReader = new BufferedReader(new InputStreamReader(stopsInputStream, StandardCharsets.UTF_8));
-
-        Set<Service> serviceSet = new HashSet<>();
-        Set<Date> excludedDatesSet = new HashSet<>();
-        Set<Date> includedDatesSet = new HashSet<>();
+        Map<String, Service.Builder> stringBuilderMap = new HashMap<>();
         Set<Stop> stopSet = new HashSet<>();
+        String currentLine;
 
+        //Reader des Services
+        BufferedReader reader = makeReaderWithStream(calendarInputStream);
+        while ((currentLine = reader.readLine()) != null) {
+            String[] lineDataArray = currentLine.split(";");
 
-        while (calendarReader.readLine() != null) {
-            if (calendarReader.readLine() != null) {
-                String[] lineDataArray = calendarReader.readLine().split(";");
-                String name = lineDataArray[0];
+            stringBuilderMap.put(lineDataArray[0], new Service.Builder(lineDataArray[0], makeDateWithString(lineDataArray[8]), makeDateWithString(lineDataArray[9])));
 
-                Date startingDate = makeDateWithString(lineDataArray[8]);
-                Date endingDate = makeDateWithString(lineDataArray[9]);
-
-                Service.Builder serviceBuilder = new Service.Builder(lineDataArray[0],startingDate,endingDate);
-
-                for (Date.DayOfWeek aDay : getOperatingDays(lineDataArray)) {
-                    serviceBuilder.addOperatingDay(aDay);
-                }
-
-                while (calendarDatesReader.readLine() != null) {
-                    String[] lineArray = calendarDatesReader.readLine().split(";");
-                    if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==2) {
-                        excludedDatesSet.add(makeDateWithString(lineArray[1]));
-                    } else if (name.equals(lineArray[0]) && Integer.parseInt(lineArray[2])==1) {
-                        includedDatesSet.add(makeDateWithString(lineArray[1]));
-                    }
-                }
-
-                for (Date aDate : excludedDatesSet) {
-                    serviceBuilder.addExcludedDate(aDate);
-                }
-                for (Date aDate : includedDatesSet) {
-                    serviceBuilder.addIncludedDate(aDate);
-                }
-
-                serviceSet.add(serviceBuilder.build());
+            for (Date.DayOfWeek aDay : getOperatingDays(lineDataArray)) {
+                stringBuilderMap.get(lineDataArray[0]).addOperatingDay(aDay);
             }
         }
+        reader.close();
 
-        while (stopsReader.readLine() != null) {
-            if (stopsReader.readLine() != null) {
-                String[] stopsArray = stopsReader.readLine().split(";");
-                stopSet.add(makeStopWithLine(stopsArray));
+        //Reader des exceptions des services
+        reader = makeReaderWithStream(calendarDatesInputStream);
+        while ((currentLine = reader.readLine()) != null) {
+            String[] lineArray = currentLine.split(";");
+            if (Integer.parseInt(lineArray[2])==2) {
+                stringBuilderMap.get(lineArray[0]).addExcludedDate(makeDateWithString(lineArray[1]));
+            } else if (Integer.parseInt(lineArray[2])==1) {
+                stringBuilderMap.get(lineArray[0]).addIncludedDate(makeDateWithString(lineArray[1]));
             }
+        }
+        reader.close();
+
+        //Reader des Stops
+        reader = makeReaderWithStream(stopsInputStream);
+        while ((currentLine = reader.readLine()) != null) {
+            String[] stopsArray = currentLine.split(";");
+            stopSet.add(makeStopWithLine(stopsArray));
+        }
+        reader.close();
+
+
+        Set<Service> serviceSet = new HashSet<>();
+        for (String aString : stringBuilderMap.keySet()) {
+            serviceSet.add(stringBuilderMap.get(aString).build());
         }
 
         return new TimeTable(stopSet, serviceSet);
+    }
+
+    /**
+     * Crée un BufferedReader à l'aide du paramètre
+     * @param stream
+     *      InputStream à utiliser
+     * @return
+     *      Un nouveau BufferedReader
+     */
+    private BufferedReader makeReaderWithStream(InputStream stream) {
+        return new  BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
 
     /**
