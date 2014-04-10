@@ -22,12 +22,47 @@ public final class Graph {
      *          Map des arcs liés à chacun des arrêts
      */
     private Graph(Set<Stop> stops, Map<Stop, List<GraphEdge>> outgoingEdges) {
-        stops = new HashSet<>(stops);
+        this.stops = new HashSet<>(stops);
         this.outgoingEdges = new HashMap<>(outgoingEdges);
     }
 
     public FastestPathTree fastestPaths(Stop startingStop, int departureTime) {
-        return new DijkstraPriorityQueue(outgoingEdges, startingStop, departureTime).dijkstraFastestPath();
+        if (!stops.contains(startingStop)) {
+            throw new IllegalArgumentException("Stops don't include the said startingStop : " + startingStop);
+        }
+        if (departureTime < 0 || departureTime > SecondsPastMidnight.INFINITE) {
+            throw new IllegalArgumentException("departureTime out of bounds : "+departureTime);
+        }
+        final FastestPathTree.Builder fptBuilder = new FastestPathTree.Builder(startingStop, departureTime);
+        PriorityQueue<Stop> V = new PriorityQueue<>(this.stops.size(), new Comparator<Stop>() {
+            @Override
+            public int compare(Stop o1, Stop o2) {
+                return Integer.compare(fptBuilder.arrivalTime(o1), fptBuilder.arrivalTime(o2));
+            }
+        });
+
+        V.addAll(stops);
+
+        while(!V.isEmpty()) {
+            Stop testedStop = V.remove();
+
+            if (fptBuilder.arrivalTime(testedStop) >= SecondsPastMidnight.INFINITE) {
+                break;
+            }
+
+            for (GraphEdge aGraphEdge : outgoingEdges.get(testedStop)) {
+                int arrivalTimeToStopFromTestedStop = aGraphEdge.earliestArrivalTime(fptBuilder.arrivalTime(testedStop));
+
+                if (arrivalTimeToStopFromTestedStop < fptBuilder.arrivalTime(aGraphEdge.destination())) {
+                    fptBuilder.setArrivalTime(aGraphEdge.destination(), arrivalTimeToStopFromTestedStop, testedStop);
+                    V.remove(aGraphEdge.destination());
+                    V.add(aGraphEdge.destination());
+                }
+            }
+        }
+
+        return fptBuilder.build();
+
     }
 
     /**
@@ -48,6 +83,9 @@ public final class Graph {
          */
         public Builder(Set<Stop> stops) {
             this.stops=stops;
+            for (Stop aStop : stops) {
+                outgoingEdges.put(aStop, new LinkedList<GraphEdge>());
+            }
         }
 
         /**
@@ -156,99 +194,6 @@ public final class Graph {
                 outgoingEdges.put(aStop, tempList);
             }
             return new Graph(stops, outgoingEdges);
-        }
-    }
-
-    /**
-     * Implémentation de l'algorithme de Dijkstra au travers d'une queue de priorité
-     */
-    private static class DijkstraPriorityQueue {
-        private Stop firstStop;
-        private Set<Stop> stopSet;
-        private Map<Stop, Integer> arrivalTimesMap = new HashMap<>();
-        private Map<Stop, List<GraphEdge>> edgesMap;
-        private Set<GraphEdge> voisins = new HashSet<>();
-        private FastestPathTree.Builder theFastestPath;
-        private int departureTime;
-
-        private List<Stop> pathList = new LinkedList<>();
-
-        /**
-         * Comparateur utilisant les heures d'arrivée pour gérer la "priorité" des éléemnts.
-         */
-        private Comparator<Stop> stopComparator = new Comparator<Stop>() {
-            @Override
-            public int compare(Stop s1, Stop s2) {
-                return Integer.compare(arrivalTimesMap.get(s1), arrivalTimesMap.get(s2));
-            }
-        };
-
-        private PriorityQueue<Stop> priorityQueue;
-
-        /**
-         * Constructeur de classe
-         * @param allEdges
-         *          Récupère l'ensemble des arcs desquels sera tirée l'heure d'arrivée d'un stop
-         * @param firstStop
-         *          Stop de départ utilisé pour le parcours
-         * @param departure
-         *          Heure de départ
-         */
-        public DijkstraPriorityQueue(Map<Stop, List<GraphEdge>> allEdges, Stop firstStop, int departure) {
-            this.departureTime = departure;
-            this.stopSet = new HashSet<>(allEdges.keySet());
-            this.firstStop = firstStop;
-            this.edgesMap = new HashMap<>(allEdges);
-
-            priorityQueue = new PriorityQueue<>(stopSet.size(), stopComparator);
-
-            for (Stop aStop : stopSet) {
-                arrivalTimesMap.put(aStop, SecondsPastMidnight.INFINITE);
-                priorityQueue.add(aStop);
-            }
-
-            arrivalTimesMap.put(firstStop, departure);
-
-            theFastestPath = new FastestPathTree.Builder(firstStop, departure);
-        }
-
-        public Stop getNextElement() {
-            return priorityQueue.remove();
-        }
-
-        public FastestPathTree dijkstraFastestPath() {
-            while (!stopSet.isEmpty()) {
-                Stop testedStop = getNextElement();
-                stopSet.remove(testedStop); // <- Possible?
-
-                for (GraphEdge anEdge : edgesMap.get(testedStop)) {
-                    if (anEdge.earliestArrivalTime(departureTime) < arrivalTimesMap.get(testedStop)) {
-                        arrivalTimesMap.put(testedStop, anEdge.earliestArrivalTime(departureTime));
-                    }
-                }
-
-                if (!(arrivalTimesMap.get(testedStop) < SecondsPastMidnight.INFINITE)) {
-                    break;
-                }
-
-                voisins = new HashSet<>();
-                for (GraphEdge aGraphEdge : edgesMap.get(testedStop)) {
-                    voisins.add(aGraphEdge);
-                }
-
-                for (GraphEdge anEdge : voisins) {
-                    if (anEdge.earliestArrivalTime(arrivalTimesMap.get(testedStop)) < arrivalTimesMap.get(anEdge.destination())) {
-                        arrivalTimesMap.put(anEdge.destination(), anEdge.earliestArrivalTime(arrivalTimesMap.get(testedStop)));
-                    }
-                }
-
-            }
-
-            for (Stop aStop : pathList) {
-                theFastestPath.setArrivalTime(aStop, arrivalTimesMap.get(aStop), pathList.get(pathList.indexOf(aStop)-1));
-            }
-
-            return theFastestPath.build();
         }
     }
 }

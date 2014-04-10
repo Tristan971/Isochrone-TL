@@ -59,7 +59,7 @@ public class TestGraph {
         lStop5.add(stop4);
         lStop5.add(stop5);
 
-        Set<Stop> mesStop = new HashSet<Stop>();
+        Set<Stop> mesStop = new HashSet<>();
         mesStop.add(stop5);
         mesStop.add(stop4);
         mesStop.add(stop3);
@@ -77,6 +77,7 @@ public class TestGraph {
         b.addTripEdge(stop4, stop5, 900, 1000);
         b.addAllWalkEdges(0, 0.5);
         Graph g = b.build();
+
         FastestPathTree f = g.fastestPaths(stop1, 50);
         assertEquals(lStop3, f.pathTo(stop3));
         assertEquals(lStop2, f.pathTo(stop2));
