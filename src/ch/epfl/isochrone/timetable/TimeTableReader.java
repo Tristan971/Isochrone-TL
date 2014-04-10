@@ -76,7 +76,7 @@ public final class TimeTableReader {
         }
         reader.close();
 
-
+        //Crée l'ensemble des services à partir des builders
         Set<Service> serviceSet = new HashSet<>();
         for (String aString : stringBuilderMap.keySet()) {
             serviceSet.add(stringBuilderMap.get(aString).build());
@@ -166,14 +166,22 @@ public final class TimeTableReader {
             stringServiceMap.put(aService.name(), aService);
         }
 
-        BufferedReader stopTimesReader = new BufferedReader(new InputStreamReader(stopTimesInputStream, StandardCharsets.UTF_8));
-
-        while (stopTimesReader.readLine() != null) {
-            String[] lineDataArray = stopTimesReader.readLine().split(";");
+        String currentLine;
+        int i = 0;
+        BufferedReader reader = makeReaderWithStream(stopTimesInputStream);
+        while ((currentLine = reader.readLine()) != null) {
+            i++;
+            //System.out.println("line = "+i+" and lineDatea = "+currentLine);
+            String[] lineDataArray = currentLine.split(";");
             if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {
                 graphBuilder.addTripEdge(stringStopMap.get(lineDataArray[1]), stringStopMap.get(lineDataArray[3]), Integer.parseInt(lineDataArray[2]), Integer.parseInt(lineDataArray[4]));
             }
+
+            if (i % 100000 == 0)
+                System.out.println(i);
         }
+        System.out.println(currentLine);
+        reader.close();
 
         graphBuilder.addAllWalkEdges(walkingTime, walkingSpeed);
 

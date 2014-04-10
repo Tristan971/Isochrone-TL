@@ -19,7 +19,6 @@ public class TimeTableSearch {
         for (int i = 0; i < argDateArray.length; i++) {
             dateArray[i] = Integer.parseInt(argDateArray[i]);
         }
-        System.out.println(Arrays.toString(dateArray));
 
         Set<Stop> stopSet = new HashSet<>(myTimeTable.stops());
         Set<Service> serviceSet = new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0])));
@@ -28,7 +27,6 @@ public class TimeTableSearch {
 
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
-
         for (Stop aStop : stopList) {
             Collections.sort(stopList, new Comparator<Stop>() {
                 @Override

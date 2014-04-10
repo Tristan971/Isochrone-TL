@@ -16,7 +16,9 @@ public final class Date implements Comparable<Date> {
     /**
      * Création d'un tableau contentant les données suivantes : [ 0:JOUR | 1:MOIS | 2:ANNÉE ]
      */
-    private final int[] dateTable = new int[3];
+    int day;
+    int month;
+    int year;
 
     /**
      * Énumération des jours de la semaine
@@ -67,9 +69,9 @@ public final class Date implements Comparable<Date> {
             throw new IllegalArgumentException("day > maxDay for this month (maxDay = " + getNumberOfDaysForMonth(monthToInt(month), year) + ")");
         }
 
-        dateTable[0] = day;
-        dateTable[1] = monthToInt(month);
-        dateTable[2] = year;
+        this.day = day;
+        this.month = monthToInt(month);
+        this.year = year;
     }
 
     /**
@@ -80,19 +82,7 @@ public final class Date implements Comparable<Date> {
      * @param year  Année
      */
     public Date(int day, int month, int year) {
-        if (day <= 0) {
-            throw new IllegalArgumentException("day <= 0");
-        } else if (month <= 0) {
-            throw new IllegalArgumentException("month <= 0");
-        } else if (month > 12) {
-            throw new IllegalArgumentException("month > 12");
-        } else if (day > getNumberOfDaysForMonth(month, year)) {
-            throw new IllegalArgumentException("day > maxDay for this month (maxDay = " + getNumberOfDaysForMonth(month, year) + ")");
-        }
-
-        dateTable[0] = day;
-        dateTable[1] = month;
-        dateTable[2] = year;
+        this(day, intToMonth(month), year);
     }
 
     /**
@@ -104,19 +94,7 @@ public final class Date implements Comparable<Date> {
      */
     @SuppressWarnings("deprecation")
     public Date(java.util.Date date) {
-        if (date.getDate() <= 0) {
-            throw new IllegalArgumentException("day <= 0");
-        } else if (date.getMonth() + 1 <= 0) {
-            throw new IllegalArgumentException("month <= 0");
-        } else if (date.getMonth() + 1 > 12) {
-            throw new IllegalArgumentException("month > 12");
-        } else if (date.getDate() > getNumberOfDaysForMonth(date.getMonth() + 1, date.getYear() + 1900)) {
-            throw new IllegalArgumentException("day > maxDay for this month (maxDay = " + getNumberOfDaysForMonth(date.getMonth() + 1, date.getYear() + 1900) + ")");
-        }
-
-        dateTable[0] = date.getDate();
-        dateTable[1] = date.getMonth() + 1;
-        dateTable[2] = date.getYear() + 1900;
+        this(date.getDate(), intToMonth(date.getMonth()+1), date.getYear()+1900);
     }
 
     /**
@@ -161,7 +139,7 @@ public final class Date implements Comparable<Date> {
      * @return Le jour du mois lié à la date en question
      */
     public int day() {
-        return this.dateTable[0];
+        return this.day;
     }
 
     /**
@@ -175,14 +153,14 @@ public final class Date implements Comparable<Date> {
      * @return Le numéro du mois lié à la date en question (1-12)
      */
     public int intMonth() {
-        return this.dateTable[1];
+        return this.month;
     }
 
     /**
      * @return Renvoie l'année de la date en question
      */
     public int year() {
-        return this.dateTable[2];
+        return this.year;
     }
 
     /**
@@ -271,7 +249,7 @@ public final class Date implements Comparable<Date> {
      * @param intMonth Numéro du mois
      * @return Months correspondant au int passé en argument
      */
-    public Month intToMonth(int intMonth) {
+    public static Month intToMonth(int intMonth) {
         if (intMonth < 1 || intMonth > 12) {
             throw new IllegalArgumentException("Pas un numéro de mois valide : " + intMonth);
         }
