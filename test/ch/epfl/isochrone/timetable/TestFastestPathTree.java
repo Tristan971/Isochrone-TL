@@ -18,7 +18,7 @@ public class TestFastestPathTree {
 
         Map<Stop, Stop> predecessors = new HashMap<>();
 
-        FastestPathTree f = new FastestPathTree(stop, arrivalTimes, predecessors);
+        FastestPathTree f = new FastestPathTree(stop, arrivalTimes);
 
         Stop s = f.startingStop();
         int i1 = f.startingTime();
