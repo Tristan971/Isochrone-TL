@@ -32,17 +32,11 @@ public final class FastestPathTree {
             throw new IllegalArgumentException("startingStop + arrivaltimes keyset != predecessor keyset is NOT OK");
         }
 
-        this.predecessor = predecessor;
-        Set<Stop> fullStopSet = new HashSet<>();
-        fullStopSet.addAll(predecessor.keySet());
-        fullStopSet.add(startingStop);
-
-        if (fullStopSet.equals(arrivalTime.keySet())) {
-            this.startingStop = startingStop;
-            this.arrivalTime = new HashMap<>(arrivalTime);
-            this.predecessor = new HashMap<>(predecessor);
-        }
+        this.startingStop = startingStop;
+        this.arrivalTime = new HashMap<>(Collections.unmodifiableMap(arrivalTime));
+        this.predecessor = new HashMap<>(Collections.unmodifiableMap(predecessor));
     }
+
 
     /**
      * Simple getter sur l'arrêt de départ
@@ -59,7 +53,7 @@ public final class FastestPathTree {
      *      Heure à laquelle on arrive au premier arrêt du trajet
      */
     public int startingTime() {
-        return arrivalTime.get(startingStop());
+        return arrivalTime.get(startingStop);
     }
 
     /**
@@ -99,17 +93,14 @@ public final class FastestPathTree {
         }
 
         LinkedList<Stop> pathList = new LinkedList<>();
-
-        Stop s1 = stop, s2 = stop;
+        Stop s1 = stop;
 
         while (!s1.equals(startingStop())) {
             pathList.addFirst(s1);
-            s2=predecessor.get(s1);
-            s1=s2;
+            s1=predecessor.get(s1);
         }
 
         pathList.addFirst(s1);
-
         return pathList;
     }
 
@@ -118,9 +109,9 @@ public final class FastestPathTree {
      */
     public final static class Builder {
         private Stop startingStop;
-        private Map<Stop, Integer> arrivalTime = new HashMap<>();
-        private Map<Stop, Stop> predecessor = new HashMap<>();
-
+        private Map<Stop, Integer> arrivalTime;
+        private Map<Stop, Stop> predecessor;
+        private int startingTime;
         /**
          * Constructeur principal du bâtisseur
          * @param startingStop
@@ -132,7 +123,12 @@ public final class FastestPathTree {
             if(startingTime < 0) {
                 throw new IllegalArgumentException("Starting time is negative!");
             }
+            this.startingTime = startingTime;
             this.startingStop = startingStop;
+
+            arrivalTime = new HashMap<>();
+            predecessor = new HashMap<>();
+
             arrivalTime.put(startingStop, startingTime);
         }
 
@@ -155,10 +151,10 @@ public final class FastestPathTree {
          *          Le bâtisseur pour permettre les appels chaînés
          */
         public Builder setArrivalTime(Stop stop, int time, Stop predecessor) {
-            if (time < arrivalTime.get(startingStop)) {
+            if (time < startingTime) {
                 throw new IllegalArgumentException("arrivalTime of a stop is NOT POSSIBLY before startingTime");
             }
-            arrivalTime.put(stop,time);
+            this.arrivalTime.put(stop,time);
             this.predecessor.put(stop,predecessor);
             return this;
         }

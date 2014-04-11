@@ -10,6 +10,11 @@ import java.util.*;
 
 public class TimeTableSearch {
     public static void main(String[] arg) throws IOException {
+
+        if (arg.length < 3) {
+            throw new IllegalArgumentException("BAD NUMBER OF ARGUMENTS");
+        }
+
         TimeTableReader myTimeTableReader = new TimeTableReader("/time-table/");
         TimeTable myTimeTable = myTimeTableReader.readTimeTable();
 
@@ -22,7 +27,7 @@ public class TimeTableSearch {
 
         Set<Stop> stopSet = new HashSet<>(myTimeTable.stops());
 
-        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), 300, 5);
+        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), 300, 1.25);
 
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
@@ -45,9 +50,10 @@ public class TimeTableSearch {
         FastestPathTree fastestPaths = myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
 
         for (Stop aStop : stopList) {
-            System.out.println(aStop.name()+" : "+SecondsPastMidnight.toString(fastestPaths.arrivalTime(aStop)));
-            System.out.println(" via : "+fastestPaths.pathTo(aStop));
+            if (fastestPaths.arrivalTime(aStop) != SecondsPastMidnight.INFINITE) {
+                System.out.println(aStop.name() + " : " + SecondsPastMidnight.toString(fastestPaths.arrivalTime(aStop)));
+                System.out.println(" via : " + fastestPaths.pathTo(aStop));
+            }
         }
-
     }
 }

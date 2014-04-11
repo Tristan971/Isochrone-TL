@@ -22,15 +22,15 @@ public final class Graph {
      *          Map des arcs liés à chacun des arrêts
      */
     private Graph(Set<Stop> stops, Map<Stop, List<GraphEdge>> outgoingEdges) {
-        this.stops = new HashSet<>(stops);
-        this.outgoingEdges = new HashMap<>(outgoingEdges);
+        this.stops = new HashSet<>(Collections.unmodifiableSet(stops));
+        this.outgoingEdges = new HashMap<>(Collections.unmodifiableMap(outgoingEdges));
     }
 
     public FastestPathTree fastestPaths(Stop startingStop, int departureTime) {
         if (!stops.contains(startingStop)) {
             throw new IllegalArgumentException("Stops don't include the said startingStop : " + startingStop);
         }
-        if (departureTime < 0 || departureTime > SecondsPastMidnight.INFINITE) {
+        if (departureTime < 0) {
             throw new IllegalArgumentException("departureTime out of bounds : "+departureTime);
         }
         final FastestPathTree.Builder fptBuilder = new FastestPathTree.Builder(startingStop, departureTime);
