@@ -1,29 +1,32 @@
 package ch.epfl.isochrone.timetable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Random;
-
-import org.junit.Test;
-
 import ch.epfl.isochrone.timetable.Date.DayOfWeek;
 import ch.epfl.isochrone.timetable.Date.Month;
+import org.junit.Test;
+import java.util.Random;
+
+/**
+ * TESTCLASS : DATE.
+ * @author Tristan Deloche (234045)
+ */
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TestDate {
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testConstructorDayTooSmall() {
-        new Date(0, Month.JANUARY, 1);
+        new Date(0, Month.FEBRUARY, 3);
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testConstructorDayTooBig() {
-        new Date(29, Month.FEBRUARY, 2100);
+        new Date(32, Month.MARCH, 1900);
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testConstructorIntMonthTooSmall() {
-        new Date(1, 0, 1);
+        new Date(1, -1, 1);
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -34,13 +37,16 @@ public class TestDate {
     @SuppressWarnings("deprecation")
     @Test
     public void testConstructorFromJavaDate() {
-        assertEquals(new Date(17, Month.FEBRUARY, 2014), new Date(new java.util.Date(114, 1, 17)));
+        assertEquals(new Date(10, Month.JANUARY, 2000), new Date(new java.util.Date(100, 0, 10)));
     }
 
     @Test
     public void testDay() {
-        for (int d = 1; d <= 31; ++d)
-            assertEquals(d, (new Date(d, Month.JANUARY, 2014)).day());
+        Random r = new Random();
+        for (int i = 0; i < 10; i++) {
+            int a = Math.abs(r.nextInt()) % 31 + 1;
+            assertEquals(a, (new Date(a, Month.JANUARY, 2014)).day());
+        }
     }
 
     @Test
@@ -51,27 +57,29 @@ public class TestDate {
 
     @Test
     public void testIntMonth() {
-        for (int m = 1; m <= 12; ++m)
-
-            assertEquals(m, (new Date(15, m, 2000)).intMonth());
+        Random r = new Random();
+        for (int i = 0; i < 10; i++) {
+            int a = Math.abs(r.nextInt()) % 12 + 1;
+            assertEquals(a, (new Date(15, a, 2000)).intMonth());
+        }
     }
 
     @Test
     public void testYear() {
-        Random rng = new Random();
-        for (int i = 0; i < 100; ++i) {
-            int y = rng.nextInt();
+        Random r = new Random();
+        for (int i = 0; i < 10; ++i) {
+            int y = r.nextInt();
             assertEquals(y, (new Date(12, Month.MARCH, y)).year());
         }
     }
 
     @Test
     public void testDayOfWeek() {
-        assertEquals(DayOfWeek.SUNDAY, new Date(24, Month.JULY, -586).dayOfWeek());
-        assertEquals(DayOfWeek.MONDAY, new Date( 1, Month.JANUARY, 1).dayOfWeek());
-        assertEquals(DayOfWeek.SUNDAY, new Date( 2, Month.AUGUST, 1953).dayOfWeek());
-        assertEquals(DayOfWeek.MONDAY, new Date( 1, Month.OCTOBER, 1973).dayOfWeek());
-        assertEquals(DayOfWeek.FRIDAY, new Date(11, Month.OCTOBER, 2013).dayOfWeek());
+        assertEquals(DayOfWeek.MONDAY, new Date(25, Month.JULY, -586).dayOfWeek());
+        assertEquals(DayOfWeek.TUESDAY, new Date( 2, Month.JANUARY, 1).dayOfWeek());
+        assertEquals(DayOfWeek.SATURDAY, new Date( 1, Month.AUGUST, 1953).dayOfWeek());
+        assertEquals(DayOfWeek.WEDNESDAY, new Date( 3, Month.OCTOBER, 1973).dayOfWeek());
+        assertEquals(DayOfWeek.THURSDAY, new Date(10, Month.OCTOBER, 2013).dayOfWeek());
 
 
     }

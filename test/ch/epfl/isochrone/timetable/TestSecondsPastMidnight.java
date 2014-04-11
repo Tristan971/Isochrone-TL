@@ -1,10 +1,16 @@
 package ch.epfl.isochrone.timetable;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.Random;
 
-import org.junit.Test;
+/**
+ * TESTCLASS : SPM.
+ * @author Tristan Deloche (234045)
+ */
+
+
+import static org.junit.Assert.assertEquals;
 
 public class TestSecondsPastMidnight {
     @Test(expected = java.lang.IllegalArgumentException.class)

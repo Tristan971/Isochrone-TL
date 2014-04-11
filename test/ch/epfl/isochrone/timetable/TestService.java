@@ -11,103 +11,59 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 
 public class TestService {
-    // Le "test" suivant n'en est pas un à proprement parler, raison pour
-    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
-    // que les noms des classes et méthodes sont corrects.
 
-    // A compléter avec de véritables méthodes de test...
+    /**
+     * TESTCLASS : SERVICE.
+     * @author Tristan Deloche (234045)
+     */
 
-    Date dateE = new Date(3, Month.DECEMBER, 2000);
-    Date date = new Date(3, Month.DECEMBER, 1999);
-    Set<Date> exclud = new HashSet<Date>();
-    Set<Date> includ = new HashSet<Date>();
-    Set<Date.DayOfWeek> operating = new HashSet<Date.DayOfWeek>();
-    Date dateD = new Date(1, Month.APRIL, 2001);
-    Date dateA = new Date(1, Month.APRIL, 2000);
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testConstructor() {
-
-        Service nouveau = new Service("nouveau", dateD, dateA,
-                Collections.<Date.DayOfWeek> emptySet(),
-                Collections.<Date> emptySet(), Collections.<Date> emptySet());
-        System.out.println(nouveau);
-    }
+    Date d = new Date(3, Month.DECEMBER, 2000);
+    Date d1 = new Date(3, Month.DECEMBER, 1999);
+    Set<Date> EXCL = new HashSet<>();
+    Set<Date> INCL = new HashSet<>();
+    Set<Date.DayOfWeek> OPR = new HashSet<>();
+    Date d2 = new Date(1, Month.APRIL, 2001);
+    Date d3 = new Date(1, Month.APRIL, 2000);
 
     @Test(expected = IllegalArgumentException.class)
-    public void testConstructor1() {
-        Set<Date.DayOfWeek> c = new HashSet<Date.DayOfWeek>();
-        date.dayOfWeek();
+    public void testConstructor() {
+        Set<Date.DayOfWeek> c = new HashSet<>();
+        d1.dayOfWeek();
         c.add(DayOfWeek.FRIDAY);
-        Date ex = new Date(1, Month.APRIL, 2002);
-        Set<Date> b = new HashSet<Date>();
-        b.add(ex);
-        Service n = new Service("n", dateD, dateA, c, b,
-                Collections.<Date> emptySet());
+        Date etalon = new Date(1, Month.JANUARY, 1900);
+        Set<Date> b = new HashSet<>();
+        b.add(etalon);
+        Service n = new Service("n", d2, d3, c, b, Collections.<Date>emptySet());
         System.out.println(n);
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testConstructor2() {
-
-        includ.add(dateE);
-        exclud.add(dateE);
-
-        Service nouveau = new Service("nouveau", dateA, dateD,
-                Collections.<Date.DayOfWeek> emptySet(), exclud, includ);
-        System.out.println(nouveau);
-
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testConstructor3() {
-
-        exclud.clear();
-        exclud.add(date);
-        Service nouveau = new Service("nouveau", dateA, dateD,
-                Collections.<Date.DayOfWeek> emptySet(), exclud,
-                Collections.<Date> emptySet());
-        System.out.println(nouveau);
-
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testBuilder() {
 
-        Service.Builder build = new Service.Builder("name", dateD, dateA);
+        Service.Builder build = new Service.Builder("name", d2, d3);
         System.out.println(build);
     }
 
     @Test
     public void testIsOperatingOn() {
-        includ.clear();
-        exclud.clear();
+        INCL.clear();
+        EXCL.clear();
+        INCL.add(d);
 
-        includ.add(dateE);
+        Service service = new Service("test", d3, d2, OPR, EXCL, INCL);
+        assertEquals(true, service.isOperatingOn(d));
+        INCL.clear();
+        EXCL.add(d);
+        assertEquals(false, service.isOperatingOn(d));
+        EXCL.clear();
+        assertEquals(false, service.isOperatingOn(d));
 
-        Service service = new Service("test", dateA, dateD, operating, exclud,
-                includ);
+        assertEquals(false, service.isOperatingOn(d1));
 
-        assertEquals(true, service.isOperatingOn(dateE));
+        OPR.add(DayOfWeek.SUNDAY);
+        service = new Service("test", d3, d2, OPR, EXCL, INCL);
 
-        includ.clear();
-
-        exclud.add(dateE);
-        assertEquals(false, service.isOperatingOn(dateE));
-        exclud.clear();
-        assertEquals(false, service.isOperatingOn(dateE));
-
-        assertEquals(false, service.isOperatingOn(date));
-
-    }
-
-    @Test
-    public void TestIsoperatingOn() {
-        operating.add(DayOfWeek.SUNDAY);
-        Service service = new Service("test", dateA, dateD, operating, exclud,
-                includ);
-
-        assertEquals(true, service.isOperatingOn(dateE));
+        assertEquals(true, service.isOperatingOn(d));
 
     }
 }

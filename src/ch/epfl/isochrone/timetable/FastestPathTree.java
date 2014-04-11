@@ -109,8 +109,8 @@ public final class FastestPathTree {
      */
     public final static class Builder {
         private Stop startingStop;
-        private Map<Stop, Integer> arrivalTime;
-        private Map<Stop, Stop> predecessor;
+        private Map<Stop, Integer> arrivalTime = new HashMap<>();
+        private Map<Stop, Stop> predecessor = new HashMap<>();
         private int startingTime;
         /**
          * Constructeur principal du bâtisseur
@@ -125,9 +125,6 @@ public final class FastestPathTree {
             }
             this.startingTime = startingTime;
             this.startingStop = startingStop;
-
-            arrivalTime = new HashMap<>();
-            predecessor = new HashMap<>();
 
             arrivalTime.put(startingStop, startingTime);
         }

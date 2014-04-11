@@ -6,6 +6,11 @@ import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * TESTCLASS : PointOSM.
+ * @author Tristan Deloche (234045)
+ */
+
 public class TestPointOSM {
     private static final double DELTA = 0.000001;
 

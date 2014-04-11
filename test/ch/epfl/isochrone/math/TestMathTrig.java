@@ -6,6 +6,11 @@ import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * TESTCLASS : .
+ * @author Tristan Deloche (234045)
+ */
+
 public class TestMathTrig {
     private final static double DELTA = 0.0000001;
 

@@ -46,7 +46,7 @@ public final class TimeTableReader {
 
         Map<String, Service.Builder> stringBuilderHashMap = new HashMap<>();
 
-        BufferedReader bufferedReader = makeReaderWithStream(stopsInputStream);
+        BufferedReader bufferedReader = readerFromInputStream(stopsInputStream);
         String currentLine;
 
         /**
@@ -60,7 +60,7 @@ public final class TimeTableReader {
         /**
          * On lit les services
          */
-        bufferedReader = makeReaderWithStream(calendarInputStream);
+        bufferedReader = readerFromInputStream(calendarInputStream);
         while ((currentLine = bufferedReader.readLine()) != null) {
             stringBuilderHashMap.put(makeServiceWithLine(currentLine).name(), makeServiceWithLine(currentLine));
         }
@@ -69,9 +69,17 @@ public final class TimeTableReader {
         /**
          * On lit les exceptions des services (inclues et exclues)
          */
-        bufferedReader = makeReaderWithStream(calendarDatesInputStream);
+        bufferedReader = readerFromInputStream(calendarDatesInputStream);
         while ((currentLine = bufferedReader.readLine()) != null) {
-            TTBuilder.addService(finishBuildingService(stringBuilderHashMap.get(currentLine.split(";")[0]), currentLine).build());
+            Date date = new Date(Integer.parseInt((currentLine.split(";")[1]).substring(6, 8)), Integer.parseInt((currentLine.split(";")[1]).substring(4, 6)), Integer.parseInt((currentLine.split(";")[1]).substring(0, 4)));
+
+            if (!currentLine.split(";")[2].equals("2")) {
+                stringBuilderHashMap.get(currentLine.split(";")[0]).addIncludedDate(date);
+            } else {
+                stringBuilderHashMap.get(currentLine.split(";")[0]).addExcludedDate(date);
+            }
+            TTBuilder.addService(stringBuilderHashMap.get(currentLine.split(";")[0]).build());
+
         }
         bufferedReader.close();
 
@@ -123,34 +131,13 @@ public final class TimeTableReader {
     }
 
     /**
-     * On complète les services avec les données récupérées après leur création
-     * @param sb
-     *          Bâtisseur à finir de remplir
-     * @param line
-     *          Ligne à utiliser
-     * @return
-     *          Le bâtisseur du service totalement rempli
-     */
-    private Service.Builder finishBuildingService(Service.Builder sb, String line) {
-        int year = Integer.parseInt((line.split(";")[1]).substring(0, 4));
-        int monthInt = Integer.parseInt((line.split(";")[1]).substring(4, 6));
-        int day = Integer.parseInt((line.split(";")[1]).substring(6, 8));
-        if (!line.split(";")[2].equals("2")) {
-            sb.addIncludedDate(new Date(day, monthInt, year));
-        } else {
-            sb.addExcludedDate(new Date(day, monthInt, year));
-        }
-        return sb;
-    }
-
-    /**
      * Crée un BufferedReader à l'aide du paramètre
      * @param stream
      *      InputStream à utiliser
      * @return
      *      Un nouveau BufferedReader
      */
-    private BufferedReader makeReaderWithStream(InputStream stream) {
+    private BufferedReader readerFromInputStream(InputStream stream) {
         return new  BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
 
@@ -181,7 +168,7 @@ public final class TimeTableReader {
         }
 
         String currentLine;
-        BufferedReader reader = makeReaderWithStream(stopTimesInputStream);
+        BufferedReader reader = readerFromInputStream(stopTimesInputStream);
         while ((currentLine = reader.readLine()) != null) {
             String[] lineDataArray = currentLine.split(";");
             if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {

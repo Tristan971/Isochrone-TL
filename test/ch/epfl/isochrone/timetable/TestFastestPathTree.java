@@ -7,152 +7,140 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * TESTCLASS : FPT.
+ * @author Tristan Deloche (234045)
+ */
+
 public class TestFastestPathTree {
 
-    private Stop stop1 = new Stop("stop1", new PointWGS84(0, 1));
-    private Stop stop2 = new Stop("stop2", new PointWGS84(1, 0));
-    private Stop stop3 = new Stop("stop3", new PointWGS84(-1, 1));
-
-    // Le "test" suivant n'en est pas un à proprement parler, raison pour
-    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
-    // que les noms des classes et méthodes sont corrects.
+    private Stop s1 = new Stop("s1", new PointWGS84(0, 1));
+    private Stop s2 = new Stop("s2", new PointWGS84(1, 0));
+    private Stop s3 = new Stop("s3", new PointWGS84(-1, 1));
 
     @Test
     public void testStartingStop() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, 4);
+        tempsArrive.put(s2, 5);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        assertEquals(stop1, new FastestPathTree(stop1, tempsArrive,
-                predecessors).startingStop());
+        predecessors.put(s2, s2);
+        assertEquals(s1, new FastestPathTree(s1, tempsArrive, predecessors).startingStop());
     }
 
     @Test
     public void testStops() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 15);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, null);
+        tempsArrive.put(s2, null);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
+        predecessors.put(s2, s2);
         Set<Stop> s = new HashSet<>();
-        s.add(stop1);
-        s.add(stop2);
-        assertEquals(s,
-                new FastestPathTree(stop1, tempsArrive, predecessors).stops());
+        s.add(s1);
+        s.add(s2);
+        assertEquals(s, new FastestPathTree(s1, tempsArrive, predecessors).stops());
     }
 
     @Test
     public void testStartingTime() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 15);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, 6);
+        tempsArrive.put(s2, 7);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        assertEquals(15,
-                new FastestPathTree(stop1, tempsArrive, predecessors)
-                        .startingTime());
+        predecessors.put(s2, s2);
+        assertEquals(6, new FastestPathTree(s1, tempsArrive, predecessors).startingTime());
     }
 
     @Test
     public void testArrivalTime() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 15);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, 6);
+        tempsArrive.put(s2, 1);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        assertEquals(10,
-                new FastestPathTree(stop1, tempsArrive, predecessors)
-                        .arrivalTime(stop2));
+        predecessors.put(s2, s2);
+        assertEquals(1, new FastestPathTree(s1, tempsArrive, predecessors).arrivalTime(s2));
     }
 
     @Test
     public void testPathTo() {
         Stop s4 = new Stop("stop4", new PointWGS84(1, 0));
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
-        tempsArrive.put(stop3, 10);
-        tempsArrive.put(s4, 10);
+        tempsArrive.put(s1, 1);
+        tempsArrive.put(s2, 10);
+        tempsArrive.put(s3, 11);
+        tempsArrive.put(s4, 13);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(s4, stop3);
-        predecessors.put(stop2, stop1);
-        predecessors.put(stop3, stop2);
-        List<Stop> list = new LinkedList<Stop>();
-        list.add(stop1);
-        list.add(stop2);
-        list.add(stop3);
+        predecessors.put(s4, s3);
+        predecessors.put(s2, s1);
+        predecessors.put(s3, s2);
+        List<Stop> list = new LinkedList<>();
+        list.add(s1);
+        list.add(s2);
+        list.add(s3);
         list.add(s4);
-        assertEquals(list,
-                new FastestPathTree(stop1, tempsArrive, predecessors)
-                        .pathTo(s4));
+        assertEquals(list, new FastestPathTree(s1, tempsArrive, predecessors).pathTo(s4));
     }
 
     @Test
     public void testArrivalTimeInfinite() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, 2);
+        tempsArrive.put(s2, 3);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        assertEquals(SecondsPastMidnight.INFINITE, new FastestPathTree(stop1,
-                tempsArrive, predecessors).arrivalTime(stop3));
+        predecessors.put(s2, s2);
+        assertEquals(SecondsPastMidnight.INFINITE, new FastestPathTree(s1, tempsArrive, predecessors).arrivalTime(s3));
     }
 
     @Test
     public void testBuilder() {
-        FastestPathTree.Builder fB = new FastestPathTree.Builder(stop1, 1);
-        fB.setArrivalTime(stop2, 10, stop1);
-        fB.setArrivalTime(stop3, 20, stop2);
+        FastestPathTree.Builder fB = new FastestPathTree.Builder(s1, 1);
+        fB.setArrivalTime(s2, 10, s1);
+        fB.setArrivalTime(s3, 20, s2);
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
-        tempsArrive.put(stop3, 20);
+        tempsArrive.put(s1, 1);
+        tempsArrive.put(s2, 10);
+        tempsArrive.put(s3, 20);
         Map<Stop, Stop> predecessor = new HashMap<>();
-        predecessor.put(stop2, stop1);
-        predecessor.put(stop3, stop2);
-        FastestPathTree tree = new FastestPathTree(stop1, tempsArrive,
-                predecessor);
-        assertEquals(fB.build().arrivalTime(stop1), tree.arrivalTime(stop1));
-        assertEquals(fB.build().arrivalTime(stop2), tree.arrivalTime(stop2));
-        assertEquals(fB.build().arrivalTime(stop3), tree.arrivalTime(stop3));
+        predecessor.put(s2, s1);
+        predecessor.put(s3, s2);
+        FastestPathTree tree = new FastestPathTree(s1, tempsArrive, predecessor);
+        assertEquals(fB.build().arrivalTime(s1), tree.arrivalTime(s1));
+        assertEquals(fB.build().arrivalTime(s2), tree.arrivalTime(s2));
+        assertEquals(fB.build().arrivalTime(s3), tree.arrivalTime(s3));
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testConstructorException() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
+        tempsArrive.put(s1, 1);
+        tempsArrive.put(s2, 10);
         Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop3, stop3);
-        predecessors.put(stop2, stop2);
-        new FastestPathTree(stop3, tempsArrive, predecessors);
+        predecessors.put(s3, s3);
+        predecessors.put(s2, s2);
+        new FastestPathTree(s3, tempsArrive, predecessors);
     }
 
     @Test
     public void testBuildertempsArriveInfinite() {
-        assertEquals(SecondsPastMidnight.INFINITE, new FastestPathTree.Builder(
-                stop1, 2).arrivalTime(stop2));
+        assertEquals(SecondsPastMidnight.INFINITE, new FastestPathTree.Builder(s1, 2).arrivalTime(s2));
     }
 
     @Test
     public void testBuildersetArrivalTime() {
-        Random rng = new Random();
+        Random r = new Random();
         for (int i = 0; i < 100; ++i) {
-            int time = rng.nextInt(50) + 1;
-            assertEquals(time, new FastestPathTree.Builder(stop1, 1)
-                    .setArrivalTime(stop2, time, stop3).arrivalTime(stop2));
+            int time = r.nextInt(100) + 1;
+            assertEquals(time, new FastestPathTree.Builder(s1, 1).setArrivalTime(s2, time, s3).arrivalTime(s2));
         }
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testBuildersetArrivalTimeFail() {
-        new FastestPathTree.Builder(stop1, 2).setArrivalTime(stop2, 1, stop3);
+    public void testBuildersetBadArrivalTime() {
+        new FastestPathTree.Builder(s1, 2).setArrivalTime(s2, 1, s3);
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testBuilderConstructorFail() {
-        new FastestPathTree.Builder(stop1, -1);
+    public void testBuilderBadConstructor() {
+        new FastestPathTree.Builder(s1, -1);
     }
-
 }

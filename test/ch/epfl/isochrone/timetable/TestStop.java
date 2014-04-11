@@ -7,24 +7,22 @@ import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
 
 public class TestStop {
-    // Le "test" suivant n'en est pas un à proprement parler, raison pour
-    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
-    // que les noms des classes et méthodes sont corrects.
-   PointWGS84 point = new PointWGS84(toRadians(6.62901), toRadians(46.51658));
-   Stop monStop = new Stop("nom",point); 
+
+   PointWGS84 testStopPosition = new PointWGS84(toRadians(23.3232), toRadians(89.6765));
+   Stop testStop = new Stop("nom", testStopPosition);
    @Test
     public void testName(){
         
-        assertEquals(monStop.name(),"nom");
+        assertEquals(testStop.name(),"nom");
     }
     
     @Test
     public void testPosition(){
-       assertEquals(point, monStop.position());
+       assertEquals(testStopPosition, testStop.position());
     }
     
     @Test
     public void testToString() {
-        assertEquals(monStop.name(),"nom");
+        assertEquals(testStop.name(),"nom");
     }
 }
