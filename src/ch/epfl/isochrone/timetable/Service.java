@@ -1,5 +1,6 @@
 package ch.epfl.isochrone.timetable;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,13 @@ public final class Service {
      */
     public Service(String name, Date startingDate, Date endingDate, Set<Date.DayOfWeek> operatingDays, Set<Date> excludedDates, Set<Date> includedDates) {
 
+        this.name = name;
+        this.startingDate = startingDate;
+        this.endingDate = endingDate;
+        this.operatingDays = new HashSet<>(Collections.unmodifiableSet(operatingDays));
+        this.excludedDates = new HashSet<>(Collections.unmodifiableSet(excludedDates));
+        this.includedDates = includedDates;
+
         if (startingDate.compareTo(endingDate) == 1) {
             throw new IllegalArgumentException("startingDate ne peut pas être postérieure à endingDate");
         }
@@ -50,14 +58,6 @@ public final class Service {
                 throw new IllegalArgumentException("INCL in EXCL (dates)");
             }
         }
-
-
-        this.name = name;
-        this.startingDate = startingDate;
-        this.endingDate = endingDate;
-        this.operatingDays = new HashSet<>(operatingDays);
-        this.excludedDates = new HashSet<>(excludedDates);
-        this.includedDates = new HashSet<>(includedDates);
     }
 
     /**
@@ -76,7 +76,12 @@ public final class Service {
      *      booléen, true pour actif et false pour inactif
      */
     boolean isOperatingOn(Date date) {
-        return date.compareTo(startingDate) >= 0 && date.compareTo(endingDate) <= 0 && (operatingDays.contains(date.dayOfWeek()) && !excludedDates.contains(date) || includedDates.contains(date));
+        boolean isBetweenStartingAndEnding = date.compareTo(startingDate) >= 0 && date.compareTo(endingDate) <= 0;
+        boolean isInOperatingDay = operatingDays.contains(date.dayOfWeek());
+        boolean isInExcludedDates = excludedDates.contains(date);
+        boolean isInIncludedDates = includedDates.contains(date);
+
+        return isBetweenStartingAndEnding && ((isInOperatingDay) && !isInExcludedDates) || isInIncludedDates;
     }
 
     /**
