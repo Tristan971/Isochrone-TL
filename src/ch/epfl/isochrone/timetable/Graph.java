@@ -131,10 +131,11 @@ public final class Graph {
 
             for (Stop stop1 : stops) {
                 for (Stop stop2 : stops) {
-                    int walkingtime = (int) Math.round((stop1.position().distanceTo(stop2.position())) / walkingSpeed);
+
+                    double walkingtime = ((stop1.position().distanceTo(stop2.position())) / walkingSpeed);
 
                     if (walkingtime <= maxWalkingTime) {
-                        getBatisseur(stop1, stop2).setWalkingTime(walkingtime);
+                        getBatisseur(stop1, stop2).setWalkingTime((int) Math.round(walkingtime));
                     }
                 }
             }

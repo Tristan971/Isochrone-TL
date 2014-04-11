@@ -132,7 +132,7 @@ public final class GraphEdge {
     }
 
     private int earliestByWalking (int startingTime) {
-        return walkingTime == -1 ? SecondsPastMidnight.INFINITE : startingTime+walkingTime;
+        return (walkingTime == -1) ? SecondsPastMidnight.INFINITE : startingTime+walkingTime;
     }
 
     /**
