@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Classe créant un horaire à l'aide de fichiers CSV de données
@@ -15,73 +17,130 @@ import java.util.*;
  */
 
 public final class TimeTableReader {
+    /**
+     * InputStreams modélisant les streams de chaque fichier
+     */
     InputStream calendarInputStream, calendarDatesInputStream, stopsInputStream, stopTimesInputStream;
 
     /**
-     * Constructeur principal des TTR
+     * Constructeur de classe par défaut
      * @param baseResourceName
-     *          Dossier dans lequel chercher les données
-     * @throws IOException
-     *          Si les fichiers sont introuvables ou illisibles
+     *          Dossier contenant les fichiers .csv
      */
-    public TimeTableReader(String baseResourceName) throws IOException {
-        this.calendarInputStream = getClass().getResourceAsStream(baseResourceName+"calendar.csv");
-        this.calendarDatesInputStream = getClass().getResourceAsStream(baseResourceName+"calendar_dates.csv");
-        this.stopsInputStream = getClass().getResourceAsStream(baseResourceName+"stops.csv");
-        this.stopTimesInputStream = getClass().getResourceAsStream(baseResourceName+"stop_times.csv");
+    public TimeTableReader(String baseResourceName) {
+        this.stopsInputStream = getClass().getResourceAsStream(baseResourceName + "stops.csv");
+        this.stopTimesInputStream = getClass().getResourceAsStream(baseResourceName + "stop_times.csv");
+        this.calendarInputStream = getClass().getResourceAsStream(baseResourceName + "calendar.csv");
+        this.calendarDatesInputStream = getClass().getResourceAsStream(baseResourceName + "calendar_dates.csv");
     }
 
     /**
-     * Méthode servant à créer un Horaire (ch.epfl.isochrone.timetable.TimeTable) en lisant les fichiers
+     * Lis l'horaire
      * @return
-     *      Un horaire généré à partir des données fournies
+     *      L'horaire lié
      * @throws IOException
-     *      S'il y a un problème de lecture/accès de fichiers quelque part
+     *      Si erreur d'accès fichier
      */
     public TimeTable readTimeTable() throws IOException {
-        Map<String, Service.Builder> stringBuilderMap = new HashMap<>();
-        String currentLine;
         TimeTable.Builder TTBuilder = new TimeTable.Builder();
-        //Reader des Services
-        BufferedReader reader = makeReaderWithStream(calendarInputStream);
-        while ((currentLine = reader.readLine()) != null) {
-            String[] lineDataArray = currentLine.split(";");
 
-            stringBuilderMap.put(lineDataArray[0], new Service.Builder(lineDataArray[0], makeDateWithString(lineDataArray[8]), makeDateWithString(lineDataArray[9])));
+        Map<String, Service.Builder> stringBuilderHashMap = new HashMap<>();
 
-            for (Date.DayOfWeek aDay : getOperatingDays(lineDataArray)) {
-                stringBuilderMap.get(lineDataArray[0]).addOperatingDay(aDay);
-            }
+        BufferedReader bufferedReader = makeReaderWithStream(stopsInputStream);
+        String currentLine;
+
+        /**
+         * On lit les stops
+         */
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            TTBuilder.addStop(makeStopWithLine(currentLine));
         }
-        reader.close();
+        bufferedReader.close();
 
-        //Reader des exceptions des services
-        reader = makeReaderWithStream(calendarDatesInputStream);
-        while ((currentLine = reader.readLine()) != null) {
-            String[] lineArray = currentLine.split(";");
-            if (Integer.parseInt(lineArray[2])==2) {
-                stringBuilderMap.get(lineArray[0]).addExcludedDate(makeDateWithString(lineArray[1]));
-            } else if (Integer.parseInt(lineArray[2])==1) {
-                stringBuilderMap.get(lineArray[0]).addIncludedDate(makeDateWithString(lineArray[1]));
-            }
+        /**
+         * On lit les services
+         */
+        bufferedReader = makeReaderWithStream(calendarInputStream);
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            stringBuilderHashMap.put(makeServiceWithLine(currentLine).name(), makeServiceWithLine(currentLine));
         }
-        reader.close();
+        bufferedReader.close();
 
-        //Reader des Stops
-        reader = makeReaderWithStream(stopsInputStream);
-        while ((currentLine = reader.readLine()) != null) {
-            String[] stopsArray = currentLine.split(";");
-            TTBuilder.addStop(makeStopWithLine(stopsArray));
+        /**
+         * On lit les exceptions des services (inclues et exclues)
+         */
+        bufferedReader = makeReaderWithStream(calendarDatesInputStream);
+        while ((currentLine = bufferedReader.readLine()) != null) {
+            TTBuilder.addService(finishBuildingService(stringBuilderHashMap.get(currentLine.split(";")[0]), currentLine).build());
         }
-        reader.close();
+        bufferedReader.close();
 
-        //Crée l'ensemble des services à partir des builders
-        Set<Service> serviceSet = new HashSet<>();
-        for (String aString : stringBuilderMap.keySet()) {
-            TTBuilder.addService(stringBuilderMap.get(aString).build());
-        }
-
+        /**
+         * On se sert des données pour bâtir l'horaire
+         */
         return TTBuilder.build();
+    }
+
+    /**
+     * On crée un stop avec la ligne en argument qui provient de stops.csv
+     * @param currentLine
+     *          Ligne de stops.csv à utiliser
+     * @return
+     *          Stop lié
+     */
+    private Stop makeStopWithLine(String currentLine) {
+        return new Stop(currentLine.split(";")[0], new PointWGS84(Math.toRadians(Double.parseDouble(currentLine.split(";")[2])), Math.toRadians(Double.parseDouble(currentLine.split(";")[1]))));
+    }
+
+    /**
+     * On crée un bâtisseur de service avec une ligne
+     * @param currentLine
+     *          Ligne de calendar.csv à utiliser
+     * @return
+     *          Le bâtisseur du service lié
+     */
+    private Service.Builder makeServiceWithLine(String currentLine) {
+
+        String[] currentLineArray = currentLine.split(";");
+
+        Date serviceStartingDate = new Date(Integer.parseInt(currentLineArray[8].substring(6, 8)),
+                Integer.parseInt(currentLineArray[8].substring(4, 6)),
+                Integer.parseInt (currentLineArray[8].substring(0, 4)));
+
+        Date serviceEndingDate = new Date(Integer.parseInt(currentLineArray[9].substring(6, 8)),
+                Integer.parseInt(currentLineArray[9].substring(4, 6)),
+                Integer.parseInt (currentLineArray[9].substring(0, 4)));
+
+        Service.Builder monService = new Service.Builder(currentLine.split(";")[0], serviceStartingDate, serviceEndingDate);
+
+        for (int i = 1; i < 8; i++) {
+            if (Integer.parseInt(currentLine.split(";")[i]) == 1) {
+                monService.addOperatingDay(Date.DayOfWeek.values()[i - 1]);
+            }
+        }
+
+        return monService;
+    }
+
+    /**
+     * On complète les services avec les données récupérées après leur création
+     * @param sb
+     *          Bâtisseur à finir de remplir
+     * @param line
+     *          Ligne à utiliser
+     * @return
+     *          Le bâtisseur du service totalement rempli
+     */
+    private Service.Builder finishBuildingService(Service.Builder sb, String line) {
+        int year = Integer.parseInt((line.split(";")[1]).substring(0, 4));
+        int monthInt = Integer.parseInt((line.split(";")[1]).substring(4, 6));
+        int day = Integer.parseInt((line.split(";")[1]).substring(6, 8));
+        if (!line.split(";")[2].equals("2")) {
+            sb.addIncludedDate(new Date(day, monthInt, year));
+        } else {
+            sb.addExcludedDate(new Date(day, monthInt, year));
+        }
+        return sb;
     }
 
     /**
@@ -93,50 +152,6 @@ public final class TimeTableReader {
      */
     private BufferedReader makeReaderWithStream(InputStream stream) {
         return new  BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
-    }
-
-    /**
-     * Méthode privée créant une date à l'aide d'une chaine de format D;M;Y;....
-     * @param s
-     *      Chaîne à utiliser
-     * @return
-     *      Une date créée à partir de la chaîne passée en argument
-     */
-    private Date makeDateWithString (String s) {
-        Integer[] dateArray = new Integer[3];
-        dateArray[0]=Integer.parseInt(s.substring(6,8));
-        dateArray[1]=Integer.parseInt(s.substring(4,6));
-        dateArray[2]=Integer.parseInt(s.substring(0,4));
-
-        return new Date(dateArray[0],dateArray[1],dateArray[2]);
-    }
-
-    /**
-     * Méthode cherchant l'ensemble des jours d'activité d'un service à l'aide d'un tableau de format "[...;bool;bool;bool;bool;bool;bool;bool;..........]"
-     * @param lineArray
-     *      Chaîne à utiliser pour récupérer l'information
-     * @return
-     *      L'ensemble des jours d'activité pour le service correspondant au tableau envoyée en argument
-     */
-    private Set<Date.DayOfWeek> getOperatingDays(String[] lineArray) {
-        Set<Date.DayOfWeek> operatingDays = new HashSet<>();
-        for (int i = 0; i <= 6; i++) {
-            if (Boolean.parseBoolean(lineArray[i+1])) {
-                operatingDays.add(Date.DayOfWeek.values()[i]);
-            }
-        }
-        return  operatingDays;
-    }
-
-    /**
-     * Crée un stop à l'aide d'une chaîne au format "Nom;Latitude;Longitude"
-     * @param line
-     *      Chaîne dont on veut le stop associé
-     * @return
-     *      Le stop associé
-     */
-    private Stop makeStopWithLine (String[] line) {
-        return new Stop(line[0], new PointWGS84(Math.toRadians(Double.parseDouble(line[1])), Math.toRadians(Double.parseDouble(line[2]))));
     }
 
     /**
