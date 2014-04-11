@@ -108,7 +108,7 @@ public final class Graph {
                 throw new IllegalArgumentException("departure or arrival time is < 0 ; or arrival is before departure");
             }
 
-            getBatisseur(fromStop,toStop).addTrip(departureTime, arrivalTime);
+            getBuilder(fromStop, toStop).addTrip(departureTime, arrivalTime);
 
             return this;
         }
@@ -135,7 +135,7 @@ public final class Graph {
                     double walkingtime = ((stop1.position().distanceTo(stop2.position())) / walkingSpeed);
 
                     if (walkingtime <= maxWalkingTime) {
-                        getBatisseur(stop1, stop2).setWalkingTime((int) Math.round(walkingtime));
+                        getBuilder(stop1, stop2).setWalkingTime((int) Math.round(walkingtime));
                     }
                 }
             }
@@ -151,7 +151,7 @@ public final class Graph {
          * @return
          *          L'arc de graphe associant ces deux arrêts
          */
-        private GraphEdge.Builder getBatisseur(Stop fromStop, Stop toStop) {
+        private GraphEdge.Builder getBuilder(Stop fromStop, Stop toStop) {
             if (doubleTable.get(fromStop) == null) {
                 Map<Stop, GraphEdge.Builder> maMap = new HashMap<>();
                 maMap.put(toStop, new GraphEdge.Builder(toStop));
@@ -174,7 +174,7 @@ public final class Graph {
             for (Stop aStop : stops) {
                 tempList = new LinkedList<>();
                 for (Stop aStop2 : stops) {
-                    tempList.add(getBatisseur(aStop, aStop2).build());
+                    tempList.add(getBuilder(aStop, aStop2).build());
                 }
 
                 outgoingEdges.put(aStop, tempList);

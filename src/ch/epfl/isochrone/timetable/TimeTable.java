@@ -47,7 +47,13 @@ public final class TimeTable {
      *      Ensemble des services actifs à la date donnée
      */
     public Set<Service> servicesForDate(Date date) {
-        return services;
+        Set<Service> serviceSet = new HashSet<>();
+        for (Service aService : services) {
+            if (aService.isOperatingOn(date)) {
+                serviceSet.add(aService);
+            }
+        }
+        return serviceSet;
     }
 
     /**
