@@ -231,12 +231,9 @@ public final class Date implements Comparable<Date> {
      */
     @Override
     public int compareTo(Date that) {
-        if (that == null) {
-            throw new IllegalArgumentException("Une date dit être initialisée pour être comprée à une autre!");
-        }
-        if (this.getIntValue() < that.getIntValue()) {
+        if (that.getIntValue() > this.getIntValue()) {
             return -1;
-        } else if (this.getIntValue() == that.getIntValue()) {
+        } else if (that.getIntValue() == this.getIntValue()) {
             return 0;
         } else {
             return 1;

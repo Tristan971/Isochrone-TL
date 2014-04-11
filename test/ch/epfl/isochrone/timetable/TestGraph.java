@@ -1,7 +1,6 @@
 package ch.epfl.isochrone.timetable;
 
 import ch.epfl.isochrone.geo.PointWGS84;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,18 +14,7 @@ public class TestGraph {
     // Le "test" suivant n'en est pas un à proprement parler, raison pour
     // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
     // que les noms des classes et méthodes sont corrects.
-    @Test
-    @Ignore
-    public void namesAreOk() {
-        // Graph n'a aucune méthode publique à ce stade...
 
-        Set<Stop> stops = null;
-        Stop stop = null;
-        Graph.Builder gb = new Graph.Builder(stops);
-        gb.addTripEdge(stop, stop, 0, 0);
-        gb.addAllWalkEdges(0, 0);
-        gb.build();
-    }
 
     @Test
     public void testFastestPaths() {
@@ -59,7 +47,7 @@ public class TestGraph {
         lStop5.add(stop4);
         lStop5.add(stop5);
 
-        Set<Stop> mesStop = new HashSet<>();
+        Set<Stop> mesStop = new HashSet<Stop>();
         mesStop.add(stop5);
         mesStop.add(stop4);
         mesStop.add(stop3);
@@ -77,16 +65,12 @@ public class TestGraph {
         b.addTripEdge(stop4, stop5, 900, 1000);
         b.addAllWalkEdges(0, 0.5);
         Graph g = b.build();
-
         FastestPathTree f = g.fastestPaths(stop1, 50);
         assertEquals(lStop3, f.pathTo(stop3));
         assertEquals(lStop2, f.pathTo(stop2));
         assertEquals(lStop4, f.pathTo(stop4));
         assertEquals(lStop5, f.pathTo(stop5));
-        for (Stop stop : mesStop) {
-            System.out.println(f.arrivalTime(stop) + " " + stop.name());
-        }
-
+        
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -107,7 +91,7 @@ public class TestGraph {
     @Test(expected = IllegalArgumentException.class)
     public void addTripEdgeTestToStop() {
 
-        Set<Stop> setDeStop = new HashSet<>();
+        Set<Stop> setDeStop = new HashSet<Stop>();
         setDeStop.add(new Stop("stop1", new PointWGS84(0, 1)));
         setDeStop.add(new Stop("stop2", new PointWGS84(-1, 0)));
         setDeStop.add(new Stop("stop3", new PointWGS84(-1, 1)));

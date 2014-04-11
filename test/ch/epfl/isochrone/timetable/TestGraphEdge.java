@@ -1,65 +1,134 @@
 package ch.epfl.isochrone.timetable;
 
 import ch.epfl.isochrone.geo.PointWGS84;
+import ch.epfl.isochrone.timetable.GraphEdge.Builder;
 import org.junit.Test;
+
 import java.util.HashSet;
-import static org.junit.Assert.*;
+import java.util.Set;
 
-/**
- * Classe de test de GraphEdge
- * @author Tristan Deloche (234045)
- */
+import static org.junit.Assert.assertEquals;
+
 public class TestGraphEdge {
-    @Test
-    public void testPackTrip() throws Exception {
-        assertEquals(GraphEdge.packTrip(10,100), 100090);
+    // Le "test" suivant n'en est pas un à proprement parler, raison pour
+    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
+    // que les noms des classes et méthodes sont corrects.
+
+    // A compléter avec de véritables méthodes de test...
+    PointWGS84 position = new PointWGS84(1,1);
+    Stop stop = new Stop("nom", position);
+    Set<Integer> set = new HashSet<Integer>();
+    Builder builder = new Builder(stop);
+    
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testConstructor() {
+        GraphEdge fail = new GraphEdge(stop,-2,set);
+        System.out.println(fail);
+        
     }
-
-    @Test
-    public void testUnpackTripDepartureTime() throws Exception {
-        assertEquals(GraphEdge.unpackTripDepartureTime(100090),10);
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testPackedTripDepartureTooLow() {
+        
+        GraphEdge.packTrip(-2, 8000);
+        
     }
-
-    @Test
-    public void testUnpackTripDuration() throws Exception {
-        assertEquals(GraphEdge.unpackTripDuration(100090),90);
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testPackedTripDepartureToBig() {
+        
+        GraphEdge.packTrip(9999999, 8000);
+        
     }
+    
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testPackedTripWalkingTimeTooLow() {
 
-    @Test
-    public void testUnpackTripArrivalTime() throws Exception {
-        assertEquals(GraphEdge.unpackTripArrivalTime(100090),100);
+        GraphEdge.packTrip(1000, 900);
+        
     }
-
-    @Test
-    public void testDestination() throws Exception {
-        Stop testStop = new Stop("test", new PointWGS84(0,0));
-        assertEquals(new GraphEdge(testStop, 1000, new HashSet<Integer>()).destination(), testStop);
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testPackedTripWalkingTimeTooBig() {
+        
+        GraphEdge.packTrip(1000, 12000);
+        
     }
-
     @Test
-    public void testEarliestArrivalTime() throws Exception {
-        Stop test1 = new Stop("test1", new PointWGS84(1,0.1));
-        Stop test2 = new Stop("test2", new PointWGS84(-1.1, 0));
-        Stop test3 = new Stop("test3", new PointWGS84(-1, 1.1));
-        Stop test4 = new Stop("test4", new PointWGS84(-0.3, 0.1));
-        Stop test5 = new Stop("test5", new PointWGS84(0, 0.8));
-
-        GraphEdge.Builder builder1 = new GraphEdge.Builder(test1);
-        GraphEdge.Builder builder2 = new GraphEdge.Builder(test2);
-        GraphEdge.Builder builder3 = new GraphEdge.Builder(test3);
-        GraphEdge.Builder builder4 = new GraphEdge.Builder(test4);
-        GraphEdge.Builder builder5 = new GraphEdge.Builder(test5);
-
-        builder1.addTrip(1008, 2800).addTrip(2100, 2340).addTrip(7000, 8000).setWalkingTime(-1);
-        builder2.setWalkingTime(1000);
-        builder3.setWalkingTime(-1);
-        builder4.addTrip(200, 6000).addTrip(1000, 2000).addTrip(6000, 8500).setWalkingTime(200);
-        builder5.addTrip(100, 6000).addTrip(1500, 3500).addTrip(4000, 4500).setWalkingTime(4000);
-
-        assertEquals(2340, builder1.build().earliestArrivalTime(1000));
-        assertEquals(3000, builder2.build().earliestArrivalTime(2000));
-        assertEquals(SecondsPastMidnight.INFINITE, builder3.build().earliestArrivalTime(3000));
-        assertEquals(1600, builder4.build().earliestArrivalTime(1400));
-        assertEquals(3500, builder5.build().earliestArrivalTime(1250));
+    public void testPackingAndUnpackingStuff(){
+        assertEquals(345, GraphEdge.unpackTripDepartureTime(GraphEdge.packTrip(345,1000)));
+        assertEquals(2222, GraphEdge.unpackTripArrivalTime(GraphEdge.packTrip(234,2222)));
+        assertEquals(342-12, GraphEdge.unpackTripDuration(GraphEdge.packTrip(12,342)));
     }
+    
+    @Test 
+    public void testEarliestArrivalTime() {
+        Stop stop1 = new Stop("stop1", new PointWGS84(0,1));
+        Stop stop2 = new Stop("stop2", new PointWGS84(-1, 0));
+        Stop stop3 = new Stop("stop3", new PointWGS84(-1, 1));
+        Stop stop4 = new Stop("stop4", new PointWGS84(-0.5, 0.5));
+        Stop stop5 = new Stop("stop5", new PointWGS84(0, 0.5));
+        
+       GraphEdge.Builder b1 = new GraphEdge.Builder(stop1);
+       GraphEdge.Builder b2 = new GraphEdge.Builder(stop2);
+       GraphEdge.Builder b3 = new GraphEdge.Builder(stop3);
+       GraphEdge.Builder b4 = new GraphEdge.Builder(stop4);
+       GraphEdge.Builder b5 = new GraphEdge.Builder(stop5);
+       
+       b1.addTrip(1002, 2500).addTrip(2000, 2600).addTrip(6000, 6100).setWalkingTime(-1);
+       b2.setWalkingTime(-1);
+       b3.setWalkingTime(1000);
+       b4.addTrip(100, 3000).addTrip(2000, 3500).addTrip(7000, 7500).setWalkingTime(100);
+       b5.addTrip(100, 6000).addTrip(1500, 3500).addTrip(4000, 4500).setWalkingTime(4000);
+             
+       assertEquals(2500, b1.build().earliestArrivalTime(1000));
+       assertEquals(SecondsPastMidnight.INFINITE , b2.build().earliestArrivalTime(3000));
+       assertEquals(3000 , b3.build().earliestArrivalTime(2000));
+       assertEquals(1600 , b4.build().earliestArrivalTime(1500));
+       assertEquals(3500 , b5.build().earliestArrivalTime(1250));
+    }
+   
+    
+    
+    
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderSetWalkingTime() {
+        
+       builder.setWalkingTime(-2);
+    }
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderAddTripDepartureTimeTooLow() {
+        
+        builder.addTrip(-9, 1500);
+        
+    }
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderAddTripDepartureTimeTooBig() {
+        
+        builder.addTrip(108999, 108999);
+        
+        
+        
+    }
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderAddTripWalkingTooLow() {
+        
+        builder.addTrip(8000,6000);
+    }
+    
+    
+    @Test (expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderAddTripWalkingTooBig() {
+        
+            builder.addTrip(1,12000);
+      
+    }
+    
+    
 }

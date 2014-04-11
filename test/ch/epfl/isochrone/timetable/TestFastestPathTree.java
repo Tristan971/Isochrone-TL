@@ -1,7 +1,6 @@
 package ch.epfl.isochrone.timetable;
 
 import ch.epfl.isochrone.geo.PointWGS84;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.*;
@@ -17,26 +16,6 @@ public class TestFastestPathTree {
     // Le "test" suivant n'en est pas un à proprement parler, raison pour
     // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
     // que les noms des classes et méthodes sont corrects.
-    @Test
-    @Ignore
-    public void namesAreOk() {
-        Stop stop = null;
-        Map<Stop, Integer> tempsArrives = new HashMap<Stop, Integer>();
-        Map<Stop, Stop> predecessors = new HashMap<Stop, Stop>();
-        FastestPathTree f = new FastestPathTree(stop, tempsArrives,
-                predecessors);
-        Stop monStop = f.startingStop();
-        int i = f.startingTime();
-        Set<Stop> mesStops = f.stops();
-        i = f.arrivalTime(stop);
-        List<Stop> p = f.pathTo(stop);
-        System.out.println(" " + monStop + i + mesStops + p);
-
-        FastestPathTree.Builder fb = new FastestPathTree.Builder(stop, 0);
-        fb.setArrivalTime(stop, 0, stop);
-        i = fb.arrivalTime(stop);
-        fb.build();
-    }
 
     @Test
     public void testStartingStop() {
@@ -47,6 +26,20 @@ public class TestFastestPathTree {
         predecessors.put(stop2, stop2);
         assertEquals(stop1, new FastestPathTree(stop1, tempsArrive,
                 predecessors).startingStop());
+    }
+
+    @Test
+    public void testStops() {
+        Map<Stop, Integer> tempsArrive = new HashMap<>();
+        tempsArrive.put(stop1, 15);
+        tempsArrive.put(stop2, 10);
+        Map<Stop, Stop> predecessors = new HashMap<>();
+        predecessors.put(stop2, stop2);
+        Set<Stop> s = new HashSet<>();
+        s.add(stop1);
+        s.add(stop2);
+        assertEquals(s,
+                new FastestPathTree(stop1, tempsArrive, predecessors).stops());
     }
 
     @Test
@@ -62,31 +55,7 @@ public class TestFastestPathTree {
     }
 
     @Test
-    public void testSetStops() {
-        Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 15);
-        tempsArrive.put(stop2, 10);
-        Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        Set<Stop> s = new HashSet<>();
-        s.add(stop1);
-        s.add(stop2);
-        assertEquals(s,
-                new FastestPathTree(stop1, tempsArrive, predecessors).stops());
-    }
-
-    @Test(expected = java.lang.UnsupportedOperationException.class)
-    public void testUnsupportedException() {
-        Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 15);
-        tempsArrive.put(stop2, 10);
-        Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop2, stop2);
-        new FastestPathTree(stop1, tempsArrive, predecessors).stops().clear();
-    }
-
-    @Test
-    public void testtempsArrive() {
+    public void testArrivalTime() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
         tempsArrive.put(stop1, 15);
         tempsArrive.put(stop2, 10);
@@ -99,7 +68,7 @@ public class TestFastestPathTree {
 
     @Test
     public void testPathTo() {
-        Stop s4 = new Stop("Renens", new PointWGS84(1, 0));
+        Stop s4 = new Stop("stop4", new PointWGS84(1, 0));
         Map<Stop, Integer> tempsArrive = new HashMap<>();
         tempsArrive.put(stop1, 1);
         tempsArrive.put(stop2, 10);
@@ -120,7 +89,7 @@ public class TestFastestPathTree {
     }
 
     @Test
-    public void testtempsArriveInfinite() {
+    public void testArrivalTimeInfinite() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
         tempsArrive.put(stop1, 1);
         tempsArrive.put(stop2, 10);
@@ -131,7 +100,7 @@ public class TestFastestPathTree {
     }
 
     @Test
-    public void testBuilderBuild() {
+    public void testBuilder() {
         FastestPathTree.Builder fB = new FastestPathTree.Builder(stop1, 1);
         fB.setArrivalTime(stop2, 10, stop1);
         fB.setArrivalTime(stop3, 20, stop2);
@@ -150,18 +119,7 @@ public class TestFastestPathTree {
     }
 
     @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testpathToInvalidity() {
-        Map<Stop, Integer> tempsArrive = new HashMap<>();
-        tempsArrive.put(stop1, 1);
-        tempsArrive.put(stop2, 10);
-        Map<Stop, Stop> predecessors = new HashMap<>();
-        predecessors.put(stop3, stop3);
-        predecessors.put(stop2, stop2);
-        new FastestPathTree(stop1, tempsArrive, predecessors).pathTo(stop3);
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testConstructorInvalidity() {
+    public void testConstructorException() {
         Map<Stop, Integer> tempsArrive = new HashMap<>();
         tempsArrive.put(stop1, 1);
         tempsArrive.put(stop2, 10);
@@ -171,20 +129,10 @@ public class TestFastestPathTree {
         new FastestPathTree(stop3, tempsArrive, predecessors);
     }
 
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testBuilderConstructorInvalidity() {
-        new FastestPathTree.Builder(stop1, -1);
-    }
-
     @Test
     public void testBuildertempsArriveInfinite() {
         assertEquals(SecondsPastMidnight.INFINITE, new FastestPathTree.Builder(
                 stop1, 2).arrivalTime(stop2));
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testBuildersetArrivalTimeInvalidity() {
-        new FastestPathTree.Builder(stop1, 2).setArrivalTime(stop2, 1, stop3);
     }
 
     @Test
@@ -195,6 +143,16 @@ public class TestFastestPathTree {
             assertEquals(time, new FastestPathTree.Builder(stop1, 1)
                     .setArrivalTime(stop2, time, stop3).arrivalTime(stop2));
         }
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testBuildersetArrivalTimeFail() {
+        new FastestPathTree.Builder(stop1, 2).setArrivalTime(stop2, 1, stop3);
+    }
+
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testBuilderConstructorFail() {
+        new FastestPathTree.Builder(stop1, -1);
     }
 
 }

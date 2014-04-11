@@ -16,6 +16,7 @@ public class TestSecondsPastMidnight {
     public void testFromHMSHourTooBig() {
         SecondsPastMidnight.fromHMS(35, 0, 0);
     }
+    
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testFromHMSMinutesTooSmall() {

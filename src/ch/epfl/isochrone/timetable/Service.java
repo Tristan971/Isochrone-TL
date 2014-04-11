@@ -34,13 +34,13 @@ public final class Service {
      *          Dates spéciales inclues
      */
     public Service(String name, Date startingDate, Date endingDate, Set<Date.DayOfWeek> operatingDays, Set<Date> excludedDates, Set<Date> includedDates) {
-        /*
-        if (startingDate.compareTo(endingDate) >= 1) {
+
+        if (startingDate.compareTo(endingDate) == 1) {
             throw new IllegalArgumentException("startingDate ne peut pas être postérieure à endingDate");
         }
 
         for (Date aDate : excludedDates) {
-            if (aDate.compareTo(endingDate) <= 1 || aDate.compareTo(startingDate) >= 1) {
+            if (aDate.compareTo(endingDate) == 1 || aDate.compareTo(startingDate) == -1) {
                 throw new IllegalArgumentException("EXCL inutile si déjà hors de limites");
             }
         }
@@ -50,7 +50,7 @@ public final class Service {
                 throw new IllegalArgumentException("INCL in EXCL (dates)");
             }
         }
-        */
+
 
         this.name = name;
         this.startingDate = startingDate;

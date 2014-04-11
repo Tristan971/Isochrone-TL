@@ -46,8 +46,8 @@ public final class GraphEdge {
      *          L'heure de départ en secondes après minuit et la durée du trajet sous la forme <DEPART>000<DUREE> (durée est aussi en secondes après minuit)
      */
     public static int packTrip(int departureTime, int arrivalTime) {
-        if (departureTime < 0 || departureTime > 107999) {
-            throw new IllegalArgumentException("departureTime out of range!");
+        if (departureTime < 0 || departureTime > 107999 || arrivalTime-departureTime > 9999 || arrivalTime - departureTime < 0) {
+            throw new IllegalArgumentException("walkingtime out of range");
         }
         return 10000*departureTime+(arrivalTime-departureTime);
     }
@@ -130,9 +130,7 @@ public final class GraphEdge {
                 minimalTransportationTime = unpackTripArrivalTime(packTripsArray[position]);
             }
         }
-
         return minimalTransportationTime;
-
     }
 
     private int earliestByWalking (int startingTime) {

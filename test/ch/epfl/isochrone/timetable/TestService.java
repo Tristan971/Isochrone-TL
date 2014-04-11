@@ -1,15 +1,16 @@
 package ch.epfl.isochrone.timetable;
 
-import ch.epfl.isochrone.timetable.Date.DayOfWeek;
-import ch.epfl.isochrone.timetable.Date.Month;
-import org.junit.Ignore;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
+import org.junit.Test;
+
+import ch.epfl.isochrone.timetable.Date.DayOfWeek;
+import ch.epfl.isochrone.timetable.Date.Month;
 
 public class TestService {
     // Le "test" suivant n'en est pas un à proprement parler, raison pour
@@ -91,6 +92,7 @@ public class TestService {
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testBuilder() {
+
         Service.Builder build = new Service.Builder("name", dateD, dateA);
         System.out.println(build);
     }
