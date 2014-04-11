@@ -1,5 +1,9 @@
 package ch.epfl.isochrone.math;
 
+/**
+ * @author Tristan Deloche (234045)
+ */
+
 final public class Math {
 
     /**
