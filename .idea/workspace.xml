@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestService.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -106,9 +105,13 @@
       <file leaf-file-name="TestStop.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11029412" vertical-offset="0" max-vertical-offset="952">
-              <caret line="11" column="58" selection-start-line="11" selection-start-column="58" selection-end-line="11" selection-end-column="58" />
-              <folding />
+            <state vertical-scroll-proportion="0.37815127" vertical-offset="0" max-vertical-offset="952">
+              <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+              <folding>
+                <element signature="e#689#690#0" expanded="true" />
+                <element signature="e#743#744#0" expanded="true" />
+                <element signature="e#791#792#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -169,10 +172,10 @@
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestFastestPathTree.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraphEdge.java" />
-        <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTable.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestService.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
+        <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java" />
       </list>
     </option>
   </component>
@@ -928,7 +931,11 @@
       <created>1397177805390</created>
       <updated>1397177805391</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <task id="LOCAL-00056" summary="je vais me pendre">
+      <created>1397178654079</created>
+      <updated>1397178654079</updated>
+    </task>
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1024,7 +1031,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="let's play a game" />
     <MESSAGE value="dijkstra and priority queue are on a boat..." />
     <MESSAGE value="dijkstra and priority queue are on a boat... dijsktra tombalo" />
     <MESSAGE value="dijkstra and priority queue are on a boat... dijsktra tombalo... qui reste sur un bato?" />
@@ -1049,7 +1055,8 @@
     <MESSAGE value="fuck" />
     <MESSAGE value="caca" />
     <MESSAGE value="yololol" />
-    <option name="LAST_COMMIT_MESSAGE" value="yololol" />
+    <MESSAGE value="je vais me pendre" />
+    <option name="LAST_COMMIT_MESSAGE" value="je vais me pendre" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1413,9 +1420,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestStop.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11029412" vertical-offset="0" max-vertical-offset="952">
-          <caret line="11" column="58" selection-start-line="11" selection-start-column="58" selection-end-line="11" selection-end-column="58" />
-          <folding />
+        <state vertical-scroll-proportion="0.37815127" vertical-offset="0" max-vertical-offset="952">
+          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+          <folding>
+            <element signature="e#689#690#0" expanded="true" />
+            <element signature="e#743#744#0" expanded="true" />
+            <element signature="e#791#792#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

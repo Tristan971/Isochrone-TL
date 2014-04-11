@@ -24,10 +24,7 @@ public class TestStop {
     }
     
     @Test
-    public void testToString(){
+    public void testToString() {
         assertEquals(monStop.name(),"nom");
-       }
-    
-
-  
+    }
 }
