@@ -34,10 +34,23 @@ public final class Service {
      *          Dates spéciales inclues
      */
     public Service(String name, Date startingDate, Date endingDate, Set<Date.DayOfWeek> operatingDays, Set<Date> excludedDates, Set<Date> includedDates) {
-
-        if (startingDate.compareTo(endingDate)>1) {
+        /*
+        if (startingDate.compareTo(endingDate) >= 1) {
             throw new IllegalArgumentException("startingDate ne peut pas être postérieure à endingDate");
         }
+
+        for (Date aDate : excludedDates) {
+            if (aDate.compareTo(endingDate) <= 1 || aDate.compareTo(startingDate) >= 1) {
+                throw new IllegalArgumentException("EXCL inutile si déjà hors de limites");
+            }
+        }
+
+        for (Date aDate : includedDates) {
+            if (excludedDates.contains(aDate)) {
+                throw new IllegalArgumentException("INCL in EXCL (dates)");
+            }
+        }
+        */
 
         this.name = name;
         this.startingDate = startingDate;
@@ -63,13 +76,7 @@ public final class Service {
      *      booléen, true pour actif et false pour inactif
      */
     boolean isOperatingOn(Date date) {
-        boolean isSpeciallyIncluded, isDefaultIncluded, isSpeciallyExcluded;
-
-        isDefaultIncluded = (this.startingDate.compareTo(date) <= 0) && (this.endingDate.compareTo(date) >= 0) && this.operatingDays.contains(date.dayOfWeek());
-        isSpeciallyIncluded = (this.startingDate.compareTo(date) <= 0) && (this.endingDate.compareTo(date) >= 0) && this.includedDates.contains(date);
-        isSpeciallyExcluded = this.excludedDates.contains(date);
-
-        return (!isSpeciallyExcluded && (isDefaultIncluded || isSpeciallyIncluded));
+        return date.compareTo(startingDate) >= 0 && date.compareTo(endingDate) <= 0 && (operatingDays.contains(date.dayOfWeek()) && !excludedDates.contains(date) || includedDates.contains(date));
     }
 
     /**
@@ -96,6 +103,11 @@ public final class Service {
         private Set<Date> excludedDates = new HashSet<Date>(), includedDates = new HashSet<Date>();
 
         public Builder(String name, Date startingDate, Date endingDate) {
+
+            if (startingDate.compareTo(endingDate) >= 1) {
+                throw new IllegalArgumentException("ending > starting est OBLIGATOIRE.");
+            }
+
             this.name = name;
             this.startingDate = startingDate;
             this.endingDate = endingDate;
