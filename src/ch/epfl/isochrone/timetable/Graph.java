@@ -84,7 +84,7 @@ public final class Graph {
         public Builder(Set<Stop> stops) {
             this.stops=stops;
             for (Stop aStop : stops) {
-                outgoingEdges.put(aStop, new LinkedList<GraphEdge>());
+                outgoingEdges.put(aStop, new ArrayList<GraphEdge>());
             }
         }
 
@@ -129,24 +129,12 @@ public final class Graph {
                 throw new IllegalArgumentException("walkingSpeed <= 0 is not possible");
             }
 
-            double maxDistance = maxWalkingTime*walkingSpeed;
+            for (Stop stop1 : stops) {
+                for (Stop stop2 : stops) {
+                    int walkingtime = (int) Math.round((stop1.position().distanceTo(stop2.position())) / walkingSpeed);
 
-            Stop[] stopsArray = stops.toArray(new Stop[stops.size()]);
-
-            for (Stop aStopsArray : stopsArray) {
-                for (Stop aStop : stopsArray) {
-                    if (aStopsArray.position().distanceTo(aStop.position()) <= maxDistance) {
-                        int walkingtime = (int) ((aStopsArray.position().distanceTo(aStop.position())) / walkingSpeed);
-
-                        GraphEdge.Builder builder = getBatisseur(aStopsArray, aStop);
-                        builder.setWalkingTime(walkingtime);
-                        if (outgoingEdges.containsKey(aStop)) {
-                            outgoingEdges.get(aStop).add(builder.build());
-                        } else {
-                            List<GraphEdge> tempList = new LinkedList<>();
-                            tempList.add(builder.build());
-                            outgoingEdges.put(aStop, tempList);
-                        }
+                    if (walkingtime <= maxWalkingTime) {
+                        getBatisseur(stop1, stop2).setWalkingTime(walkingtime);
                     }
                 }
             }
@@ -163,19 +151,16 @@ public final class Graph {
          *          L'arc de graphe associant ces deux arrêts
          */
         private GraphEdge.Builder getBatisseur(Stop fromStop, Stop toStop) {
-            if (doubleTable.containsKey(fromStop)) {
-                if (doubleTable.get(fromStop).containsKey(toStop)){
-                    return doubleTable.get(fromStop).get(toStop);
-                } else {
-                    doubleTable.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
-                    return doubleTable.get(fromStop).get(toStop);
-                }
-            } else {
-                Map<Stop, GraphEdge.Builder> toStopMap = new HashMap<>();
-                toStopMap.put(toStop, new GraphEdge.Builder(toStop));
-                doubleTable.put(fromStop, toStopMap);
-                return doubleTable.get(fromStop).get(toStop);
+            if (doubleTable.get(fromStop) == null) {
+                Map<Stop, GraphEdge.Builder> maMap = new HashMap<>();
+                maMap.put(toStop, new GraphEdge.Builder(toStop));
+                doubleTable.put(fromStop, maMap);
             }
+            if (doubleTable.get(fromStop).get(toStop) == null) {
+                doubleTable.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
+            }
+
+            return doubleTable.get(fromStop).get(toStop);
         }
 
         /**

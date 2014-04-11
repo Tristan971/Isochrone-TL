@@ -1,8 +1,6 @@
 package ch.epfl.isochrone.timetable;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Classe gérant la notion d'arc de graphe

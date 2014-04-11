@@ -81,7 +81,7 @@ public final class Service {
         boolean isInExcludedDates = excludedDates.contains(date);
         boolean isInIncludedDates = includedDates.contains(date);
 
-        return isBetweenStartingAndEnding && ((isInOperatingDay) && !isInExcludedDates) || isInIncludedDates;
+        return isBetweenStartingAndEnding && (((isInOperatingDay) && !isInExcludedDates) || isInIncludedDates);
     }
 
     /**
