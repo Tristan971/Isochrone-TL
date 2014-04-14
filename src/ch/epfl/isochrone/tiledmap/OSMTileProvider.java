@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * DEFCLASSE
- *
+ * Fournisseur de tuiles correspondant à OpenStreetMap (pour les fonds de carte)
  * @author Tristan Deloche (234045)
  */
+
 public class OSMTileProvider implements TileProvider {
     @Override
     public Tile tileAt(int zoom, int x, int y) throws IOException {
