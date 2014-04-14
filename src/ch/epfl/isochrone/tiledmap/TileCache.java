@@ -1,6 +1,5 @@
 package ch.epfl.isochrone.tiledmap;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -10,16 +9,21 @@ import java.util.Map;
  */
 
 public class TileCache extends LinkedHashMap {
-    private Map<Integer[], Tile> cacheMap = new HashMap<>();
+    private static final int MAX_SIZE = 100;
+
+    private LinkedHashMap<Integer[], Tile> cacheMap = new LinkedHashMap<Integer[], Tile>() {
+                @Override
+                protected boolean removeEldestEntry(Map.Entry<Integer[],Tile> e){
+                    return size() > MAX_SIZE;
+                }
+    };
 
     public Tile get(int zoom, int x, int y) {
-        return cacheMap.get(new Tile(zoom, x, y, null).makeParameterTable());
+        return cacheMap.get(new Tile(zoom, x, y, null).packCoordinates());
     }
 
     public void put(int zoom, int x, int y, Tile tile) {
-        cacheMap.put(tile.makeParameterTable(), tile);
+        cacheMap.put(tile.packCoordinates(), tile);
     }
-
-
 
 }

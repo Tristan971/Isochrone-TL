@@ -29,11 +29,13 @@ public final class Tile {
         return zoom;
     }
 
-    public Integer[] makeParameterTable() {
+    public Integer[] packCoordinates() {
         Integer[] yolo = new Integer[3];
+
         yolo[0] = getZoom();
         yolo[1] = getLongitude();
         yolo[2] = getLatitude();
+
         return yolo;
     }
 
