@@ -10,9 +10,15 @@ import java.net.URL;
  */
 
 public class OSMTileProvider implements TileProvider {
+    private String baseServerURL;
+
+    public OSMTileProvider(String baseServerURL) {
+        this.baseServerURL = baseServerURL;
+    }
+
     @Override
     public Tile tileAt(int zoom, int x, int y) {
-        String urlString = "http://a.tile.openstreetmap.org/"+zoom+"/"+x+"/"+y+".png";
+        String urlString = baseServerURL+zoom+"/"+x+"/"+y+".png";
         try {
             URL tileURL = new URL(urlString);
             return new Tile(zoom, x, y, ImageIO.read(tileURL));
