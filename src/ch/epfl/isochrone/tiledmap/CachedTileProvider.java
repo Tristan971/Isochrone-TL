@@ -1,14 +1,12 @@
 package ch.epfl.isochrone.tiledmap;
 
-import java.util.Map;
-
 /**
- * DEFCLASSE
- *
+ * Fournisseur de tiles en cache
  * @author Tristan Deloche (234045)
  */
+
 public class CachedTileProvider implements TileProvider {
-    private Map<String, Tile> cachedTilesMap;
+    private TileCache tileCache = new TileCache();
     private OSMTileProvider osmTileProvider;
 
     public CachedTileProvider(OSMTileProvider osmTileProvider) {
@@ -17,11 +15,11 @@ public class CachedTileProvider implements TileProvider {
 
     public Tile tileAt(int zoom, int x, int y) {
         String associatedString = ""+zoom+""+x+""+y+"";
-        if (cachedTilesMap.containsKey(associatedString)) {
-            return cachedTilesMap.get(associatedString);
+        if (tileCache.containsKey(associatedString)) {
+            return tileCache.get(zoom, x, y);
         } else {
-            cachedTilesMap.put(associatedString, osmTileProvider.tileAt(zoom, x, y));
-            return cachedTilesMap.get(associatedString);
+            tileCache.put(zoom, x, y, osmTileProvider.tileAt(zoom, x, y));
+            return tileCache.get(zoom, x, y);
         }
     }
 }
