@@ -12,10 +12,26 @@ import java.net.URL;
 public class OSMTileProvider implements TileProvider {
     private String baseServerURL;
 
+    /**
+     * Constructeur principal de la classe
+     * @param baseServerURL
+     *          Adresse url du serveur OSM à utiliser pour récupérer les données
+     */
     public OSMTileProvider(String baseServerURL) {
         this.baseServerURL = baseServerURL;
     }
 
+    /**
+     * Télécharge l'image (256 pixels de côté) liée à la zone voulue
+     * @param zoom
+     *      Zoom lié
+     * @param x
+     *      Longitude liée
+     * @param y
+     *      Latitude liée
+     * @return
+     *      Une image .PNG sous forme de Tile contenant une BufferedImage de la zone démandée sur OSM
+     */
     @Override
     public Tile tileAt(int zoom, int x, int y) {
         String urlString = baseServerURL+zoom+"/"+x+"/"+y+".png";

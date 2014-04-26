@@ -76,7 +76,5 @@ public class TimeTableSearch {
                 System.out.println(" via : " + fastestPaths.pathTo(aStop));
             }
         }
-
-        //System.out.println("\n\n *COMPILES* :-)");
     }
 }
