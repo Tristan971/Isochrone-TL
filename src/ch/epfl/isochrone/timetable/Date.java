@@ -104,7 +104,7 @@ public final class Date implements Comparable<Date> {
      * @param year  Année en question, au cas où bissextile
      * @return Durée en jours du mois envoyé sur l'année envoyée
      */
-    private int getNumberOfDaysForMonth(int month, int year) {
+    public int getNumberOfDaysForMonth(int month, int year) {
         switch (month) {
         case 1:
             return 31;

@@ -65,6 +65,10 @@ public final class Graph {
 
     }
 
+    public Set<Stop> getStops() {
+        return stops;
+    }
+
     /**
      * Bâtisseur permettant de créer un graphe pas-à-pas
      */
@@ -169,7 +173,7 @@ public final class Graph {
          * @return
          *      Le nouveau graphe
          */
-        Graph build() {
+        public Graph build() {
             List<GraphEdge> tempList;
             for (Stop aStop : stops) {
                 tempList = new LinkedList<>();
