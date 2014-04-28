@@ -231,15 +231,15 @@ public class RandomStuffGenerator {
      * À l'usage les couleurs randoms ça doit arracher les yeux bien comme il faut~
      */
     public static ColorTable generateColorTable() {
-        int i = random.nextInt()%10;
+        int i = 10;
 
-        Map<Integer, Color> integerColorMap = new HashMap<>();
+       LinkedList<Color> integerColorList = new LinkedList<>();
 
         for (int j = 0; j < i; j++) {
-            integerColorMap.put(10*j, random.nextColor());
+            integerColorList.add(random.nextColor());
         }
 
-        return new ColorTable(integerColorMap);
+        return new ColorTable(5+random.nextSPM()%6, integerColorList);
     }
 
     /**

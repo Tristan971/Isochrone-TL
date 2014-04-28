@@ -5,9 +5,11 @@ import ch.epfl.isochrone.timetable.FastestPathTree;
 import ch.epfl.isochrone.timetable.SecondsPastMidnight;
 import ch.epfl.isochrone.timetable.Stop;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -44,8 +46,10 @@ public final class IsochroneTileProvider implements TileProvider {
 
     @Override
     public Tile tileAt(int zoom, int x, int y) {
-        BufferedImage bufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage bufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
+
+        System.out.println(colorTable);
 
         graphics2D.setColor(colorTable.getColorOfDuration(SecondsPastMidnight.INFINITE));
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
@@ -64,6 +68,12 @@ public final class IsochroneTileProvider implements TileProvider {
                     }
                 }
             }
+        }
+
+        try {
+            ImageIO.write(bufferedImage, "PNG", new File("test.PNG"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return new Tile(zoom, x, y, bufferedImage);

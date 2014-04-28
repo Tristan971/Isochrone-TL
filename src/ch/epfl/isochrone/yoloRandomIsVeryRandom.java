@@ -62,7 +62,11 @@ public class yoloRandomIsVeryRandom extends Random {
      * Crée une couleur en randomisant R, G et B sur [0;256]
      */
     public Color nextColor() {
-        return new Color(random.nextInt()%257, random.nextInt()%257, random.nextInt()%257);
+        int r = this.nextInt()%256;
+        int g =  this.nextInt()%256;
+        int b =  this.nextInt()%256;
+        System.out.println("r "+r+" ; g "+g+" ; b "+b);
+        return new Color(r, g, b);
     }
 
     /**
@@ -72,6 +76,6 @@ public class yoloRandomIsVeryRandom extends Random {
      * Possible de d'ajouter les majuscules avec un petit if. Demain... peut-être... ou pas... :p
      */
     public char nextChar() {
-        return (char) (random.nextInt()%(int)Alphabet.charAt(1) - (int)Alphabet.charAt(0) + (int)Alphabet.charAt(1));
+        return (char) (this.nextInt()%(int)Alphabet.charAt(1) - (int)Alphabet.charAt(0) + (int)Alphabet.charAt(1));
     }
 }
