@@ -1,9 +1,7 @@
 package ch.epfl.isochrone.tiledmap;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Gestion des tables de couleur
@@ -12,10 +10,13 @@ import java.util.Set;
 
 public final class ColorTable {
 
-    private Map<Integer, Color> colorMap;
+    private Map<Integer, Color> colorMap = new HashMap<>();
 
-    public ColorTable(Map<Integer, Color> colorMap) {
-        this.colorMap = new HashMap<>(colorMap);
+    public ColorTable(int dividingDuration, LinkedList<Color> colorList) {
+        int i = dividingDuration * colorList.size();
+        for (Color aColor : colorList) {
+            colorMap.put(i, aColor);
+        }
     }
 
     public Set<Integer> getDurations() {
@@ -27,7 +28,6 @@ public final class ColorTable {
     }
 
     public Color getColorOfDuration(int duration) {
-        return colorMap.get(duration);
+        return colorMap.get((int) Math.ceil(duration/5) * 5);
     }
-
 }
