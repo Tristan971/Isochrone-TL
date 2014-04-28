@@ -109,7 +109,7 @@ public final class Graph {
             if (!stops.contains(fromStop) || !stops.contains(toStop)) {
                 throw new IllegalArgumentException("Adding an edge from or to a stop that isn't valid");
             } else if (departureTime < 0 || arrivalTime < 0 || arrivalTime < departureTime) {
-                throw new IllegalArgumentException("departure or arrival time is < 0 ; or arrival is before departure");
+                throw new IllegalArgumentException("departure or arrival time is < 0 ; or arrival is before departure (dep : "+departureTime+" ; arr : "+arrivalTime);
             }
 
             getBuilder(fromStop, toStop).addTrip(departureTime, arrivalTime);
@@ -128,7 +128,7 @@ public final class Graph {
          */
         public Builder addAllWalkEdges(int maxWalkingTime, double walkingSpeed) {
             if (maxWalkingTime < 0) {
-                throw new IllegalArgumentException("maxWalkingTime < O is not possible ");
+                throw new IllegalArgumentException("maxWalkingTime < O is not possible : "+maxWalkingTime);
             } else if (walkingSpeed <= 0) {
                 throw new IllegalArgumentException("walkingSpeed <= 0 is not possible");
             }

@@ -1,7 +1,5 @@
 package ch.epfl.isochrone;
 
-import ch.epfl.isochrone.timetable.SecondsPastMidnight;
-
 import java.awt.*;
 import java.util.Random;
 
@@ -22,7 +20,7 @@ public class yoloRandomIsVeryRandom extends Random {
      */
     @Override
     public int nextInt() {
-        return Math.round(random.nextInt());
+        return Math.abs(random.nextInt());
     }
 
     /**
@@ -36,7 +34,7 @@ public class yoloRandomIsVeryRandom extends Random {
      * Plutôt que de chaque fois copier-coller ce %SPM.Midnight autant en faire une fonction
      */
     public int nextSPM() {
-        return this.nextInt() % SecondsPastMidnight.INFINITE;
+        return this.nextInt() % 107999;
     }
 
     /**

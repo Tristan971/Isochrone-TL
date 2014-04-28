@@ -38,7 +38,6 @@ public class IsochroneTileProvider implements TileProvider {
         graphics2DContext.setColor(colorTable.getColorOfDuration(durationArray[durationArray.length-1]));
         graphics2DContext.fillRect(0, 0, associatedBufferedImage.getWidth(), associatedBufferedImage.getHeight());
 
-        //TODO : wtf? idek what to do lol
         graphics2DContext.setColor(Color.RED);
         graphics2DContext.fill(new Ellipse2D.Double(-50, -50, 125, 125));
 

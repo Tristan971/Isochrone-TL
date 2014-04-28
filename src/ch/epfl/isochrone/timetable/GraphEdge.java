@@ -178,7 +178,7 @@ public final class GraphEdge {
         public GraphEdge.Builder addTrip(int departureTime, int arrivalTime) {
             int delta = arrivalTime-departureTime;
             if (departureTime < 0 || departureTime > 107999 || delta > 9999 || delta < 0) {
-                throw new IllegalArgumentException("departureTime out of range!");
+                throw new IllegalArgumentException("departureTime out of range : "+departureTime);
             }
             packedTrips.add(packTrip(departureTime, arrivalTime));
             return this;
