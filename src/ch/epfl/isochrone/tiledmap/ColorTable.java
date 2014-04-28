@@ -1,5 +1,7 @@
 package ch.epfl.isochrone.tiledmap;
 
+import ch.epfl.isochrone.timetable.SecondsPastMidnight;
+
 import java.awt.*;
 import java.util.*;
 
@@ -11,16 +13,28 @@ import java.util.*;
 public final class ColorTable {
 
     private Map<Integer, Color> colorMap = new HashMap<>();
+    private LinkedList<Integer> durationList;
+
+    private int dividingDuration = SecondsPastMidnight.INFINITE;
 
     public ColorTable(int dividingDuration, LinkedList<Color> colorList) {
         int i = dividingDuration * colorList.size();
         for (Color aColor : colorList) {
+
             colorMap.put(i, aColor);
         }
+        this.dividingDuration = dividingDuration;
+        this.durationList = new LinkedList<>(colorMap.keySet());
+        Collections.sort(durationList, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Integer.compare(o2, o1);
+            }
+        });
     }
 
-    public Set<Integer> getDurations() {
-        return colorMap.keySet();
+    public LinkedList<Integer> getDurations() {
+        return durationList;
     }
 
     public int getNumberOfDurations() {
@@ -28,6 +42,6 @@ public final class ColorTable {
     }
 
     public Color getColorOfDuration(int duration) {
-        return colorMap.get((int) Math.ceil(duration/5) * 5);
+        return colorMap.get((int) Math.ceil(duration/dividingDuration) * dividingDuration);
     }
 }

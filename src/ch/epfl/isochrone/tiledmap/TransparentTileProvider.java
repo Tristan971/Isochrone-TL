@@ -1,7 +1,6 @@
 package ch.epfl.isochrone.tiledmap;
 
 import java.awt.image.BufferedImage;
-
 import static ch.epfl.isochrone.math.Math.divF;
 import static ch.epfl.isochrone.math.Math.modF;
 
@@ -36,8 +35,9 @@ public class TransparentTileProvider extends FilteringTileProvider {
      */
     @Override
     public int transformARGB(int argb) {
-        argb -= (1/255)*modF(divF(argb, (int) Math.pow(2,24)), (int) Math.pow(2,8));
-        return argb+(int) Math.pow(2,24)* (int) Math.round(255*opacity);
+        int a = (1/255)*modF(divF(argb, (int) Math.pow(2,24)), (int) Math.pow(2,8));
+        argb -= a * (int)Math.pow(2,24) * 255;
+        return argb + (int)Math.pow(2,24) * (int)Math.round( 255 * (opacity*a) );
     }
 
     /**

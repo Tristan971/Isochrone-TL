@@ -1,6 +1,12 @@
 package ch.epfl.isochrone.tiledmap;
 
+import ch.epfl.isochrone.geo.PointOSM;
 import ch.epfl.isochrone.timetable.FastestPathTree;
+import ch.epfl.isochrone.timetable.SecondsPastMidnight;
+import ch.epfl.isochrone.timetable.Stop;
+
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -28,25 +34,45 @@ public final class IsochroneTileProvider implements TileProvider {
     private ColorTable colorTable;
     private int walkingSpeed;
 
-    int timefromstop = 0; // <- STUB
-
-    BufferedImage associatedBufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
-
     public IsochroneTileProvider(FastestPathTree fastestPathTree, ColorTable colorTable, int walkingSpeed) throws IOException {
 
         this.fastestPathTree = fastestPathTree;
         this.colorTable = colorTable;
         this.walkingSpeed = walkingSpeed;
 
-
     }
 
     @Override
     public Tile tileAt(int zoom, int x, int y) {
+        BufferedImage bufferedImage = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        return new Tile(zoom, x, y, associatedBufferedImage);
+        graphics2D.setColor(colorTable.getColorOfDuration(SecondsPastMidnight.INFINITE));
+        graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+
+        for (Integer anInteger : colorTable.getDurations()) {
+            for (Stop aStop : fastestPathTree.stops()) {
+
+                int xPoint = (int) Math.floor(aStop.position().toOSM(zoom).x()/256);
+                int yPoint = (int) Math.floor(aStop.position().toOSM(zoom).y()/256);
+
+                if (xPoint == x && yPoint == y) {
+                    int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
+                    if (time > 0) {
+                        graphics2D.setColor(colorTable.getColorOfDuration(anInteger));
+                        graphics2D.fill(new Ellipse2D.Double(aStop.position().toOSM(zoom).x(), aStop.position().toOSM(zoom).y(), getRayonAtScale(time*walkingSpeed, zoom), getRayonAtScale(time*walkingSpeed, zoom)));
+                    }
+                }
+            }
+        }
+
+        return new Tile(zoom, x, y, bufferedImage);
     }
 
-
-
+    private int getRayonAtScale(int distanceInMeters, int zoom) {
+        PointOSM pointOSM1 = new PointOSM(zoom, 0, 0);
+        PointOSM pointOSM2 = new PointOSM(zoom, 1, 0);
+        double osmUnitInMeter = pointOSM1.toWGS84().distanceTo(pointOSM2.toWGS84());
+        return (int) Math.round(distanceInMeters/osmUnitInMeter);
+    }
 }
