@@ -1,9 +1,7 @@
 package ch.epfl.isochrone.tiledmap;
 
-import ch.epfl.isochrone.timetable.SecondsPastMidnight;
-
 import java.awt.*;
-import java.util.*;
+import java.util.LinkedList;
 
 /**
  * Gestion des tables de couleur
@@ -12,38 +10,21 @@ import java.util.*;
 
 public final class ColorTable {
 
-    private Map<Integer, Color> colorMap = new HashMap<>();
-    private LinkedList<Integer> durationList;
-
-    private int dividingDuration = SecondsPastMidnight.INFINITE;
+    private LinkedList<Color> colorLinkedList;
+    private int divDuration;
 
     public ColorTable(int dividingDuration, LinkedList<Color> colorList) {
-        System.out.println("\n Colorlist size : "+colorList.size()+" and list =\n"+colorList);
+        LinkedList<Color> colorLinkedListB = new LinkedList<>();
 
-        if (colorList.size() >= 2) {
-            for (int i = 1, colorListSize = colorList.size() - 1; i < colorListSize; i++) {
-                Color aColor = colorList.get(i);
-                if (i % 2 == 0) {
-                    colorMap.put(i, blend(colorList.get(i - 1), colorList.get(i + 1)));
-                } else {
-                    colorMap.put(i, colorList.get(i));
-                }
-            }
-        } else {
-            for (int i = 0, colorListSize = colorList.size(); i < colorListSize; i++) {
-                Color aColor = colorList.get(i);
-                colorMap.put(i, aColor);
+        for (Color aColor : colorList) {
+            colorLinkedListB.add(aColor);
+            if (colorList.indexOf(aColor) < colorList.size() - 1) {
+                colorLinkedListB.add(blend(aColor, colorList.get(colorList.indexOf(aColor) + 1)));
             }
         }
 
-        this.dividingDuration = dividingDuration;
-        this.durationList = new LinkedList<>(colorMap.keySet());
-        Collections.sort(durationList, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return Integer.compare(o2, o1);
-            }
-        });
+        this.colorLinkedList = colorLinkedListB;
+        this.divDuration = dividingDuration;
     }
 
     public static Color blend(Color c0, Color c1) {
@@ -60,19 +41,23 @@ public final class ColorTable {
     }
 
     public LinkedList<Integer> getDurations() {
+        LinkedList<Integer> durationList = new LinkedList<>();
+        for (int i = (colorLinkedList.size()-1)*(divDuration); i >= 0; i-= divDuration) {
+            durationList.add(i);
+        }
         return durationList;
     }
 
     public int getNumberOfDurations() {
-        return colorMap.keySet().size();
+        return getDurations().size();
     }
 
-    public Color getColorOfDuration(int duration) {
-        return colorMap.get((int) Math.ceil(duration/dividingDuration) * dividingDuration);
+    public Color getColorForDuration(int time) {
+        int i = (int) Math.ceil((double) time/(double) divDuration);
+        return colorLinkedList.get(i);
     }
 
-    @Override
-    public String toString() {
-        return "Liste : "+durationList.toString()+"\n"+"Colormap : "+colorMap.toString();
+    public Color getColorForIndex(int index) {
+        return colorLinkedList.get(index);
     }
 }

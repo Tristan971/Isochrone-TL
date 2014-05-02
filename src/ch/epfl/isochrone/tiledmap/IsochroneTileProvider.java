@@ -2,7 +2,6 @@ package ch.epfl.isochrone.tiledmap;
 
 import ch.epfl.isochrone.geo.PointOSM;
 import ch.epfl.isochrone.timetable.FastestPathTree;
-import ch.epfl.isochrone.timetable.SecondsPastMidnight;
 import ch.epfl.isochrone.timetable.Stop;
 
 import javax.imageio.ImageIO;
@@ -15,19 +14,6 @@ import java.io.IOException;
 /**
  * Fournisseur de tuiles de carte isochrone
  * @author Tristan Deloche (234045)
- */
-
-/*
-COUCHES :
-    - 0 : +40 (0,0,0)
-    - 1 : -40 (c0+c2)*0,5
-    - 2 : -35 (0,0,1)
-    - 3 : -30 (c2+c4)*0,5
-    - 4 : -25 (0,1,0)
-    - 5 : -20 (c4+c6)*0,5
-    - 6 : -15 (1,1,0)
-    - 7 : -10 (c6+c8)*0,5
-    - 8 : -05 (1,0,0)
  */
 
 public final class IsochroneTileProvider implements TileProvider {
@@ -49,9 +35,7 @@ public final class IsochroneTileProvider implements TileProvider {
         BufferedImage bufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        System.out.println(colorTable);
-
-        graphics2D.setColor(colorTable.getColorOfDuration(SecondsPastMidnight.INFINITE));
+        graphics2D.setColor(colorTable.getColorForIndex(0));
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
 
         for (Integer anInteger : colorTable.getDurations()) {
@@ -63,7 +47,7 @@ public final class IsochroneTileProvider implements TileProvider {
                 if (xPoint == x && yPoint == y) {
                     int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
                     if (time > 0) {
-                        graphics2D.setColor(colorTable.getColorOfDuration(anInteger));
+                        graphics2D.setColor(colorTable.getColorForIndex(anInteger));
                         graphics2D.fill(new Ellipse2D.Double(aStop.position().toOSM(zoom).x(), aStop.position().toOSM(zoom).y(), getRayonAtScale(time*walkingSpeed, zoom), getRayonAtScale(time*walkingSpeed, zoom)));
                     }
                 }
