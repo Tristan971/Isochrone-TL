@@ -1,6 +1,7 @@
 package ch.epfl.isochrone.tiledmap;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -23,21 +24,18 @@ public final class ColorTable {
             }
         }
 
+        Collections.reverse(colorLinkedListB);
+
         this.colorLinkedList = colorLinkedListB;
         this.divDuration = dividingDuration;
     }
 
     public static Color blend(Color c0, Color c1) {
-        double totalAlpha = c0.getAlpha() + c1.getAlpha();
-        double weight0 = c0.getAlpha() / totalAlpha;
-        double weight1 = c1.getAlpha() / totalAlpha;
+        double r = (c0.getRed() + c1.getRed()) / 2;
+        double g = (c0.getGreen() + c1.getGreen()) /2;
+        double b = (c0.getBlue() + c1.getBlue())/2;
 
-        double r = weight0 * c0.getRed() + weight1 * c1.getRed();
-        double g = weight0 * c0.getGreen() + weight1 * c1.getGreen();
-        double b = weight0 * c0.getBlue() + weight1 * c1.getBlue();
-        double a = Math.max(c0.getAlpha(), c1.getAlpha());
-
-        return new Color((int) r, (int) g, (int) b, (int) a);
+        return new Color((int) r, (int) g, (int) b);
     }
 
     public LinkedList<Integer> getDurations() {
@@ -53,7 +51,7 @@ public final class ColorTable {
     }
 
     public Color getColorForDuration(int time) {
-        int i = (int) Math.ceil((double) time/(double) divDuration);
+        int i = (int) Math.ceil(time/divDuration);
         return colorLinkedList.get(i);
     }
 

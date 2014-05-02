@@ -35,21 +35,20 @@ public final class IsochroneTileProvider implements TileProvider {
         BufferedImage bufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        graphics2D.setColor(colorTable.getColorForIndex(0));
+        graphics2D.setColor(colorTable.getColorForIndex(colorTable.getNumberOfDurations()-1));
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
 
         for (Integer anInteger : colorTable.getDurations()) {
+            System.out.println(anInteger);
+            graphics2D.setColor(colorTable.getColorForDuration(anInteger));
             for (Stop aStop : fastestPathTree.stops()) {
 
-                int xPoint = (int) Math.floor(aStop.position().toOSM(zoom).x()/256);
-                int yPoint = (int) Math.floor(aStop.position().toOSM(zoom).y()/256);
-
-                if (xPoint == x && yPoint == y) {
-                    int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
-                    if (time > 0) {
-                        graphics2D.setColor(colorTable.getColorForIndex(anInteger));
-                        graphics2D.fill(new Ellipse2D.Double(aStop.position().toOSM(zoom).x(), aStop.position().toOSM(zoom).y(), getRayonAtScale(time*walkingSpeed, zoom), getRayonAtScale(time*walkingSpeed, zoom)));
-                    }
+                int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
+                if (time > 0) {
+                    int param = getRayonAtScale(time*walkingSpeed, zoom);
+                    double paramx = aStop.position().toOSM(zoom).x()-(x*256);
+                    double paramy = aStop.position().toOSM(zoom).y()-(y*256);
+                    graphics2D.fill(new Ellipse2D.Double(paramx - param, paramy - param, param*2, param*2));
                 }
             }
         }

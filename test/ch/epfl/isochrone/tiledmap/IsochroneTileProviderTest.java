@@ -5,23 +5,16 @@ import ch.epfl.isochrone.timetable.*;
 import org.junit.Test;
 
 import java.awt.*;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
 public class IsochroneTileProviderTest {
-
-    @Test
-    public void test() throws IOException {
-
-    }
-
     @Test
     public void testTileAt() throws Exception {
         String[] arg = new String[3];
-        arg[0] = "EPFL";
-        arg[1] = "2013-05-20";
-        arg[2] = "11:08:00";
+        arg[0] = "Lausanne-Flon";
+        arg[1] = "2013-10-01";
+        arg[2] = "06:08:00";
         TimeTableReader myTimeTableReader = new TimeTableReader("/time-table/");
         TimeTable myTimeTable = myTimeTableReader.readTimeTable();
         String[] argDateArray = arg[1].split("-");
@@ -51,10 +44,10 @@ public class IsochroneTileProviderTest {
         LinkedList<Color> colorLinkedList = new LinkedList<>();
 
         colorLinkedList.add(new Color(0, 0, 0));
-        colorLinkedList.add(new Color(0,0,255));
-        colorLinkedList.add(new Color(0,255,0));
-        colorLinkedList.add(new Color(255,255,0));
-        colorLinkedList.add(new Color(255,0,0));
+        colorLinkedList.add(new Color(0, 0, 255));
+        colorLinkedList.add(new Color(0, 255, 0));
+        colorLinkedList.add(new Color(255, 255, 0));
+        colorLinkedList.add(new Color(255, 0, 0));
 
         ColorTable myColorTable = new ColorTable(5, colorLinkedList);
         new IsochroneTileProvider(fastestPaths, myColorTable, 10).tileAt(11, 1061, 724);
