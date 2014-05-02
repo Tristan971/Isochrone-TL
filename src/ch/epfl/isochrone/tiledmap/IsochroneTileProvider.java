@@ -39,7 +39,6 @@ public final class IsochroneTileProvider implements TileProvider {
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
 
         for (Integer anInteger : colorTable.getDurations()) {
-            Color color = colorTable.getColorForDuration(anInteger);
             graphics2D.setColor(colorTable.getColorForDuration(anInteger));
             for (Stop aStop : fastestPathTree.stops()) {
                 int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
