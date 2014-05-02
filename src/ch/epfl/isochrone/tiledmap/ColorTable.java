@@ -40,7 +40,8 @@ public final class ColorTable {
 
     public LinkedList<Integer> getDurations() {
         LinkedList<Integer> durationList = new LinkedList<>();
-        for (int i = (colorLinkedList.size()-1)*(divDuration); i >= 0; i-= divDuration) {
+
+        for (int i = (colorLinkedList.size())*(divDuration)-1; i >= 0; i-= divDuration) {
             durationList.add(i);
         }
         return durationList;
@@ -51,7 +52,7 @@ public final class ColorTable {
     }
 
     public Color getColorForDuration(int time) {
-        int i = (int) Math.ceil(time/divDuration);
+        int i = (int) Math.floor(time/divDuration);
         return colorLinkedList.get(i);
     }
 

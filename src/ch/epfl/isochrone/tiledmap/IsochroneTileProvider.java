@@ -35,14 +35,13 @@ public final class IsochroneTileProvider implements TileProvider {
         BufferedImage bufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics2D = bufferedImage.createGraphics();
 
-        graphics2D.setColor(colorTable.getColorForIndex(colorTable.getNumberOfDurations()-1));
+        graphics2D.setColor(colorTable.getColorForIndex(colorTable.getDurations().size()-1));
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
 
         for (Integer anInteger : colorTable.getDurations()) {
-            System.out.println(anInteger);
+            Color color = colorTable.getColorForDuration(anInteger);
             graphics2D.setColor(colorTable.getColorForDuration(anInteger));
             for (Stop aStop : fastestPathTree.stops()) {
-
                 int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
                 if (time > 0) {
                     int param = getRayonAtScale(time*walkingSpeed, zoom);
