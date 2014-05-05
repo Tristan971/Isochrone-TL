@@ -39,6 +39,7 @@ public final class IsochroneTileProvider implements TileProvider {
         graphics2D.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
 
         for (Integer anInteger : colorTable.getDurations()) {
+            System.out.println(anInteger);
             graphics2D.setColor(colorTable.getColorForDuration(anInteger));
             for (Stop aStop : fastestPathTree.stops()) {
                 int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
@@ -64,6 +65,6 @@ public final class IsochroneTileProvider implements TileProvider {
         PointOSM pointOSM1 = new PointOSM(zoom, 0, 0);
         PointOSM pointOSM2 = new PointOSM(zoom, 1, 0);
         double osmUnitInMeter = pointOSM1.toWGS84().distanceTo(pointOSM2.toWGS84());
-        return (int) Math.round(distanceInMeters/osmUnitInMeter);
+        return (int) Math.round(distanceInMeters / osmUnitInMeter);
     }
 }
