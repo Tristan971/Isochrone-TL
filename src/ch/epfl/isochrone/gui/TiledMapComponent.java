@@ -1,6 +1,5 @@
 package ch.epfl.isochrone.gui;
 
-import ch.epfl.isochrone.tiledmap.Tile;
 import ch.epfl.isochrone.tiledmap.TileProvider;
 
 import javax.swing.*;
@@ -9,24 +8,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * GUI IS YOLO
  * @author Tristan Deloche (234045)
  */
 
 public final class TiledMapComponent extends JComponent {
     int zoom;
     LinkedList<TileProvider> tileProviders;
-    LinkedList<Tile> tilesList = new LinkedList<>();
 
     public TiledMapComponent(int zoom, List<TileProvider> providersList) {
         this.setLayout(new BorderLayout());
-
         this.zoom = zoom;
         this.tileProviders = new LinkedList<>(providersList);
 
-        for (TileProvider aTileProvider : providersList) {
-            //this.add(aTileProvider, BorderLayout.CENTER);
-        }
+        int x = (int) (getVisibleRect().getX() / 256);
     }
 
     @Override
@@ -38,7 +32,6 @@ public final class TiledMapComponent extends JComponent {
     @Override
     public void paintComponent(Graphics g0) {
         Graphics2D graphics2D = (Graphics2D) g0;
-
 
     }
 }
