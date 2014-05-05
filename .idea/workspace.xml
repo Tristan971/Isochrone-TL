@@ -7,8 +7,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test.PNG" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/data/images/tl-logo.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -80,8 +82,8 @@
       <file leaf-file-name="TiledMapComponent.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7326733" vertical-offset="170" max-vertical-offset="675">
-              <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+            <state vertical-scroll-proportion="1.069307" vertical-offset="0" max-vertical-offset="675">
+              <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -107,7 +109,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/geo/TestPointOSM.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TestSecondsPastMidnight.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TestDate.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java" />
@@ -158,6 +159,7 @@
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/ColorTable.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/IsochroneTileProvider.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
       </list>
     </option>
   </component>
@@ -305,6 +307,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Isochrone-TL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Isochrone-TL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Isochrone-TL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Isochrone-TL" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -396,21 +430,27 @@
     <property name="recentsLimit" value="5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.includeInheritedMembers" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/e10_skeleton" />
     <property name="dynamic.classpath" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+      <recent name="ch.epfl.isochrone.geo.PointOSM" />
+    </key>
     <key name="CreateTestDialog.RecentsKey">
       <recent name="ch.epfl.isochrone.tiledmap" />
       <recent name="ch.epfl.isochrone.timetable" />
       <recent name="ch.epfl.isochrone.geo" />
     </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-      <recent name="ch.epfl.isochrone.geo.PointOSM" />
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ch.epfl.isochrone.timetable" />
+      <recent name="ch.epfl.isochrone.math" />
+      <recent name="ch.epfl.isochrone.geo" />
+      <recent name="ch.epfl.isochrone" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/data/images" />
@@ -418,12 +458,6 @@
       <recent name="$PROJECT_DIR$/test/ch/epfl/isochrone" />
       <recent name="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable" />
       <recent name="$PROJECT_DIR$/data" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="ch.epfl.isochrone.timetable" />
-      <recent name="ch.epfl.isochrone.math" />
-      <recent name="ch.epfl.isochrone.geo" />
-      <recent name="ch.epfl.isochrone" />
     </key>
   </component>
   <component name="RunManager" selected="JUnit.IsochroneTileProviderTest">
@@ -979,7 +1013,11 @@
       <created>1399295394926</created>
       <updated>1399295394926</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="WOW">
+      <created>1399306581874</created>
+      <updated>1399306581874</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1075,7 +1113,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="caca" />
     <MESSAGE value="yololol" />
     <MESSAGE value="je vais me pendre" />
     <MESSAGE value="fuckfuckfuck" />
@@ -1100,7 +1137,8 @@
     <MESSAGE value="ui" />
     <MESSAGE value="lick my robot's balls" />
     <MESSAGE value="yolo" />
-    <option name="LAST_COMMIT_MESSAGE" value="yolo" />
+    <MESSAGE value="WOW" />
+    <option name="LAST_COMMIT_MESSAGE" value="WOW" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1452,10 +1490,15 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/images/tl-logo.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7326733" vertical-offset="170" max-vertical-offset="675">
-          <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+        <state vertical-scroll-proportion="1.069307" vertical-offset="0" max-vertical-offset="675">
+          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
