@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public final class TiledMapComponent extends JComponent {
-    int zoom;
+    int zoom, tileX, tileY;
     LinkedList<TileProvider> tileProviders;
 
     public TiledMapComponent(int zoom, List<TileProvider> providersList) {
@@ -20,7 +20,8 @@ public final class TiledMapComponent extends JComponent {
         this.zoom = zoom;
         this.tileProviders = new LinkedList<>(providersList);
 
-        int x = (int) (getVisibleRect().getX() / 256);
+        tileX = (int) (getVisibleRect().getX() / 256);
+        tileY = (int) (getVisibleRect().getY() / 256);
     }
 
     @Override
@@ -32,6 +33,7 @@ public final class TiledMapComponent extends JComponent {
     @Override
     public void paintComponent(Graphics g0) {
         Graphics2D graphics2D = (Graphics2D) g0;
+
 
     }
 }
