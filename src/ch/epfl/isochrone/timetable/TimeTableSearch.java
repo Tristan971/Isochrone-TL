@@ -9,16 +9,15 @@ import java.util.*;
  */
 
 public class TimeTableSearch {
-    public static void main(String[] arg) throws IOException {
 
-        /**
-         * On sait jamais vaut mieux vérifier...
-         */
-        if (arg.length < 3) {
+    public static FastestPathTree makeFPT(String[] arg) throws IOException {
+        if (arg.length < 5) {
             throw new IllegalArgumentException("NEEDS MORE ARGUMENTS");
-        } else if (arg.length > 3) {
+        } else if (arg.length > 5) {
             throw new IllegalArgumentException("NEEDS LESS ARGUMENTS");
         }
+
+        System.out.println(Arrays.toString(arg));
 
         /**
          * Création et lecture des données de l'Horaire
@@ -38,7 +37,7 @@ public class TimeTableSearch {
         /**
          * Création du graphe
          */
-        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), 300, 1.25);
+        Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(arg[3]), Double.parseDouble(arg[4]));
 
         /**
          * LinkedList modifiée pour classer par ordre alphabétique ses élements car ils ne sont pas des String
@@ -65,16 +64,6 @@ public class TimeTableSearch {
         /**
          * Initialisation du fastestpath et appel de l'algorithme de Dijkstra
          */
-        FastestPathTree fastestPaths = myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
-
-        /**
-         * Print dans l'ordre le plus rapide des stops, chemins etc...
-         */
-        for (Stop aStop : stopList) {
-            if (fastestPaths.arrivalTime(aStop) != SecondsPastMidnight.INFINITE) {
-                System.out.println(aStop.name() + " : " + SecondsPastMidnight.toString(fastestPaths.arrivalTime(aStop)));
-                System.out.println(" via : " + fastestPaths.pathTo(aStop));
-            }
-        }
+        return myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
     }
 }

@@ -10,14 +10,14 @@ import java.net.URL;
  */
 
 public class OSMTileProvider implements TileProvider {
-    private String baseServerURL;
+    private URL baseServerURL;
 
     /**
      * Constructeur principal de la classe
      * @param baseServerURL
      *          Adresse url du serveur OSM à utiliser pour récupérer les données
      */
-    public OSMTileProvider(String baseServerURL) {
+    public OSMTileProvider(URL baseServerURL) {
         this.baseServerURL = baseServerURL;
     }
 
@@ -34,7 +34,7 @@ public class OSMTileProvider implements TileProvider {
      */
     @Override
     public Tile tileAt(int zoom, int x, int y) {
-        String urlString = baseServerURL+zoom+"/"+x+"/"+y+".png";
+        String urlString = baseServerURL.toString()+zoom+"/"+x+"/"+y+".png";
         try {
             URL tileURL = new URL(urlString);
             return new Tile(zoom, x, y, ImageIO.read(tileURL));

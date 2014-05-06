@@ -1,34 +1,21 @@
 package ch.epfl.isochrone.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Rectangle;
+import ch.epfl.isochrone.geo.PointOSM;
+import ch.epfl.isochrone.geo.PointWGS84;
+import ch.epfl.isochrone.tiledmap.*;
+import ch.epfl.isochrone.timetable.Date;
+import ch.epfl.isochrone.timetable.Date.Month;
+import ch.epfl.isochrone.timetable.SecondsPastMidnight;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JViewport;
-import javax.swing.SwingConstants;
-
-import ch.epfl.isochrone.geo.PointOSM;
-import ch.epfl.isochrone.geo.PointWGS84;
-import ch.epfl.isochrone.tiledmap.CachedTileProvider;
-import ch.epfl.isochrone.tiledmap.OSMTileProvider;
-import ch.epfl.isochrone.tiledmap.TileProvider;
-import ch.epfl.isochrone.timetable.Date;
-import ch.epfl.isochrone.timetable.Date.Month;
-import ch.epfl.isochrone.timetable.SecondsPastMidnight;
+import static ch.epfl.isochrone.timetable.TimeTableSearch.makeFPT;
 
 public final class IsochroneTL {
     private static final String OSM_TILE_URL = "http://b.tile.openstreetmap.org/";
@@ -46,7 +33,25 @@ public final class IsochroneTL {
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
-        // TODO à compléter
+        LinkedList<Color> colorLinkedList = new LinkedList<>();
+        colorLinkedList.add(new Color(0, 0, 0));
+        colorLinkedList.add(new Color(0, 0, 255));
+        colorLinkedList.add(new Color(0, 255, 0));
+        colorLinkedList.add(new Color(255, 255, 0));
+        colorLinkedList.add(new Color(255, 0, 0));
+        ColorTable myColorTable = new ColorTable(5, colorLinkedList);
+
+        //NOM YYYY-MM-DD HH:MM:SS WT WS
+        String[] arg = new String[5];
+        arg[0] = INITIAL_STARTING_STOP_NAME;
+        arg[1] = INITIAL_DATE.toString();
+        arg[2] = SecondsPastMidnight.toString(INITIAL_DEPARTURE_TIME);
+        arg[3] = Integer.toString(WALKING_TIME);
+        arg[4] = Double.toString(WALKING_SPEED);
+
+        IsochroneTileProvider isochroneTileProvider = new IsochroneTileProvider(makeFPT(arg), myColorTable, WALKING_SPEED);
+
+        tiledMapComponent.addProvider(bgTileProvider);
     }
 
     private JComponent createCenterPanel() {

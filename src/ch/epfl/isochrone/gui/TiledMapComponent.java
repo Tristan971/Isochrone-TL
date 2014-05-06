@@ -5,7 +5,6 @@ import ch.epfl.isochrone.tiledmap.TileProvider;
 import javax.swing.*;
 import java.awt.*;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Tristan Deloche (234045)
@@ -13,12 +12,15 @@ import java.util.List;
 
 public final class TiledMapComponent extends JComponent {
     int zoom;
-    LinkedList<TileProvider> tileProviders;
+    private LinkedList<TileProvider> tileProviders = new LinkedList<>();
 
-    public TiledMapComponent(int zoom, List<TileProvider> providersList) {
+    public TiledMapComponent(int zoom) {
         this.setLayout(new BorderLayout());
         this.zoom = zoom;
-        this.tileProviders = new LinkedList<>(providersList);
+    }
+
+    public void addProvider(TileProvider provider) {
+        tileProviders.add(provider);
     }
 
     @Override
@@ -35,5 +37,9 @@ public final class TiledMapComponent extends JComponent {
         int tileY = (int) (getVisibleRect().getY() / 256);
 
 
+    }
+
+    public int zoom() {
+        return zoom;
     }
 }

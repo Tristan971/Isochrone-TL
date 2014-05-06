@@ -20,9 +20,9 @@ public final class IsochroneTileProvider implements TileProvider {
 
     private FastestPathTree fastestPathTree;
     private ColorTable colorTable;
-    private int walkingSpeed;
+    private double walkingSpeed;
 
-    public IsochroneTileProvider(FastestPathTree fastestPathTree, ColorTable colorTable, int walkingSpeed) throws IOException {
+    public IsochroneTileProvider(FastestPathTree fastestPathTree, ColorTable colorTable, double walkingSpeed) throws IOException {
 
         this.fastestPathTree = fastestPathTree;
         this.colorTable = colorTable;
@@ -43,7 +43,7 @@ public final class IsochroneTileProvider implements TileProvider {
             for (Stop aStop : fastestPathTree.stops()) {
                 int time = anInteger - ch.epfl.isochrone.math.Math.divF(fastestPathTree.arrivalTime(aStop) - fastestPathTree.startingTime(),60);
                 if (time > 0) {
-                    int param = getRayonAtScale(time*walkingSpeed, zoom);
+                    double param = getRayonAtScale(time*walkingSpeed, zoom);
                     double paramx = aStop.position().toOSM(zoom).x()-(x*256);
                     double paramy = aStop.position().toOSM(zoom).y()-(y*256);
                     graphics2D.fill(new Ellipse2D.Double(paramx - param, paramy - param, param*2, param*2));
@@ -60,10 +60,10 @@ public final class IsochroneTileProvider implements TileProvider {
         return new Tile(zoom, x, y, bufferedImage);
     }
 
-    private int getRayonAtScale(int distanceInMeters, int zoom) {
+    private double getRayonAtScale(double distanceInMeters, int zoom) {
         PointOSM pointOSM1 = new PointOSM(zoom, 0, 0);
         PointOSM pointOSM2 = new PointOSM(zoom, 1, 0);
         double osmUnitInMeter = pointOSM1.toWGS84().distanceTo(pointOSM2.toWGS84());
-        return (int) Math.round(distanceInMeters / osmUnitInMeter);
+        return Math.round(distanceInMeters / osmUnitInMeter);
     }
 }
