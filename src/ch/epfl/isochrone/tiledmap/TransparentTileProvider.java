@@ -1,6 +1,7 @@
 package ch.epfl.isochrone.tiledmap;
 
 import java.awt.image.BufferedImage;
+
 import static ch.epfl.isochrone.math.Math.divF;
 import static ch.epfl.isochrone.math.Math.modF;
 
@@ -13,13 +14,14 @@ import static ch.epfl.isochrone.math.Math.modF;
 public class TransparentTileProvider extends FilteringTileProvider {
 
     private double opacity;
+    private TileProvider tileProvider;
 
     /**
      * Constructeur principal de la classe
      * @param opacity
      *      Opacité désirée
      */
-    public TransparentTileProvider(double opacity) {
+    public TransparentTileProvider(TileProvider tileProvider, double opacity) {
         if (opacity < 0 || opacity > 1) {
             throw new IllegalArgumentException("Opacity out of bounds : "+opacity);
         }
@@ -41,26 +43,6 @@ public class TransparentTileProvider extends FilteringTileProvider {
     }
 
     /**
-     * Transformation pixel par pixel d'une image associée à une tuile
-     * @param originalTile
-     *          Tuile dont on veut modifier l'image
-     * @return
-     *          Copie de cette tuile avec l'image liée modifiée
-     */
-    @Override
-    public Tile transform(Tile originalTile) {
-        BufferedImage bufferedImage = originalTile.getBufferedImage();
-
-        for (int i = 0; i < bufferedImage.getHeight(); i++) {
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                bufferedImage.setRGB(i, j, transformARGB(bufferedImage.getRGB(i, j)));
-            }
-        }
-
-        return new Tile(originalTile.getZoom(), originalTile.getLongitude(), originalTile.getLatitude(), bufferedImage);
-    }
-
-    /**
      * Getter sur l'opacité
      * @return
      *      Renvoie l'opacité
@@ -77,5 +59,20 @@ public class TransparentTileProvider extends FilteringTileProvider {
     @Override
     public String toString() {
         return ""+opacity;
+    }
+
+    @Override
+    public Tile tileAt(int zoom, int x, int y) {
+        Tile tempTile = tileProvider.tileAt(zoom, x, y);
+
+        BufferedImage bufferedImage = tempTile.getBufferedImage();
+
+        for (int i = 0; i < bufferedImage.getHeight(); i++) {
+            for (int j = 0; j < bufferedImage.getWidth(); j++) {
+                bufferedImage.setRGB(i, j, transformARGB(bufferedImage.getRGB(i, j)));
+            }
+        }
+
+        return new Tile(tempTile.getZoom(), tempTile.getLongitude(), tempTile.getLatitude(), bufferedImage);
     }
 }

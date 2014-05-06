@@ -5,7 +5,6 @@ package ch.epfl.isochrone.tiledmap;
  * @author Tristan Deloche (234045)
  */
 
-public abstract class FilteringTileProvider {
+public abstract class FilteringTileProvider implements TileProvider {
     abstract public int transformARGB(int argb);
-    abstract public Tile transform(Tile originalTile);
 }

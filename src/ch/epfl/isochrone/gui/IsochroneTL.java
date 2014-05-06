@@ -52,6 +52,7 @@ public final class IsochroneTL {
         IsochroneTileProvider isochroneTileProvider = new IsochroneTileProvider(makeFPT(arg), myColorTable, WALKING_SPEED);
 
         tiledMapComponent.addProvider(bgTileProvider);
+        tiledMapComponent.addProvider(new TransparentTileProvider(isochroneTileProvider, 0.5));
     }
 
     private JComponent createCenterPanel() {
