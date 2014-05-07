@@ -53,6 +53,8 @@ public final class IsochroneTL {
 
         tiledMapComponent.addProvider(bgTileProvider);
         tiledMapComponent.addProvider(new TransparentTileProvider(isochroneTileProvider, 0.5));
+
+        tiledMapComponent.paintComponent();
     }
 
     private JComponent createCenterPanel() {
