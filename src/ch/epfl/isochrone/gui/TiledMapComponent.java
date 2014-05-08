@@ -1,5 +1,6 @@
 package ch.epfl.isochrone.gui;
 
+import ch.epfl.isochrone.tiledmap.Tile;
 import ch.epfl.isochrone.tiledmap.TileProvider;
 
 import javax.swing.*;
@@ -21,7 +22,6 @@ public final class TiledMapComponent extends JComponent {
 
     public void addProvider(TileProvider provider) {
         tileProviders.add(provider);
-
     }
 
     @Override
@@ -37,7 +37,11 @@ public final class TiledMapComponent extends JComponent {
         int tileX = (int) (getVisibleRect().getX() / 256);
         int tileY = (int) (getVisibleRect().getY() / 256);
 
-        //graphics2D.drawImage();
+        for (TileProvider aTileProvider : tileProviders) {
+            Tile tileImage = aTileProvider.tileAt(zoom, tileX, tileY);
+            graphics2D.drawImage(tileImage.getBufferedImage(), null, null);
+        }
+        
     }
 
     public int zoom() {
