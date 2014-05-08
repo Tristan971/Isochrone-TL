@@ -21,6 +21,7 @@ public final class TiledMapComponent extends JComponent {
 
     public void addProvider(TileProvider provider) {
         tileProviders.add(provider);
+
     }
 
     @Override
@@ -36,7 +37,7 @@ public final class TiledMapComponent extends JComponent {
         int tileX = (int) (getVisibleRect().getX() / 256);
         int tileY = (int) (getVisibleRect().getY() / 256);
 
-
+        //graphics2D.drawImage();
     }
 
     public int zoom() {
