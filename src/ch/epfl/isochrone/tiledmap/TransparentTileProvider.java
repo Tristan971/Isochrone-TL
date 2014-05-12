@@ -26,6 +26,7 @@ public class TransparentTileProvider extends FilteringTileProvider {
             throw new IllegalArgumentException("Opacity out of bounds : "+opacity);
         }
         this.opacity = opacity;
+        this.tileProvider=tileProvider;
     }
 
     /**
