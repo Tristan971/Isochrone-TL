@@ -31,11 +31,13 @@ public class CachedTileProvider implements TileProvider {
      */
     public Tile tileAt(int zoom, int x, int y) {
 
-        if (tileCache.containsKey(new Tile(zoom, x, y, null).packCoordinates())) {
-            return tileCache.get(zoom, x, y);
+        Long packed = new Tile(zoom, x, y, null).packCoordinates();
+
+        if (tileCache.containsKey(packed)) {
+            return tileCache.get(packed);
         } else {
             tileCache.put(osmTileProvider.tileAt(zoom, x, y));
-            return tileCache.get(zoom, x, y);
+            return tileCache.get(packed);
         }
     }
 }

@@ -59,14 +59,8 @@ public final class Tile {
      * Permet de contenir toutes les coordonnées de la tuile dans un seul objet ; utile ensuite pour
      * @return
      */
-    public Integer[] packCoordinates() {
-        Integer[] array = new Integer[3];
-
-        array[0] = getZoom();
-        array[1] = getLongitude();
-        array[2] = getLatitude();
-
-        return array;
+    public long packCoordinates() {
+        return getZoom()+100*getLongitude()+(int) Math.pow(10,9)*getLatitude();
     }
 
     /**
