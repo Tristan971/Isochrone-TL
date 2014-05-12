@@ -39,7 +39,7 @@ public final class TiledMapComponent extends JComponent {
 
         for (TileProvider aTileProvider : tileProviders) {
             Tile tileImage = aTileProvider.tileAt(zoom, tileX, tileY);
-            graphics2D.drawImage(tileImage.getBufferedImage(), null, 256*tileX, 256*tileY);
+            graphics2D.drawImage(tileImage.getBufferedImage(), 0, 0, null);
         }
 
         repaint();
