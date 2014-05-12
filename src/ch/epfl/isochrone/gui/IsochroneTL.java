@@ -55,7 +55,6 @@ public final class IsochroneTL {
         tiledMapComponent.addProvider(new TransparentTileProvider(isochroneTileProvider, 0.5));
 
         createCenterPanel().add(tiledMapComponent, BorderLayout.CENTER);
-
     }
 
     private JComponent createCenterPanel() {
