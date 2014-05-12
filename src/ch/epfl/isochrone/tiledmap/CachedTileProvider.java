@@ -30,11 +30,11 @@ public class CachedTileProvider implements TileProvider {
      *      La version en cache si cette tuile a déjà été téléchargée, la télécharge et la renvoie sinon
      */
     public Tile tileAt(int zoom, int x, int y) {
-        String associatedString = ""+zoom+""+x+""+y+"";
-        if (tileCache.containsKey(associatedString)) {
+
+        if (tileCache.containsKey(new Tile(zoom, x, y, null).packCoordinates())) {
             return tileCache.get(zoom, x, y);
         } else {
-            tileCache.put(zoom, x, y, osmTileProvider.tileAt(zoom, x, y));
+            tileCache.put(osmTileProvider.tileAt(zoom, x, y));
             return tileCache.get(zoom, x, y);
         }
     }

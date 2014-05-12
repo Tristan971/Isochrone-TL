@@ -60,13 +60,13 @@ public final class Tile {
      * @return
      */
     public Integer[] packCoordinates() {
-        Integer[] yolo = new Integer[3];
+        Integer[] array = new Integer[3];
 
-        yolo[0] = getZoom();
-        yolo[1] = getLongitude();
-        yolo[2] = getLatitude();
+        array[0] = getZoom();
+        array[1] = getLongitude();
+        array[2] = getLatitude();
 
-        return yolo;
+        return array;
     }
 
     /**

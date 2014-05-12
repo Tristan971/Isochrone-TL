@@ -47,8 +47,7 @@ public class TileCache extends LinkedHashMap {
      * @param tile
      *      La tuile à ajouter à la LHM
      */
-    public void put(int zoom, int x, int y, Tile tile) {
+    public void put(Tile tile) {
         cacheMap.put(tile.packCoordinates(), tile);
     }
-
 }
