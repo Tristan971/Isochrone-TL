@@ -39,12 +39,10 @@ public final class TiledMapComponent extends JComponent {
         int minY = (int) (getVisibleRect().getMinY() / 256);
         int maxY = (int) (getVisibleRect().getMaxY() / 256);
 
-        System.out.println("minx : "+minX+" ; maxx : "+maxX+" ; miny : "+minY+" ; maxy : "+maxX);
-
         for (int i = minX; i <= maxX; i++) {
-            for (int j = minY; i <= maxY; i++) {
+            for (int j = minY; j <= maxY; j++) {
                 for (TileProvider aTileProvider : tileProviders) {
-                    graphics2D.drawImage(aTileProvider.tileAt(zoom, i, j).getBufferedImage(), null, 0, 0);
+                    graphics2D.drawImage(aTileProvider.tileAt(zoom, i, j).getBufferedImage(), null, i*256, j*256);
                 }
             }
         }

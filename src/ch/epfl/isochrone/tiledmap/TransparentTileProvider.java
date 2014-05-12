@@ -2,9 +2,6 @@ package ch.epfl.isochrone.tiledmap;
 
 import java.awt.image.BufferedImage;
 
-import static ch.epfl.isochrone.math.Math.divF;
-import static ch.epfl.isochrone.math.Math.modF;
-
 
 /**
  * Fournisseur de tuile servant à appliquer une opacité pixel par pixel à une tuile tierce
@@ -38,18 +35,9 @@ public class TransparentTileProvider extends FilteringTileProvider {
      */
     @Override
     public int transformARGB(int argb) {
-        int a = (1/255)*modF(divF(argb, (int) Math.pow(2,24)), (int) Math.pow(2,8));
-        argb -= a * (int)Math.pow(2,24) * 255;
-        return argb + (int)Math.pow(2,24) * (int)Math.round( 255 * (opacity*a) );
-    }
-
-    /**
-     * Getter sur l'opacité
-     * @return
-     *      Renvoie l'opacité
-     */
-    public double getOpacity() {
-        return opacity;
+        int a = argb & 0x00ffffff;
+        a += (int) (opacity*255) << 24;
+        return a;
     }
 
     /**
