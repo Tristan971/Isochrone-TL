@@ -105,7 +105,6 @@ public final class IsochroneTL {
             }
         });
 
-
         layeredPane.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
