@@ -9,8 +9,7 @@ import ch.epfl.isochrone.timetable.SecondsPastMidnight;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -28,6 +27,9 @@ public final class IsochroneTL {
     private static final double WALKING_SPEED = 1.25;
 
     private final TiledMapComponent tiledMapComponent;
+
+    private Point mousePositionBeforeMove = new Point();
+    private Point viewPositionBeforeMove = new Point();
 
     public IsochroneTL() throws IOException {
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
@@ -81,7 +83,29 @@ public final class IsochroneTL {
             }
         });
 
-        // TODO déplacement de la carte à la souris
+        layeredPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mousePositionBeforeMove.setLocation(e.getLocationOnScreen());
+                viewPositionBeforeMove.setLocation(viewPort.getViewPosition());
+            }
+        });
+
+        layeredPane.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                Point newPosition = new Point(viewPort.getViewPosition());
+                newPosition.setLocation(viewPositionBeforeMove.getX() - (e.getLocationOnScreen().getX() - mousePositionBeforeMove.getX()), viewPositionBeforeMove.getY() - (e.getLocationOnScreen().getY() - mousePositionBeforeMove.getY()));
+                viewPort.setViewPosition(newPosition);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+
+            }
+        });
+
+
         // TODO zoom de la carte à la souris (molette)
 
         JPanel centerPanel = new JPanel(new BorderLayout());
