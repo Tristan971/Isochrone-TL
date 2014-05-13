@@ -79,11 +79,13 @@
       <file leaf-file-name="IsochroneTL.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.53158706" vertical-offset="855" max-vertical-offset="2100">
-              <caret line="97" column="168" selection-start-line="97" selection-start-column="168" selection-end-line="97" selection-end-column="168" />
+            <state vertical-scroll-proportion="0.7627119" vertical-offset="930" max-vertical-offset="2190">
+              <caret line="112" column="16" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="16" />
               <folding>
                 <element signature="e#3631#3908#0" expanded="true" />
                 <element signature="e#3897#3898#0" expanded="true" />
+                <element signature="e#4586#4797#0" expanded="true" />
+                <element signature="e#4786#4787#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1054,7 +1056,11 @@
       <created>1399897568806</created>
       <updated>1399897568806</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="swheg iz MUVIN LIKE JEGER">
+      <created>1399964094405</created>
+      <updated>1399964094405</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1150,7 +1156,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="yolooooo" />
     <MESSAGE value="fixed tests because fuck it" />
     <MESSAGE value="tiletime" />
     <MESSAGE value="fixfixifx" />
@@ -1175,7 +1180,8 @@
     <MESSAGE value="flemme de rage wallah allah" />
     <MESSAGE value="..." />
     <MESSAGE value="very important commit : yolo" />
-    <option name="LAST_COMMIT_MESSAGE" value="very important commit : yolo" />
+    <MESSAGE value="swheg iz MUVIN LIKE JEGER" />
+    <option name="LAST_COMMIT_MESSAGE" value="swheg iz MUVIN LIKE JEGER" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1492,11 +1498,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test.PNG">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/TransparentTileProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="428" max-vertical-offset="1065">
@@ -1537,13 +1538,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/test.PNG">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.53158706" vertical-offset="855" max-vertical-offset="2100">
-          <caret line="97" column="168" selection-start-line="97" selection-start-column="168" selection-end-line="97" selection-end-column="168" />
+        <state vertical-scroll-proportion="0.7627119" vertical-offset="930" max-vertical-offset="2190">
+          <caret line="112" column="16" selection-start-line="112" selection-start-column="16" selection-end-line="112" selection-end-column="16" />
           <folding>
             <element signature="e#3631#3908#0" expanded="true" />
             <element signature="e#3897#3898#0" expanded="true" />
+            <element signature="e#4586#4797#0" expanded="true" />
+            <element signature="e#4786#4787#0" expanded="true" />
           </folding>
         </state>
       </provider>

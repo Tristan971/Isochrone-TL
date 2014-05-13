@@ -106,7 +106,13 @@ public final class IsochroneTL {
         });
 
 
-        // TODO zoom de la carte à la souris (molette)
+        layeredPane.addMouseWheelListener(new MouseWheelListener() {
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                Point cursorPoint = new Point(e.getPoint());
+
+            }
+        });
 
         JPanel centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(layeredPane, BorderLayout.CENTER);
