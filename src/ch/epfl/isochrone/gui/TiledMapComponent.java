@@ -42,11 +42,20 @@ public final class TiledMapComponent extends JComponent {
         for (int i = minX; i <= maxX; i++) {
             for (int j = minY; j <= maxY; j++) {
                 for (TileProvider aTileProvider : tileProviders) {
-                    System.out.println("swag : "+i+" / swheg : "+j);
                     graphics2D.drawImage(aTileProvider.tileAt(zoom, i, j).getBufferedImage(), null, i*256, j*256);
                 }
             }
         }
+    }
+
+    public void setZoom(int newZoom) {
+        if (newZoom > 19) {
+            newZoom = 19;
+        } else if (newZoom < 10) {
+            newZoom = 10;
+        }
+        this.zoom = newZoom;
+        repaint();
     }
 
     public int zoom() {
