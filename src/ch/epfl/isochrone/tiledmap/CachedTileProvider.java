@@ -7,15 +7,19 @@ package ch.epfl.isochrone.tiledmap;
 
 public class CachedTileProvider implements TileProvider {
     private TileCache tileCache = new TileCache();
-    private OSMTileProvider osmTileProvider;
+    private TileProvider tileProvider;
 
     /**
      * Constructeur principal de la classe
-     * @param osmTileProvider
+     * @param OSMTileProvider
      *          Le provider OpenStreetMap utilisé
      */
-    public CachedTileProvider(OSMTileProvider osmTileProvider) {
-        this.osmTileProvider = osmTileProvider;
+    public CachedTileProvider(OSMTileProvider OSMTileProvider) {
+        this.tileProvider = OSMTileProvider;
+    }
+
+    public CachedTileProvider(TileProvider genericTileProvider) {
+        this.tileProvider = genericTileProvider;
     }
 
     /**
@@ -36,7 +40,7 @@ public class CachedTileProvider implements TileProvider {
         if (tileCache.containsKey(packed)) {
             return tileCache.get(packed);
         } else {
-            tileCache.put(osmTileProvider.tileAt(zoom, x, y));
+            tileCache.put(tileProvider.tileAt(zoom, x, y));
             return tileCache.get(packed);
         }
     }
