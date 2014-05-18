@@ -108,17 +108,9 @@ public final class IsochroneTL {
         layeredPane.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                Point cursorPoint = new Point(e.getPoint());
-                int delta = e.getWheelRotation();
-
-                cursorPoint.x -= viewPort.getWidth()/2;
-                cursorPoint.y -= viewPort.getHeight()/2;
-
+                Point cursorPoint = e.getPoint();
                 System.out.println(cursorPoint);
-
                 viewPort.setViewPosition(cursorPoint);
-
-                tiledMapComponent.setZoom(tiledMapComponent.zoom() - delta);
             }
         });
 

@@ -71,7 +71,6 @@ public final class Tile {
         return bufferedImage;
     }
 
-    //TODO : Améliorer et tester this.equals(that);
     /**
      * Base de méthode equals pour pouvoir comparer facilement deux tuiles
      * @param o
