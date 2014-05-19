@@ -89,7 +89,7 @@ public final class PointOSM {
     public PointOSM atZoom(int newZoom) {
 
         if (newZoom < 0) {
-            throw new IllegalArgumentException("Zoom < 0 isn't valid");
+            throw new IllegalArgumentException("Zoom < 0 isn't valid ("+newZoom+")");
         }
 
         double newx, newy;

@@ -25,4 +25,9 @@ public class TileCache extends LinkedHashMap {
     public void put(Tile tile) {
         cacheMap.put(tile.packCoordinates(), tile);
     }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return cacheMap.containsKey(key);
+    }
 }

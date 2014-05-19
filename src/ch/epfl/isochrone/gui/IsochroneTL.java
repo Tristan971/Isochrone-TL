@@ -107,10 +107,14 @@ public final class IsochroneTL {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
                 Point cursorPosition = e.getPoint();
+                int oldZoom = tiledMapComponent.zoom();
+                int newZoom = oldZoom - e.getWheelRotation();
 
-                System.out.println(SwingUtilities.convertPoint(layeredPane, cursorPosition, viewPort));
+                tiledMapComponent.setZoom(newZoom);
 
-                viewPort.setViewPosition(SwingUtilities.convertPoint(layeredPane, cursorPosition, viewPort));
+                PointOSM unzoomedPointOSM = new PointOSM(oldZoom, cursorPosition.getX() + viewPort.getViewPosition().getX(), cursorPosition.getY() + viewPort.getViewPosition().getY());
+                PointOSM zoomedPointOSM = unzoomedPointOSM.atZoom(newZoom);
+                viewPort.setViewPosition(new Point(zoomedPointOSM.roundedX() - cursorPosition.x, zoomedPointOSM.roundedY() - cursorPosition.y));
             }
         });
 

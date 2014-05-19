@@ -11,7 +11,7 @@ import java.util.LinkedList;
  */
 
 public final class TiledMapComponent extends JComponent {
-    int zoom;
+    private int zoom;
     private LinkedList<TileProvider> tileProviders = new LinkedList<>();
 
     public TiledMapComponent(int zoom) {
@@ -55,7 +55,7 @@ public final class TiledMapComponent extends JComponent {
             newZoom = 10;
         }
         this.zoom = newZoom;
-        repaint();
+        //repaint();
     }
 
     public int zoom() {
