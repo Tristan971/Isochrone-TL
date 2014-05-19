@@ -1,229 +1,296 @@
 package ch.epfl.isochrone.timetable;
 
-import ch.epfl.isochrone.geo.PointWGS84;
+import java.util.Set;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.*;
-
+import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-/**
- * TESTCLASS : GRAPH.
- * @author Tristan Deloche (234045)
- */
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ch.epfl.isochrone.geo.PointWGS84;
 
 public class TestGraph {
-
+    
+    
+    private TimeTableReader r ;
+    private TimeTable t;
+    
+    @Before
+    public void init() throws IOException{
+        r = new TimeTableReader("/time-table/");
+        t = r.readTimeTable();
+    }
+    
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testFromStop() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
+        Stop stop4 = new Stop("Renens-Gare", new PointWGS84(toRadians(6.57848590863),toRadians(46.5373037657)));
+        Stop stop5 = new Stop("Lausanne-Flon", new PointWGS84(toRadians(6.6303347592),toRadians(46.5206173997)));
+        
+        stops.add(stop1);
+        stops.add(stop2);
+        stops.add(stop3);
+        stops.add(stop4);
+        
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addTripEdge(stop5, stop4, 0, 0);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testToStop() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
+        Stop stop4 = new Stop("Renens-Gare", new PointWGS84(toRadians(6.57848590863),toRadians(46.5373037657)));
+        Stop stop5 = new Stop("Lausanne-Flon", new PointWGS84(toRadians(6.6303347592),toRadians(46.5206173997)));
+        
+        stops.add(stop1);
+        stops.add(stop2);
+        stops.add(stop3);
+        stops.add(stop4);
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addTripEdge(stop4, stop5, 0, 0);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testDeparture() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
+        Stop stop4 = new Stop("Renens-Gare", new PointWGS84(toRadians(6.57848590863),toRadians(46.5373037657)));
+        
+        stops.add(stop1);
+        stops.add(stop2);
+        stops.add(stop3);
+        stops.add(stop4);
+        
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addTripEdge(stop3, stop4, -1, 1);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testArrival() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
+        Stop stop4 = new Stop("Renens-Gare", new PointWGS84(toRadians(6.57848590863),toRadians(46.5373037657)));
+        
+        stops.add(stop1);
+        stops.add(stop2);
+        stops.add(stop3);
+        stops.add(stop4);
+        
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addTripEdge(stop3, stop4, 1, -1);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testArrivalBeforeDeparture() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
+        Stop stop4 = new Stop("Renens-Gare", new PointWGS84(toRadians(6.57848590863),toRadians(46.5373037657)));
+        
+        stops.add(stop1);
+        stops.add(stop2);
+        stops.add(stop3);
+        stops.add(stop4);
+        
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addTripEdge(stop3, stop4, 10, 9);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testMaxWalkingTime() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+       
+        stops.add(stop1);
+        stops.add(stop2);
+        
+        
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addAllWalkEdges(-1, 10);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testMaxWalkingSpeed() {
+        Set<Stop> stops = new HashSet<Stop>();
+        Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
+        stops.add(stop1);
+        stops.add(stop2);
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb = gb.addAllWalkEdges(10, 0);
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testFastestPathsStartStop() throws IOException {
+        Date travelDate = new Date(1,10,2013);
+        int startingTime = SecondsPastMidnight.fromHMS(6,8,0);
+        String startingStopName = "Lausanne-Flon";
+        
+        int walkingTime = 5 * 60;
+        double walkingSpeed = 1.25;
+        
+        
+        Set<Service> services = t.servicesForDate(travelDate);
+        
+        Stop startingStop = null;
+        for (Stop s: t.stops()) {
+            if (s.name().equals(startingStopName)) {
+                startingStop = s;
+                break;
+            }
+        }
+        if (startingStop == null)
+            throw new IllegalArgumentException("unknown stop: " + startingStopName);
+       
+        Graph g = r.readGraphForServices(t.stops(), services, walkingTime, walkingSpeed);
+        
+        Stop stop1 = new Stop("StandEPFL", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        FastestPathTree f = g.fastestPaths(stop1, startingTime);
+        
+    }
+    
+    @Test(expected = java.lang.IllegalArgumentException.class)
+    public void testFastestPathsStartTime() throws IOException {
+        Date travelDate = new Date(1,10,2013);
+        String startingStopName = "Lausanne-Flon";
+        
+        int walkingTime = 5 * 60;
+        double walkingSpeed = 1.25;
+        
+        Set<Service> services = t.servicesForDate(travelDate);
+        
+        Stop startingStop = null;
+        for (Stop s: t.stops()) {
+            if (s.name().equals(startingStopName)) {
+                startingStop = s;
+                break;
+            }
+        }
+        if (startingStop == null)
+            throw new IllegalArgumentException("unknown stop: " + startingStopName);
+       
+        Graph g = r.readGraphForServices(t.stops(), services, walkingTime, walkingSpeed);
+        
+        FastestPathTree f = g.fastestPaths(startingStop, -1);
+        
+    }
+    
     @Test
-    public void testFastestPaths() {
-
-        List<Stop> list1 = new LinkedList<>();
-        List<Stop> list2 = new LinkedList<>();
-        List<Stop> list3 = new LinkedList<>();
-        List<Stop> list4 = new LinkedList<>();
-        Stop s1 = new Stop("s1", new PointWGS84(0, 1));
-        Stop s2 = new Stop("s2", new PointWGS84(-1, 0));
-        Stop s3 = new Stop("s3", new PointWGS84(-1, 1));
-        Stop s4 = new Stop("s4", new PointWGS84(-0.5, 0.5));
-        Stop s5 = new Stop("s5", new PointWGS84(0, 0.5));
-
-        list1.add(s1);
-        list1.add(s2);
-        list2.add(s1);
-        list2.add(s2);
-        list2.add(s3);
-        list3.add(s1);
-        list3.add(s2);
-        list3.add(s3);
-        list3.add(s4);
-        list4.add(s1);
-        list4.add(s2);
-        list4.add(s3);
-        list4.add(s4);
-        list4.add(s5);
-
-        Set<Stop> mesStop = new HashSet<>();
-        mesStop.add(s5);
-        mesStop.add(s4);
-        mesStop.add(s3);
-        mesStop.add(s2);
-        mesStop.add(s1);
-
-        Graph.Builder b = new Graph.Builder(mesStop);
-        b.addTripEdge(s1, s2, 150, 200);
-        b.addTripEdge(s1, s3, 1000, 1300);
-        b.addTripEdge(s1, s5, 100, 2000);
-        b.addTripEdge(s2, s3, 300, 500);
-        b.addTripEdge(s3, s4, 700, 800);
-        b.addTripEdge(s2, s4, 1000, 3000);
-        b.addTripEdge(s4, s5, 900, 1000);
-        b.addAllWalkEdges(1, 1.5);
-
-        Graph g = b.build();
-        FastestPathTree f = g.fastestPaths(s1, 50);
-        assertEquals(list2, f.pathTo(s3));
-        assertEquals(list1, f.pathTo(s2));
-        assertEquals(list3, f.pathTo(s4));
-        assertEquals(list4, f.pathTo(s5));
+    public void testFastestPaths() throws IOException {
+        Date travelDate = new Date(1,10,2013);
+        int startingTime = SecondsPastMidnight.fromHMS(6,8,0);
+        String startingStopName = "Lausanne-Flon";
+        
+        int walkingTime = 5 * 60;
+        double walkingSpeed = 1.25;
+        
+        Set<Service> services = t.servicesForDate(travelDate);
+        
+        Stop startingStop = null;
+        for (Stop s: t.stops()) {
+            if (s.name().equals(startingStopName)) {
+                startingStop = s;
+                break;
+            }
+        }
+        if (startingStop == null)
+            throw new IllegalArgumentException("unknown stop: " + startingStopName);
+       
+        Graph g = r.readGraphForServices(t.stops(), services, walkingTime, walkingSpeed);
+        
+        Stop stop1 = new Stop("StandEPFL", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
+        FastestPathTree f = g.fastestPaths(startingStop, startingTime);
+        
+        List<Stop> sortedStops = new ArrayList<>(f.stops());
+        Collections.sort(sortedStops, new Comparator<Stop>() {
+            @Override
+            public int compare(Stop o1, Stop o2) {
+                return o1.name().compareTo(o2.name());
+        }});
+        
+        /**
+         * random check five records 
+         * if all five tests are passed, we assume that 
+         * the program is right.
+         */
+        String str1 = "1er Mai06:26:00[Lausanne-Flon, Port-Franc, EPSIC, Ecole des Métiers, Couchirard, Prélaz-les-Roses, Galicien, Perrelet, Florissant, Broye, Bourg-Dessus, Follieu, Borjod, Saugiaz, 1er Mai]";
+        String str67 = "CHUV06:15:16[Lausanne-Flon, Rôtillon, Bessières, Ours, CHUV]";
+        String str132 = "Croix-de-Plan06:36:00[Lausanne-Flon, Port-Franc, EPSIC, Ecole des Métiers, Couchirard, Prélaz-les-Roses, Galicien, Perrelet, Renens-Village, Sous l'Eglise, Hôtel-de-Ville, Avenir, Renens-14 Avril, Jura, Zinguerie, Arc-en-Ciel, Croix-de-Plan]";
+        String str248 = "Margerol06:23:00[Lausanne-Flon, Rôtillon, Bessières, Ours, Béthusy, Fauconnières, Pont de Chailly, Chailly-Village, Coudrette, Rosiaz, Margerol]";
+        String str365 = "Rive06:26:00[Lausanne-Flon, Rôtillon, St-François, Georgette, Eglantine, Avenue du Léman, Bonne-Espérance, Perraudettaz, Montillier, Pully-Clergère, Reymondin, Moulins, Paudex, Marronnier, Grand-Pont, Voisinand, Rive]";
+        String str444 = "Villard06:14:00[Lausanne-Flon, Lausanne-Gare, Villard]";
+        
+        assertEquals(456, sortedStops.size());
+        
+        Stop s1 = sortedStops.get(1);
+        String str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str1, str);
+        
+        s1 = sortedStops.get(67);
+        str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str67, str);
+        
+        s1 = sortedStops.get(132);
+        str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str132, str);
+        
+        s1 = sortedStops.get(248);
+        str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str248, str);
+        
+        s1 = sortedStops.get(365);
+        str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str365, str);
+        
+        s1 = sortedStops.get(444);
+        str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
+        assertEquals(str444, str);
         
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void addTripEdgeTestFromStop() {
-
-        Set<Stop> stopSet = new HashSet<Stop>();
-        stopSet.add(new Stop("stop1", new PointWGS84(0, 1)));
-        stopSet.add(new Stop("stop2", new PointWGS84(-1, 0)));
-        stopSet.add(new Stop("stop3", new PointWGS84(-1, 1)));
-        stopSet.add(new Stop("stop4", new PointWGS84(-1, 0.5)));
-
-        Graph.Builder monBuilder = new Graph.Builder(stopSet);
-
-        monBuilder.addTripEdge(new Stop("stopRaté", new PointWGS84(1, 0)),
-                new Stop("stop1", new PointWGS84(0, 1)), 3, 4);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addTripEdgeTestToStop() {
-
-        Set<Stop> stopSet = new HashSet<>();
-        stopSet.add(new Stop("stop1", new PointWGS84(0, 1)));
-        stopSet.add(new Stop("stop2", new PointWGS84(-1, 0)));
-        stopSet.add(new Stop("stop3", new PointWGS84(-1, 1)));
-        stopSet.add(new Stop("stop4", new PointWGS84(-1, 0.5)));
-
-        Graph.Builder monBuilder = new Graph.Builder(stopSet);
-
-        monBuilder.addTripEdge(new Stop("stop1", new PointWGS84(0, 1)),
-                new Stop("stopRaté", new PointWGS84(1, 0)), 3, 4);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addTripEdgeTestDepartureTime() {
-
-        Set<Stop> stopSet = new HashSet<>();
-        stopSet.add(new Stop("stop1", new PointWGS84(0, 1)));
-        stopSet.add(new Stop("stop2", new PointWGS84(-1, 0)));
-        stopSet.add(new Stop("stop3", new PointWGS84(-1, 1)));
-        stopSet.add(new Stop("stop4", new PointWGS84(-1, 0.5)));
-
-        Graph.Builder monBuilder = new Graph.Builder(stopSet);
-
-        monBuilder.addTripEdge(new Stop("stop1", new PointWGS84(0, 1)),
-                new Stop("stop2", new PointWGS84(-1, 0)), -30, 4);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addTripEdgeTestArrivalTime() {
-
-        Set<Stop> stopSet = new HashSet<>();
-        stopSet.add(new Stop("stop1", new PointWGS84(0, 1)));
-        stopSet.add(new Stop("stop2", new PointWGS84(-1, 0)));
-        stopSet.add(new Stop("stop3", new PointWGS84(-1, 1)));
-        stopSet.add(new Stop("stop4", new PointWGS84(-1, 0.5)));
-
-        Graph.Builder monBuilder = new Graph.Builder(stopSet);
-
-        monBuilder.addTripEdge(new Stop("stop1", new PointWGS84(0, 1)),
-                new Stop("stop2", new PointWGS84(-1, 0)), 2, -30);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addTripEdgeTestArrivalTimeAndDepartureTime() {
-
-        Set<Stop> stopSet = new HashSet<>();
-        stopSet.add(new Stop("stop1", new PointWGS84(0, 1)));
-        stopSet.add(new Stop("stop2", new PointWGS84(-1, 0)));
-        stopSet.add(new Stop("stop3", new PointWGS84(-1, 1)));
-        stopSet.add(new Stop("stop4", new PointWGS84(-1, 0.5)));
-
-        Graph.Builder monBuilder = new Graph.Builder(stopSet);
-
-        monBuilder.addTripEdge(new Stop("stop1", new PointWGS84(0, 1)),
-                new Stop("stop2", new PointWGS84(-1, 0)), 2, 1);
-    }
-
+    
+    // Le "test" suivant n'en est pas un à proprement parler, raison pour
+    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
+    // que les noms des classes et méthodes sont corrects.
     @Test
-    public void TestAddAllWalkEdge() {
+    @Ignore
+    public void namesAreOk() {
+        // Graph n'a aucune méthode publique à ce stade...
 
-        LinkedList<Set<Stop>> stopList = new LinkedList<>();
-        Stop stop1 = new Stop("stop1", new PointWGS84(0, 1));
-        Stop stop2 = new Stop("stop2", new PointWGS84(-1, 0));
-        Stop stop3 = new Stop("stop3", new PointWGS84(-1, 1));
-        Stop stop4 = new Stop("stop4", new PointWGS84(-1, 0.5));
-
-        for (int i = 0; i < 4; i++) {
-            stopList.add(new HashSet<Stop>());
-            stopList.get(i).add(stop1);
-            stopList.get(i).add(stop2);
-            stopList.get(i).add(stop3);
-            stopList.get(i).add(stop4);
-        }
-
-        LinkedList<Graph.Builder> buildersList = new LinkedList<>();
-
-        for (int i = 0; i < 4; i++) {
-            buildersList.add(new Graph.Builder(stopList.get(i)));
-
-            buildersList.get(i).addTripEdge(stop1, stop3, 2, 4);
-            buildersList.get(i).addTripEdge(stop2, stop3, 2, 3);
-            buildersList.get(i).addTripEdge(stop1, stop4, 1, 5);
-            buildersList.get(i).addTripEdge(stop4, stop3, 3, 6);
-
-            buildersList.get(i).addAllWalkEdges(12, 3);
-        }
+        Set<Stop> stops = null;
+        Stop stop = null;
+        Graph.Builder gb = new Graph.Builder(stops);
+        gb.addTripEdge(stop, stop, 0, 0);
+        gb.addAllWalkEdges(0, 0);
+        gb.build();
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void TestAddAllWalkEdgesArgIllegal() {
-        LinkedList<Set<Stop>> stopSetsList = new LinkedList<>();
-        Stop stop1 = new Stop("stop1", new PointWGS84(0, 1));
-        Stop stop2 = new Stop("stop2", new PointWGS84(-1, 0));
-        Stop stop3 = new Stop("stop3", new PointWGS84(-1, 1));
-        Stop stop4 = new Stop("stop4", new PointWGS84(-1, 0.5));
-
-        for (int i = 0; i < 4; i++) {
-            stopSetsList.add(new HashSet<Stop>());
-            stopSetsList.get(i).add(stop1);
-            stopSetsList.get(i).add(stop2);
-            stopSetsList.get(i).add(stop3);
-            stopSetsList.get(i).add(stop4);
-        }
-
-        LinkedList<Graph.Builder> builderLinkedList = new LinkedList<>();
-
-        for (int i = 0; i < 4; i++) {
-            builderLinkedList.add(new Graph.Builder(stopSetsList.get(i)));
-
-            builderLinkedList.get(i).addTripEdge(stop1, stop3, 2, 4);
-            builderLinkedList.get(i).addTripEdge(stop2, stop3, 2, 3);
-            builderLinkedList.get(i).addTripEdge(stop1, stop4, 1, 5);
-            builderLinkedList.get(i).addTripEdge(stop4, stop3, 3, 6);
-
-            builderLinkedList.get(i).addAllWalkEdges( i * ((int) (Math.pow(-1, i)) * 3),((int) Math.pow(-1, i + 1) * 2));
-        }
-    }
-
-    @Test
-    public void TestBuild() {
-        Stop stop1 = new Stop("stop1", new PointWGS84(0, 1));
-        Stop stop2 = new Stop("stop2", new PointWGS84(-1, 0));
-        Stop stop3 = new Stop("stop3", new PointWGS84(-1, 1));
-        Stop stop4 = new Stop("stop4", new PointWGS84(-1, 0.5));
-        Set<Stop> stopSet = new HashSet<>();
-
-        stopSet.add(stop1);
-        stopSet.add(stop2);
-        stopSet.add(stop3);
-        stopSet.add(stop4);
-
-        Graph.Builder builder = new Graph.Builder(stopSet);
-
-        builder.addTripEdge(stop1, stop3, 200, 400);
-        builder.addTripEdge(stop2, stop3, 223, 323);
-        builder.addTripEdge(stop1, stop4, 141, 541);
-        builder.addTripEdge(stop4, stop3, 354, 654);
-
-        builder.addAllWalkEdges(12, 3);
-    }
+    // A compléter avec de véritables méthodes de test...
 }

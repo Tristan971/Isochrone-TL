@@ -1,15 +1,10 @@
 package ch.epfl.isochrone.math;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * TESTCLASS :MathDiv .
- * @author Tristan Deloche (234045)
- */
+import org.junit.Test;
 
 public class TestMathDiv {
     @Test

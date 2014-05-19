@@ -94,23 +94,23 @@ public final class IsochroneTL {
         layeredPane.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                Point newPosition = new Point(viewPort.getViewPosition());
+                Point newPosition = new Point();
                 newPosition.setLocation(viewPositionBeforeMove.getX() - (e.getLocationOnScreen().getX() - mousePositionBeforeMove.getX()), viewPositionBeforeMove.getY() - (e.getLocationOnScreen().getY() - mousePositionBeforeMove.getY()));
                 viewPort.setViewPosition(newPosition);
             }
 
             @Override
-            public void mouseMoved(MouseEvent e) {
-
-            }
+            public void mouseMoved(MouseEvent e){}
         });
 
         layeredPane.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
-                Point cursorPoint = e.getPoint();
-                System.out.println(cursorPoint);
-                viewPort.setViewPosition(cursorPoint);
+                Point cursorPosition = e.getPoint();
+
+                System.out.println(SwingUtilities.convertPoint(layeredPane, cursorPosition, viewPort));
+
+                viewPort.setViewPosition(SwingUtilities.convertPoint(layeredPane, cursorPosition, viewPort));
             }
         });
 

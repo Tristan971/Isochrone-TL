@@ -1,15 +1,10 @@
 package ch.epfl.isochrone.geo;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * TESTCLASS : PointOSM.
- * @author Tristan Deloche (234045)
- */
+import org.junit.Test;
 
 public class TestPointOSM {
     private static final double DELTA = 0.000001;

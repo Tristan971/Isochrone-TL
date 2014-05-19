@@ -1,16 +1,10 @@
 package ch.epfl.isochrone.timetable;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-/**
- * TESTCLASS : SPM.
- * @author Tristan Deloche (234045)
- */
-
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class TestSecondsPastMidnight {
     @Test(expected = java.lang.IllegalArgumentException.class)
@@ -22,7 +16,6 @@ public class TestSecondsPastMidnight {
     public void testFromHMSHourTooBig() {
         SecondsPastMidnight.fromHMS(35, 0, 0);
     }
-    
 
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testFromHMSMinutesTooSmall() {

@@ -41,7 +41,7 @@ public final class Service {
         this.endingDate = endingDate;
         this.operatingDays = new HashSet<>(Collections.unmodifiableSet(operatingDays));
         this.excludedDates = new HashSet<>(Collections.unmodifiableSet(excludedDates));
-        this.includedDates = includedDates;
+        this.includedDates = new HashSet<>(Collections.unmodifiableSet(includedDates));
 
         if (startingDate.compareTo(endingDate) == 1) {
             throw new IllegalArgumentException("startingDate ne peut pas être postérieure à endingDate");

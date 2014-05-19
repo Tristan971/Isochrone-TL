@@ -1,69 +1,102 @@
 package ch.epfl.isochrone.timetable;
 
-import ch.epfl.isochrone.timetable.Date.DayOfWeek;
-import ch.epfl.isochrone.timetable.Date.Month;
+import java.util.Collections;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import ch.epfl.isochrone.timetable.Date.DayOfWeek;
+import ch.epfl.isochrone.timetable.Date.Month;
 
 import static org.junit.Assert.assertEquals;
 
 public class TestService {
-
-    /**
-     * TESTCLASS : SERVICE.
-     * @author Tristan Deloche (234045)
-     */
-
-    Date d = new Date(3, Month.DECEMBER, 2000);
-    Date d1 = new Date(3, Month.DECEMBER, 1999);
-    Set<Date> EXCL = new HashSet<>();
-    Set<Date> INCL = new HashSet<>();
-    Set<Date.DayOfWeek> OPR = new HashSet<>();
-    Date d2 = new Date(1, Month.APRIL, 2001);
-    Date d3 = new Date(1, Month.APRIL, 2000);
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testConstructor() {
-        Set<Date.DayOfWeek> c = new HashSet<>();
-        d1.dayOfWeek();
-        c.add(DayOfWeek.FRIDAY);
-        Date etalon = new Date(1, Month.JANUARY, 1900);
-        Set<Date> b = new HashSet<>();
-        b.add(etalon);
-        Service n = new Service("n", d2, d3, c, b, Collections.<Date>emptySet());
-        System.out.println(n);
-    }
-
-    @Test(expected = java.lang.IllegalArgumentException.class)
-    public void testBuilder() {
-
-        Service.Builder build = new Service.Builder("name", d2, d3);
-        System.out.println(build);
-    }
-
+    
     @Test
     public void testIsOperatingOn() {
-        INCL.clear();
-        EXCL.clear();
-        INCL.add(d);
+        Date start = new Date(22, Month.MARCH, 2014);
+        Date end = new Date(30, Month.MARCH, 2014);
 
-        Service service = new Service("test", d3, d2, OPR, EXCL, INCL);
-        assertEquals(true, service.isOperatingOn(d));
-        INCL.clear();
-        EXCL.add(d);
-        assertEquals(false, service.isOperatingOn(d));
-        EXCL.clear();
-        assertEquals(false, service.isOperatingOn(d));
+        Service.Builder sb = new Service.Builder("s", start, end);
+        sb.addOperatingDay(DayOfWeek.FRIDAY);
+        Service ss = sb.build();
+        
+        Date testDate1 = new Date(27, Month.MARCH, 2014);
+     //   sb.addIncludedDate(testDate);
+        Date testDate2 = new Date(28, Month.MARCH, 2014);
+        Date testDate3 = new Date(21, Month.MARCH, 2014);
+        Date testDate4 = new Date(26, Month.MARCH, 2014);
 
-        assertEquals(false, service.isOperatingOn(d1));
-
-        OPR.add(DayOfWeek.SUNDAY);
-        service = new Service("test", d3, d2, OPR, EXCL, INCL);
-
-        assertEquals(true, service.isOperatingOn(d));
-
+        assertEquals(false,ss.isOperatingOn(testDate1));
+        assertEquals(true,ss.isOperatingOn(testDate2));
+        assertEquals(false,ss.isOperatingOn(testDate3));
+        assertEquals(false,ss.isOperatingOn(testDate4));
+        
+        sb.addOperatingDay(DayOfWeek.THURSDAY);
+        Service ss1 = sb.build();
+        assertEquals(true,ss1.isOperatingOn(testDate1));
+        
+       
+        sb.addIncludedDate(testDate4);
+        Service ss2 = sb.build();
+        assertEquals(true,ss2.isOperatingOn(testDate4));
+        
+        sb.addExcludedDate(testDate2);
+        Service ss3 = sb.build();
+        assertEquals(false,ss3.isOperatingOn(testDate2));
+       
     }
+    
+    @Test
+    public void testImmutability() {
+        Date start = new Date(22, Month.MARCH, 2014);
+        Date end = new Date(30, Month.MARCH, 2014);
+        
+        Service.Builder sb = new Service.Builder("s", start, end);
+        sb.addOperatingDay(DayOfWeek.FRIDAY);
+        Service ss = sb.build();
+        
+        Date testDate1 = new Date(27, Month.MARCH, 2014);
+     //   sb.addIncludedDate(testDate);
+        Date testDate2 = new Date(28, Month.MARCH, 2014);
+        Date testDate3 = new Date(21, Month.MARCH, 2014);
+        Date testDate4 = new Date(26, Month.MARCH, 2014);
+        
+        assertEquals(false,ss.isOperatingOn(testDate1));
+        assertEquals(true,ss.isOperatingOn(testDate2));
+        assertEquals(false,ss.isOperatingOn(testDate3));
+        assertEquals(false,ss.isOperatingOn(testDate4));
+        
+        sb.addIncludedDate(testDate1);
+        sb.addExcludedDate(testDate2);
+        
+        assertEquals(false,ss.isOperatingOn(testDate1));
+        assertEquals(true,ss.isOperatingOn(testDate2));
+     
+    }
+
+    // Le "test" suivant n'en est pas un à proprement parler, raison pour
+    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
+    // que les noms des classes et méthodes sont corrects.
+    @Test
+    @Ignore
+    public void namesAreOk() {
+        Date d = new Date(1, Month.JANUARY, 2000);
+        Service s = new Service("s",
+                d, d,
+                Collections.<Date.DayOfWeek> emptySet(),
+                Collections.<Date> emptySet(),
+                Collections.<Date> emptySet());
+        s.name();
+        s.isOperatingOn(d);
+
+        Service.Builder sb = new Service.Builder("s", d, d);
+        sb.name();
+        sb.addOperatingDay(DayOfWeek.MONDAY);
+        sb.addExcludedDate(d);
+        sb.addIncludedDate(d);
+        sb.build();
+    }
+
+    // A compléter avec de véritables méthodes de test...
 }

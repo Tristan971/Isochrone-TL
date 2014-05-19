@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Isochrone-TL.iml" filepath="$PROJECT_DIR$/Isochrone-TL.iml" />
-      <module fileurl="file://$USER_HOME$/Downloads/e10_skeleton/e10_skeleton.iml" filepath="$USER_HOME$/Downloads/e10_skeleton/e10_skeleton.iml" />
     </modules>
   </component>
 </project>

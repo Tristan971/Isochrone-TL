@@ -1,28 +1,21 @@
 package ch.epfl.isochrone.timetable;
 
-import ch.epfl.isochrone.geo.PointWGS84;
+import org.junit.Ignore;
 import org.junit.Test;
 
-import static java.lang.Math.toRadians;
-import static org.junit.Assert.assertEquals;
+import ch.epfl.isochrone.geo.PointWGS84;
 
 public class TestStop {
+    // Le "test" suivant n'en est pas un à proprement parler, raison pour
+    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
+    // que les noms des classes et méthodes sont corrects.
+    @Test
+    @Ignore
+    public void namesAreOk() {
+        Stop s = new Stop("invalid", new PointWGS84(6.57, 46.52));
+        s.name();
+        s.position();
+    }
 
-   PointWGS84 testStopPosition = new PointWGS84(toRadians(23.3232), toRadians(89.6765));
-   Stop testStop = new Stop("nom", testStopPosition);
-   @Test
-    public void testName(){
-        
-        assertEquals(testStop.name(),"nom");
-    }
-    
-    @Test
-    public void testPosition(){
-       assertEquals(testStopPosition, testStop.position());
-    }
-    
-    @Test
-    public void testToString() {
-        assertEquals(testStop.name(),"nom");
-    }
+    // A compléter avec de véritables méthodes de test...
 }

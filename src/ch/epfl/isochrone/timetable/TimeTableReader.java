@@ -20,7 +20,7 @@ public final class TimeTableReader {
     /**
      * InputStreams modélisant les streams de chaque fichier
      */
-    InputStream calendarInputStream, calendarDatesInputStream, stopsInputStream, stopTimesInputStream;
+    private String baseResourceName;
 
     /**
      * Constructeur de classe par défaut
@@ -28,10 +28,7 @@ public final class TimeTableReader {
      *          Dossier contenant les fichiers .csv
      */
     public TimeTableReader(String baseResourceName) {
-        this.stopsInputStream = getClass().getResourceAsStream(baseResourceName + "stops.csv");
-        this.stopTimesInputStream = getClass().getResourceAsStream(baseResourceName + "stop_times.csv");
-        this.calendarInputStream = getClass().getResourceAsStream(baseResourceName + "calendar.csv");
-        this.calendarDatesInputStream = getClass().getResourceAsStream(baseResourceName + "calendar_dates.csv");
+        this.baseResourceName = baseResourceName;
     }
 
     /**
@@ -46,7 +43,7 @@ public final class TimeTableReader {
 
         Map<String, Service.Builder> stringBuilderHashMap = new HashMap<>();
 
-        BufferedReader bufferedReader = readerFromInputStream(stopsInputStream);
+        BufferedReader bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "stops.csv"));
         String currentLine;
 
         /**
@@ -60,7 +57,7 @@ public final class TimeTableReader {
         /**
          * On lit les services
          */
-        bufferedReader = readerFromInputStream(calendarInputStream);
+        bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "calendar.csv"));
         while ((currentLine = bufferedReader.readLine()) != null) {
             stringBuilderHashMap.put(makeServiceWithLine(currentLine).name(), makeServiceWithLine(currentLine));
         }
@@ -69,7 +66,7 @@ public final class TimeTableReader {
         /**
          * On lit les exceptions des services (inclues et exclues)
          */
-        bufferedReader = readerFromInputStream(calendarDatesInputStream);
+        bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "calendar_dates.csv"));
         while ((currentLine = bufferedReader.readLine()) != null) {
             Date date = new Date(Integer.parseInt((currentLine.split(";")[1]).substring(6, 8)), Integer.parseInt((currentLine.split(";")[1]).substring(4, 6)), Integer.parseInt((currentLine.split(";")[1]).substring(0, 4)));
 
@@ -168,7 +165,7 @@ public final class TimeTableReader {
         }
 
         String currentLine;
-        BufferedReader reader = readerFromInputStream(stopTimesInputStream);
+        BufferedReader reader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "stop_times.csv"));
         while ((currentLine = reader.readLine()) != null) {
             String[] lineDataArray = currentLine.split(";");
             if (stringServiceMap.containsKey(lineDataArray[0]) && stringStopMap.containsKey(lineDataArray[1]) && stringStopMap.containsKey(lineDataArray[3])) {
@@ -176,7 +173,6 @@ public final class TimeTableReader {
             }
         }
         reader.close();
-
         return graphBuilder.addAllWalkEdges(walkingTime, walkingSpeed).build();
     }
 }

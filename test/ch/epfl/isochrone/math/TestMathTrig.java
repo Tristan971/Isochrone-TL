@@ -1,15 +1,10 @@
 package ch.epfl.isochrone.math;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-
-/**
- * TESTCLASS : .
- * @author Tristan Deloche (234045)
- */
+import org.junit.Test;
 
 public class TestMathTrig {
     private final static double DELTA = 0.0000001;

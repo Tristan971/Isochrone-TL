@@ -1,16 +1,11 @@
 package ch.epfl.isochrone.geo;
 
-import org.junit.Test;
-
-import java.util.Random;
-
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
 
-/**
- * TESTCLASS : WGS4.
- * @author Tristan Deloche (234045)
- */
+import java.util.Random;
+
+import org.junit.Test;
 
 public class TestPointWGS84 {
     private static final double DELTA = 0.000001;
