@@ -109,7 +109,7 @@ public final class Date implements Comparable<Date> {
         case 1:
             return 31;
         case 2:
-            return isBissextile(year) ? 29 : 28;
+            return isLeapYear(year) ? 29 : 28;
         case 3:
             return 31;
         case 4:
@@ -276,7 +276,7 @@ public final class Date implements Comparable<Date> {
 
         if (month <= 2) {
             c = 0;
-        } else if (month > 2 && isBissextile(year)) {
+        } else if (month > 2 && isLeapYear(year)) {
             c = -1;
         } else {
             c = -2;
@@ -323,7 +323,7 @@ public final class Date implements Comparable<Date> {
 
         if (intDate < dateToFixed(1, 3, year)) {
             c = 0;
-        } else if (intDate >= dateToFixed(1, 3, year) && isBissextile(year)) {
+        } else if (intDate >= dateToFixed(1, 3, year) && isLeapYear(year)) {
             c = 1;
         } else {
             c = 2;
@@ -342,7 +342,7 @@ public final class Date implements Comparable<Date> {
      * @param year Année à vérifier
      * @return booléen (1 si bissextile, 0 sinon)
      */
-    public boolean isBissextile(int year) {
+    public boolean isLeapYear(int year) {
         return ((Math.modF(year, 4) == 0 && Math.modF(year, 100) != 0) || (Math.modF(year, 400) == 0));
     }
 }
