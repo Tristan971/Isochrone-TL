@@ -45,17 +45,11 @@ public final class IsochroneTL {
         startingStop = new Stop(INITIAL_STARTING_STOP_NAME, INITIAL_POSITION);
         departureDate = INITIAL_DATE;
         departureTime = INITIAL_DEPARTURE_TIME;
-        //NOM YYYY-MM-DD HH:MM:SS WT WS
-        String[] arg = new String[5];
-        arg[0] = startingStop.name();
-        arg[1] = departureDate.toString();
-        arg[2] = SecondsPastMidnight.toString(departureTime);
-        arg[3] = Integer.toString(WALKING_TIME);
-        arg[4] = Double.toString(WALKING_SPEED);
 
         timeTable = updateTimeTable();
-        graph = updateGraph(arg);
-        fastestPathTree = updateFastestPathTree(arg);
+        graph = updateGraph();
+        fastestPathTree = updateFastestPathTree();
+
 
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
@@ -211,8 +205,8 @@ public final class IsochroneTL {
         return timeTableReader.readTimeTable();
     }
 
-    private Graph updateGraph(String[] arg) throws IOException {
-        String[] argDateArray = arg[1].split("-");
+    private Graph updateGraph() throws IOException {
+        String[] argDateArray = departureDate.toString().split("-");
         Integer[] dateArray = new Integer[3];
 
         for (int i = 0; i < argDateArray.length; i++) {
@@ -221,10 +215,10 @@ public final class IsochroneTL {
 
         stopSet = new HashSet<>(timeTable.stops());
 
-        return timeTableReader.readGraphForServices(stopSet, new HashSet<>(timeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(arg[3]), Double.parseDouble(arg[4]));
+        return timeTableReader.readGraphForServices(stopSet, new HashSet<>(timeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(Integer.toString(WALKING_TIME)), Double.parseDouble(Double.toString(WALKING_SPEED)));
     }
 
-    private FastestPathTree updateFastestPathTree(String[] arg) throws IOException {
+    private FastestPathTree updateFastestPathTree() throws IOException {
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
         Collections.sort(stopList, new Comparator<Stop>() {
@@ -235,11 +229,11 @@ public final class IsochroneTL {
         });
         Stop firstStop = new Stop("NULL", null);
         for (Stop aStop : stopList) {
-            if (aStop.name().equals(arg[0])) {
+            if (aStop.name().equals(startingStop.name())) {
                 firstStop = aStop;
             }
         }
-        String[] hourArray = arg[2].split(":");
+        String[] hourArray = SecondsPastMidnight.toString(departureTime).split(":");
         return graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
     }
 }

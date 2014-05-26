@@ -11,13 +11,9 @@ public class CachedTileProvider implements TileProvider {
 
     /**
      * Constructeur principal de la classe
-     * @param OSMTileProvider
-     *          Le provider OpenStreetMap utilisé
+     * @param genericTileProvider
+     *          Le provider utilisé
      */
-    public CachedTileProvider(OSMTileProvider OSMTileProvider) {
-        this.tileProvider = OSMTileProvider;
-    }
-
     public CachedTileProvider(TileProvider genericTileProvider) {
         this.tileProvider = genericTileProvider;
     }
