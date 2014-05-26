@@ -3,18 +3,16 @@ package ch.epfl.isochrone.gui;
 import ch.epfl.isochrone.geo.PointOSM;
 import ch.epfl.isochrone.geo.PointWGS84;
 import ch.epfl.isochrone.tiledmap.*;
+import ch.epfl.isochrone.timetable.*;
 import ch.epfl.isochrone.timetable.Date;
 import ch.epfl.isochrone.timetable.Date.Month;
-import ch.epfl.isochrone.timetable.SecondsPastMidnight;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.LinkedList;
-
-import static ch.epfl.isochrone.timetable.TimeTableSearch.makeFPT;
+import java.util.*;
 
 public final class IsochroneTL {
     private static final String OSM_TILE_URL = "http://b.tile.openstreetmap.org/";
@@ -26,35 +24,25 @@ public final class IsochroneTL {
     private static final int WALKING_TIME = 5 * 60;
     private static final double WALKING_SPEED = 1.25;
 
+    private Stop startingStop;
+    private Date departureDate;
+    private int departureTime;
+
     private final TiledMapComponent tiledMapComponent;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
 
     public IsochroneTL() throws IOException {
+        startingStop = new Stop(INITIAL_STARTING_STOP_NAME, INITIAL_POSITION);
+        departureDate = INITIAL_DATE;
+        departureTime = INITIAL_DEPARTURE_TIME;
+
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
-        LinkedList<Color> colorLinkedList = new LinkedList<>();
-        colorLinkedList.add(new Color(0, 0, 0));
-        colorLinkedList.add(new Color(0, 0, 255));
-        colorLinkedList.add(new Color(0, 255, 0));
-        colorLinkedList.add(new Color(255, 255, 0));
-        colorLinkedList.add(new Color(255, 0, 0));
-        ColorTable myColorTable = new ColorTable(5, colorLinkedList);
-
-        //NOM YYYY-MM-DD HH:MM:SS WT WS
-        String[] arg = new String[5];
-        arg[0] = INITIAL_STARTING_STOP_NAME;
-        arg[1] = INITIAL_DATE.toString();
-        arg[2] = SecondsPastMidnight.toString(INITIAL_DEPARTURE_TIME);
-        arg[3] = Integer.toString(WALKING_TIME);
-        arg[4] = Double.toString(WALKING_SPEED);
-
-        IsochroneTileProvider isochroneTileProvider = new IsochroneTileProvider(makeFPT(arg), myColorTable, WALKING_SPEED);
-
         tiledMapComponent.addProvider(bgTileProvider);
-        tiledMapComponent.addProvider(new CachedTileProvider(new TransparentTileProvider(isochroneTileProvider, 0.5)));
+        tiledMapComponent.addProvider(new CachedTileProvider(new TransparentTileProvider(makeTileProvider(), 0.5)));
     }
 
     private JComponent createCenterPanel() {
@@ -160,5 +148,91 @@ public final class IsochroneTL {
                 }
             }
         });
+    }
+
+    public void setDepartureDate(Date newDepartureDate) {
+        if (departureDate != newDepartureDate) {
+            departureDate = newDepartureDate;
+
+            //if ()
+        }
+    }
+
+    private IsochroneTileProvider makeTileProvider() throws IOException {
+        LinkedList<Color> colorLinkedList = new LinkedList<>();
+        colorLinkedList.add(new Color(0, 0, 0));
+        colorLinkedList.add(new Color(0, 0, 255));
+        colorLinkedList.add(new Color(0, 255, 0));
+        colorLinkedList.add(new Color(255, 255, 0));
+        colorLinkedList.add(new Color(255, 0, 0));
+        ColorTable myColorTable = new ColorTable(5, colorLinkedList);
+
+        //NOM YYYY-MM-DD HH:MM:SS WT WS
+        String[] arg = new String[5];
+        arg[0] = startingStop.name();
+        arg[1] = departureDate.toString();
+        arg[2] = SecondsPastMidnight.toString(departureTime);
+        arg[3] = Integer.toString(WALKING_TIME);
+        arg[4] = Double.toString(WALKING_SPEED);
+
+        return new IsochroneTileProvider(makeFPT(arg), myColorTable, WALKING_SPEED);
+    }
+
+    private FastestPathTree makeFPT(String[] arg) throws IOException {
+            if (arg.length < 5) {
+                throw new IllegalArgumentException("NEEDS MORE ARGUMENTS");
+            } else if (arg.length > 5) {
+                throw new IllegalArgumentException("NEEDS LESS ARGUMENTS");
+            }
+
+            System.out.println(Arrays.toString(arg));
+
+            /**
+             * Création et lecture des données de l'Horaire
+             */
+            TimeTableReader myTimeTableReader = new TimeTableReader("/time-table/");
+            TimeTable myTimeTable = myTimeTableReader.readTimeTable();
+
+            String[] argDateArray = arg[1].split("-");
+            Integer[] dateArray = new Integer[3];
+
+            for (int i = 0; i < argDateArray.length; i++) {
+                dateArray[i] = Integer.parseInt(argDateArray[i]);
+            }
+
+            Set<Stop> stopSet = new HashSet<>(myTimeTable.stops());
+
+            /**
+             * Création du graphe
+             */
+            Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(arg[3]), Double.parseDouble(arg[4]));
+
+            /**
+             * LinkedList modifiée pour classer par ordre alphabétique ses élements car ils ne sont pas des String
+             */
+            java.util.List<Stop> stopList = new LinkedList<>();
+            stopList.addAll(stopSet);
+            Collections.sort(stopList, new Comparator<Stop>() {
+                @Override
+                public int compare(Stop s1, Stop s2) {
+                    return s1.name().compareTo(s2.name());
+                }
+            });
+
+            Stop firstStop = new Stop("NULL", null);
+
+            for (Stop aStop : stopList) {
+                if (aStop.name().equals(arg[0])) {
+                    firstStop = aStop;
+                }
+            }
+
+            String[] hourArray = arg[2].split(":");
+
+            /**
+             * Initialisation du fastestpath et appel de l'algorithme de Dijkstra
+             */
+            return myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
+        }
     }
 }
