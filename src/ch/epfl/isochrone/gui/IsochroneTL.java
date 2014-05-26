@@ -23,12 +23,15 @@ public final class IsochroneTL {
     private static final Date INITIAL_DATE = new Date(1, Month.OCTOBER, 2013);
     private static final int WALKING_TIME = 5 * 60;
     private static final double WALKING_SPEED = 1.25;
+    private static final double OPACITY = 0.5;
 
     private Stop startingStop;
     private Date departureDate;
     private int departureTime;
+    private TimeTable timeTable = null;
 
     private final TiledMapComponent tiledMapComponent;
+    private TileProvider cachedIsochroneTileProvider;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
@@ -41,8 +44,9 @@ public final class IsochroneTL {
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
+        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         tiledMapComponent.addProvider(bgTileProvider);
-        tiledMapComponent.addProvider(new CachedTileProvider(new TransparentTileProvider(makeTileProvider(), 0.5)));
+        tiledMapComponent.addProvider(cachedIsochroneTileProvider);
     }
 
     private JComponent createCenterPanel() {
@@ -150,15 +154,25 @@ public final class IsochroneTL {
         });
     }
 
-    public void setDepartureDate(Date newDepartureDate) {
+    public void setDepartureDate(Date newDepartureDate) throws IOException {
         if (departureDate != newDepartureDate) {
+            Date oldDate = departureDate;
             departureDate = newDepartureDate;
 
-            //if ()
+            if (!timeTable.servicesForDate(oldDate).equals(timeTable.servicesForDate(newDepartureDate))) {
+                cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
+            }
         }
     }
 
-    private IsochroneTileProvider makeTileProvider() throws IOException {
+    public void setDepartureTime(int newDepartureTime) throws IOException {
+        if (newDepartureTime != departureTime) {
+            departureTime = newDepartureTime;
+            cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
+        }
+    }
+
+    private IsochroneTileProvider makeIsochroneTileProvider() throws IOException {
         LinkedList<Color> colorLinkedList = new LinkedList<>();
         colorLinkedList.add(new Color(0, 0, 0));
         colorLinkedList.add(new Color(0, 0, 255));
@@ -179,60 +193,60 @@ public final class IsochroneTL {
     }
 
     private FastestPathTree makeFPT(String[] arg) throws IOException {
-            if (arg.length < 5) {
-                throw new IllegalArgumentException("NEEDS MORE ARGUMENTS");
-            } else if (arg.length > 5) {
-                throw new IllegalArgumentException("NEEDS LESS ARGUMENTS");
+        if (arg.length < 5) {
+            throw new IllegalArgumentException("NEEDS MORE ARGUMENTS : "+arg.length);
+        } else if (arg.length > 5) {
+            throw new IllegalArgumentException("NEEDS LESS ARGUMENTS : "+arg.length);
+        }
+
+        System.out.println("Arguments reçus : "+Arrays.toString(arg));
+
+        /**
+         * Création et lecture des données de l'Horaire
+         */
+        TimeTableReader timeTableReader = new TimeTableReader("/time-table/");
+        timeTable = timeTableReader.readTimeTable();
+
+        String[] argDateArray = arg[1].split("-");
+        Integer[] dateArray = new Integer[3];
+
+        for (int i = 0; i < argDateArray.length; i++) {
+            dateArray[i] = Integer.parseInt(argDateArray[i]);
+        }
+
+        Set<Stop> stopSet = new HashSet<>(timeTable.stops());
+
+        /**
+         * Création du graphe
+         */
+        Graph myGraph = timeTableReader.readGraphForServices(stopSet, new HashSet<>(timeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(arg[3]), Double.parseDouble(arg[4]));
+
+        /**
+         * LinkedList modifiée pour classer par ordre alphabétique ses élements car ils ne sont pas des String
+         */
+        java.util.List<Stop> stopList = new LinkedList<>();
+        stopList.addAll(stopSet);
+        Collections.sort(stopList, new Comparator<Stop>() {
+            @Override
+            public int compare(Stop s1, Stop s2) {
+                return s1.name().compareTo(s2.name());
             }
+        });
 
-            System.out.println(Arrays.toString(arg));
+        Stop firstStop = new Stop("NULL", null);
 
-            /**
-             * Création et lecture des données de l'Horaire
-             */
-            TimeTableReader myTimeTableReader = new TimeTableReader("/time-table/");
-            TimeTable myTimeTable = myTimeTableReader.readTimeTable();
-
-            String[] argDateArray = arg[1].split("-");
-            Integer[] dateArray = new Integer[3];
-
-            for (int i = 0; i < argDateArray.length; i++) {
-                dateArray[i] = Integer.parseInt(argDateArray[i]);
+        for (Stop aStop : stopList) {
+            if (aStop.name().equals(arg[0])) {
+                firstStop = aStop;
             }
+        }
 
-            Set<Stop> stopSet = new HashSet<>(myTimeTable.stops());
+        String[] hourArray = arg[2].split(":");
 
-            /**
-             * Création du graphe
-             */
-            Graph myGraph = myTimeTableReader.readGraphForServices(stopSet, new HashSet<>(myTimeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]))), Integer.parseInt(arg[3]), Double.parseDouble(arg[4]));
-
-            /**
-             * LinkedList modifiée pour classer par ordre alphabétique ses élements car ils ne sont pas des String
-             */
-            java.util.List<Stop> stopList = new LinkedList<>();
-            stopList.addAll(stopSet);
-            Collections.sort(stopList, new Comparator<Stop>() {
-                @Override
-                public int compare(Stop s1, Stop s2) {
-                    return s1.name().compareTo(s2.name());
-                }
-            });
-
-            Stop firstStop = new Stop("NULL", null);
-
-            for (Stop aStop : stopList) {
-                if (aStop.name().equals(arg[0])) {
-                    firstStop = aStop;
-                }
-            }
-
-            String[] hourArray = arg[2].split(":");
-
-            /**
-             * Initialisation du fastestpath et appel de l'algorithme de Dijkstra
-             */
-            return myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
+        /**
+         * Initialisation du fastestpath et appel de l'algorithme de Dijkstra
+         */
+        return myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
     }
 }
 
