@@ -49,13 +49,7 @@ public final class TiledMapComponent extends JComponent {
     }
 
     public void setZoom(int newZoom) {
-        if (newZoom > 19) {
-            newZoom = 19;
-        } else if (newZoom < 10) {
-            newZoom = 10;
-        }
         this.zoom = newZoom;
-        //repaint();
     }
 
     public int zoom() {

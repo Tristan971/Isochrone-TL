@@ -19,7 +19,7 @@ public final class IsochroneTL {
     private static final String OSM_TILE_URL = "http://b.tile.openstreetmap.org/";
     private static final int INITIAL_ZOOM = 11;
     private static final PointWGS84 INITIAL_POSITION = new PointWGS84(Math.toRadians(6.476), Math.toRadians(46.613));
-    private static final String INITIAL_STARTING_STOP_NAME = "Lausanne-Flon";
+    private static final String INITIAL_STARTING_STOP_NAME = "Russel";
     private static final int INITIAL_DEPARTURE_TIME = SecondsPastMidnight.fromHMS(6, 8, 0);
     private static final Date INITIAL_DATE = new Date(1, Month.OCTOBER, 2013);
     private static final int WALKING_TIME = 5 * 60;
@@ -45,9 +45,17 @@ public final class IsochroneTL {
         startingStop = new Stop(INITIAL_STARTING_STOP_NAME, INITIAL_POSITION);
         departureDate = INITIAL_DATE;
         departureTime = INITIAL_DEPARTURE_TIME;
-        timeTableReader = new TimeTableReader("/time-table/");
-        timeTable = timeTableReader.readTimeTable();
+        //NOM YYYY-MM-DD HH:MM:SS WT WS
+        String[] arg = new String[5];
+        arg[0] = startingStop.name();
+        arg[1] = departureDate.toString();
+        arg[2] = SecondsPastMidnight.toString(departureTime);
+        arg[3] = Integer.toString(WALKING_TIME);
+        arg[4] = Double.toString(WALKING_SPEED);
 
+        timeTable = updateTimeTable();
+        graph = updateGraph(arg);
+        fastestPathTree = updateFastestPathTree(arg);
 
         TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
@@ -109,6 +117,12 @@ public final class IsochroneTL {
                 Point cursorPosition = e.getPoint();
                 int oldZoom = tiledMapComponent.zoom();
                 int newZoom = oldZoom - e.getWheelRotation();
+
+                if (newZoom > 19) {
+                    newZoom = 19;
+                } else if (newZoom < 10) {
+                    newZoom = 10;
+                }
 
                 tiledMapComponent.setZoom(newZoom);
 
@@ -189,15 +203,12 @@ public final class IsochroneTL {
         colorLinkedList.add(new Color(255, 0, 0));
         ColorTable myColorTable = new ColorTable(5, colorLinkedList);
 
-        //NOM YYYY-MM-DD HH:MM:SS WT WS
-        String[] arg = new String[5];
-        arg[0] = startingStop.name();
-        arg[1] = departureDate.toString();
-        arg[2] = SecondsPastMidnight.toString(departureTime);
-        arg[3] = Integer.toString(WALKING_TIME);
-        arg[4] = Double.toString(WALKING_SPEED);
+        return new IsochroneTileProvider(fastestPathTree, myColorTable, WALKING_SPEED);
+    }
 
-        return new IsochroneTileProvider(updateFastestPathTree(arg), myColorTable, WALKING_SPEED);
+    private TimeTable updateTimeTable() throws IOException {
+        timeTableReader = new TimeTableReader("/time-table/");
+        return timeTableReader.readTimeTable();
     }
 
     private Graph updateGraph(String[] arg) throws IOException {
@@ -214,7 +225,6 @@ public final class IsochroneTL {
     }
 
     private FastestPathTree updateFastestPathTree(String[] arg) throws IOException {
-        graph = updateGraph(arg);
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
         Collections.sort(stopList, new Comparator<Stop>() {

@@ -87,7 +87,6 @@ public final class PointOSM {
      * @return Un nouveau point qui correspond à l'ancien au niveau de zoom "newZoom"
      */
     public PointOSM atZoom(int newZoom) {
-
         if (newZoom < 0) {
             throw new IllegalArgumentException("Zoom < 0 isn't valid ("+newZoom+")");
         }
