@@ -233,6 +233,6 @@ public final class IsochroneTL {
              * Initialisation du fastestpath et appel de l'algorithme de Dijkstra
              */
             return myGraph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
-        }
     }
 }
+

@@ -8,7 +8,6 @@
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -80,8 +79,8 @@
       <file leaf-file-name="IsochroneTL.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32991204" vertical-offset="0" max-vertical-offset="3480">
-              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.8240469" vertical-offset="2798" max-vertical-offset="3480">
+              <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#8929#9125#0" expanded="true" />
@@ -1084,7 +1083,11 @@
       <created>1400503405214</created>
       <updated>1400503405214</updated>
     </task>
-    <option name="localTasksCounter" value="114" />
+    <task id="LOCAL-00114" summary="yolt">
+      <created>1401086674891</created>
+      <updated>1401086674891</updated>
+    </task>
+    <option name="localTasksCounter" value="115" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1181,7 +1184,6 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="why won't colorlist work? idek" />
-    <MESSAGE value="yolt" />
     <MESSAGE value="fuck colors :-)" />
     <MESSAGE value="yay" />
     <MESSAGE value="max, t'es juif" />
@@ -1205,7 +1207,8 @@
     <MESSAGE value="yolow" />
     <MESSAGE value="feck" />
     <MESSAGE value="max et andré aiment la bite de leur assi&#10;s&#10;ta&#10;&#10;nt&#10;&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="max et andré aiment la bite de leur assi&#10;s&#10;ta&#10;&#10;nt&#10;&#10;" />
+    <MESSAGE value="yolt" />
+    <option name="LAST_COMMIT_MESSAGE" value="yolt" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1569,8 +1572,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32991204" vertical-offset="0" max-vertical-offset="3480">
-          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.8240469" vertical-offset="2798" max-vertical-offset="3480">
+          <caret line="236" column="0" selection-start-line="236" selection-start-column="0" selection-end-line="236" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#8929#9125#0" expanded="true" />
