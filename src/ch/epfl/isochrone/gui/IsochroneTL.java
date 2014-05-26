@@ -38,6 +38,7 @@ public final class IsochroneTL {
 
     private final TiledMapComponent tiledMapComponent;
     private TileProvider cachedIsochroneTileProvider;
+    private TileProvider bgTileProvider;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
@@ -52,12 +53,12 @@ public final class IsochroneTL {
         updateDate();
         updateFastestPathTree();
 
-
-        TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
+        bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
         cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         tiledMapComponent.addProvider(bgTileProvider);
+        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         tiledMapComponent.addProvider(cachedIsochroneTileProvider);
     }
 
@@ -133,6 +134,33 @@ public final class IsochroneTL {
         return centerPanel;
     }
 
+    private JComponent createManagingPanel() {
+        JLabel departLabel = new JLabel("Départ : ");
+        Vector<Stop> stops = new Vector<>(stopSet);
+        JComboBox<Stop> stopJComboBox = new JComboBox<>(stops);
+        System.out.println(startingStop);
+        stopJComboBox.setSelectedItem(startingStop);
+
+        SpinnerDateModel spinnerDateModel = new SpinnerDateModel();
+        JSpinner dateSpinner = new JSpinner(spinnerDateModel);
+        java.util.Date javaDate = departureDate.toJavaDate();
+        javaDate.setHours(SecondsPastMidnight.hours(departureTime));
+        javaDate.setMinutes(SecondsPastMidnight.minutes(departureTime));
+
+        dateSpinner.setValue(javaDate);
+
+        JLabel dateLabel = new JLabel("Date et heure : ");
+
+        JPanel myPanel = new JPanel(new FlowLayout());
+
+        myPanel.add(departLabel);
+        myPanel.add(stopJComboBox);
+        myPanel.add(dateLabel);
+        myPanel.add(dateSpinner);
+
+        return myPanel;
+    }
+
     private JPanel createCopyrightPanel() {
         Icon tlIcon = new ImageIcon(getClass().getResource("/images/tl-logo.png"));
         String copyrightText = "Données horaires 2013. Source : Transports publics de la région lausannoise / Carte : © contributeurs d'OpenStreetMap";
@@ -154,6 +182,7 @@ public final class IsochroneTL {
 
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(createCenterPanel(), BorderLayout.CENTER);
+        frame.getContentPane().add(createManagingPanel(), BorderLayout.PAGE_START);
 
         frame.pack();
         frame.setVisible(true);
@@ -242,6 +271,14 @@ public final class IsochroneTL {
         }
         String[] hourArray = SecondsPastMidnight.toString(departureTime).split(":");
         fastestPathTree = graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
+
+        /*
+        tiledMapComponent.clear();
+        tiledMapComponent.addProvider(bgTileProvider);
+
+        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
+        tiledMapComponent.addProvider(cachedIsochroneTileProvider);
+        */
     }
 }
 
