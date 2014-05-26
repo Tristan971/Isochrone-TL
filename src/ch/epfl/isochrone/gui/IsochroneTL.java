@@ -39,6 +39,7 @@ public final class IsochroneTL {
 
     private final TiledMapComponent tiledMapComponent;
     private TileProvider cachedIsochroneTileProvider;
+    private TileProvider bgTileProvider;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
@@ -55,16 +56,14 @@ public final class IsochroneTL {
             }
         }
 
+        tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
+
         updateDate();
         updateFastestPathTree();
 
-        TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
-        tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
+        bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
 
-        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
-        tiledMapComponent.addProvider(bgTileProvider);
-        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
-        tiledMapComponent.addProvider(cachedIsochroneTileProvider);
+        refreshProviders();
     }
 
     private JComponent createCenterPanel() {
@@ -110,7 +109,8 @@ public final class IsochroneTL {
             }
 
             @Override
-            public void mouseMoved(MouseEvent e){}
+            public void mouseMoved(MouseEvent e) {
+            }
         });
 
         layeredPane.addMouseWheelListener(new MouseWheelListener() {
@@ -152,7 +152,7 @@ public final class IsochroneTL {
         });
 
         Vector<Stop> stopsVector = new Vector<>(orderedStopList);
-        JComboBox<Stop> stopsJComboBox = new JComboBox<>(stopsVector);
+        final JComboBox<Stop> stopsJComboBox = new JComboBox<>(stopsVector);
         stopsJComboBox.setSelectedItem(startingStop);
 
         final SpinnerDateModel spinnerDateModel = new SpinnerDateModel();
@@ -180,6 +180,17 @@ public final class IsochroneTL {
                 try {
                     setDepartureDate(modelDate);
                     setDepartureTime(departureTime);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        stopsJComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    setStartingStop((Stop) stopsJComboBox.getSelectedItem());
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
@@ -236,6 +247,7 @@ public final class IsochroneTL {
 
             if (!timeTable.servicesForDate(oldDate).equals(timeTable.servicesForDate(newDepartureDate))) {
                 updateDate();
+                refreshProviders();
             }
         }
     }
@@ -244,6 +256,7 @@ public final class IsochroneTL {
         if (newDepartureTime != departureTime) {
             departureTime = newDepartureTime;
             updateFastestPathTree();
+            refreshProviders();
         }
     }
 
@@ -251,6 +264,7 @@ public final class IsochroneTL {
         if (!startingStop.equals(newStartingStop)) {
             startingStop = newStartingStop;
             updateFastestPathTree();
+            refreshProviders();
         }
     }
 
@@ -297,6 +311,14 @@ public final class IsochroneTL {
         }
         String[] hourArray = SecondsPastMidnight.toString(departureTime).split(":");
         fastestPathTree = graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
+    }
+
+    private void refreshProviders() throws IOException {
+        tiledMapComponent.clearProviders();
+        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
+        tiledMapComponent.addProvider(bgTileProvider);
+        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
+        tiledMapComponent.addProvider(cachedIsochroneTileProvider);
     }
 }
 
