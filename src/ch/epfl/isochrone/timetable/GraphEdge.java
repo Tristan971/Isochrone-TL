@@ -118,7 +118,7 @@ public final class GraphEdge {
         if (position >= 0) {
             minimalTransportationTime = unpackTripArrivalTime(packTripsArray[position]);
         } else {
-            position = -position - 1;
+            position = - position - 1;
             if (position == packTripsArray.length) {
                 minimalTransportationTime = SecondsPastMidnight.INFINITE;
             } else {
