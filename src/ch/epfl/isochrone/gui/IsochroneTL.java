@@ -8,6 +8,8 @@ import ch.epfl.isochrone.timetable.Date.Month;
 import ch.epfl.isochrone.timetable.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -141,11 +143,19 @@ public final class IsochroneTL {
         JLabel startLabel = new JLabel("Départ : ");
         JLabel dateLabel = new JLabel("Date et heure : ");
 
-        Vector<Stop> stopsVector = new Vector<>(stopSet);
+        List<Stop> orderedStopList = new LinkedList<>(stopSet);
+        Collections.sort(orderedStopList, new Comparator<Stop>() {
+            @Override
+            public int compare(Stop stop1, Stop stop2) {
+                return stop1.name().compareTo(stop2.name());
+            }
+        });
+
+        Vector<Stop> stopsVector = new Vector<>(orderedStopList);
         JComboBox<Stop> stopsJComboBox = new JComboBox<>(stopsVector);
         stopsJComboBox.setSelectedItem(startingStop);
 
-        SpinnerDateModel spinnerDateModel = new SpinnerDateModel();
+        final SpinnerDateModel spinnerDateModel = new SpinnerDateModel();
         JSpinner dateSpinner = new JSpinner(spinnerDateModel);
 
         java.util.Date javaDate = departureDate.toJavaDate();
@@ -157,8 +167,24 @@ public final class IsochroneTL {
 
         myPanel.add(startLabel);
         myPanel.add(stopsJComboBox);
+        myPanel.add(new JSeparator());
         myPanel.add(dateLabel);
         myPanel.add(dateSpinner);
+
+        spinnerDateModel.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                Date modelDate = new Date(spinnerDateModel.getDate());
+                int departureTime = SecondsPastMidnight.fromJavaDate(spinnerDateModel.getDate());
+
+                try {
+                    setDepartureDate(modelDate);
+                    setDepartureTime(departureTime);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
 
         return myPanel;
     }
@@ -204,13 +230,12 @@ public final class IsochroneTL {
     }
 
     private void setDepartureDate(Date newDepartureDate) throws IOException {
-        if (departureDate.equals(newDepartureDate)) {
+        if (!departureDate.equals(newDepartureDate)) {
             Date oldDate = departureDate;
             departureDate = newDepartureDate;
 
             if (!timeTable.servicesForDate(oldDate).equals(timeTable.servicesForDate(newDepartureDate))) {
                 updateDate();
-                cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
             }
         }
     }
@@ -219,7 +244,6 @@ public final class IsochroneTL {
         if (newDepartureTime != departureTime) {
             departureTime = newDepartureTime;
             updateFastestPathTree();
-            cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         }
     }
 
@@ -273,14 +297,6 @@ public final class IsochroneTL {
         }
         String[] hourArray = SecondsPastMidnight.toString(departureTime).split(":");
         fastestPathTree = graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
-
-        /*
-        tiledMapComponent = new TiledMapComponent(currentZoom);
-        tiledMapComponent.addProvider(bgTileProvider);
-
-        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
-        tiledMapComponent.addProvider(cachedIsochroneTileProvider);
-        */
     }
 }
 

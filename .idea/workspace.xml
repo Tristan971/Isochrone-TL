@@ -7,8 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a9bc28c-b1cd-4c7b-8a2d-c8190b3dafc8" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Stop.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Stop.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
@@ -77,18 +78,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="IsochroneTL.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="IsochroneTL.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4520548" vertical-offset="0" max-vertical-offset="4245">
-              <caret line="22" column="86" selection-start-line="22" selection-start-column="86" selection-end-line="22" selection-end-column="86" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="4485">
+              <caret line="153" column="63" selection-start-line="153" selection-start-column="63" selection-end-line="153" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3324#3709#0" expanded="true" />
-                <element signature="e#3698#3699#0" expanded="true" />
-                <element signature="e#3750#4027#0" expanded="true" />
-                <element signature="e#4016#4017#0" expanded="true" />
+                <element signature="e#3403#3788#0" expanded="true" />
+                <element signature="e#3777#3778#0" expanded="true" />
+                <element signature="e#3829#4106#0" expanded="true" />
+                <element signature="e#4095#4096#0" expanded="true" />
+                <element signature="e#6097#6285#0" expanded="true" />
+                <element signature="e#6274#6275#0" expanded="true" />
+                <element signature="e#7139#7658#0" expanded="true" />
+                <element signature="e#7647#7648#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GraphEdge.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5154778" vertical-offset="1342" max-vertical-offset="2925">
+              <caret line="117" column="45" selection-start-line="117" selection-start-column="45" selection-end-line="117" selection-end-column="45" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -116,11 +131,15 @@
       <file leaf-file-name="TiledMapComponent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="157" max-vertical-offset="900">
-              <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="112" max-vertical-offset="960">
+              <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
               <folding>
-                <element signature="e#1582#1583#0" expanded="true" />
-                <element signature="e#1619#1620#0" expanded="true" />
+                <element signature="e#1468#1469#0" expanded="true" />
+                <element signature="e#1503#1504#0" expanded="true" />
+                <element signature="e#1528#1529#0" expanded="true" />
+                <element signature="e#1555#1556#0" expanded="true" />
+                <element signature="e#1591#1592#0" expanded="true" />
+                <element signature="e#1628#1629#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -190,11 +209,11 @@
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/geo/PointOSM.java" />
         <option value="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTableReader.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/CachedTileProvider.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Date.java" />
-        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Stop.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java" />
         <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
+        <option value="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java" />
       </list>
     </option>
   </component>
@@ -1199,7 +1218,11 @@
       <created>1401111595393</created>
       <updated>1401111595393</updated>
     </task>
-    <option name="localTasksCounter" value="123" />
+    <task id="LOCAL-00123" summary="les révélations mystiques">
+      <created>1401114928551</created>
+      <updated>1401114928551</updated>
+    </task>
+    <option name="localTasksCounter" value="124" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1295,7 +1318,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="ne jamais oublier : max est une merde" />
     <MESSAGE value="YOLO" />
     <MESSAGE value="wesh" />
     <MESSAGE value="flemme de rage wallah allah" />
@@ -1320,7 +1342,8 @@
     <MESSAGE value="assistant = kk" />
     <MESSAGE value="ce moment gênant :p" />
     <MESSAGE value="goddamnit" />
-    <option name="LAST_COMMIT_MESSAGE" value="goddamnit" />
+    <MESSAGE value="les révélations mystiques" />
+    <option name="LAST_COMMIT_MESSAGE" value="les révélations mystiques" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1332,20 +1355,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$PROJECT_DIR$/../jdk1.7.0_40.jdk/Contents/Home/src.zip!/java/lang/Math.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3487395" vertical-offset="8668" max-vertical-offset="22035">
-          <caret line="625" column="27" selection-start-line="625" selection-start-column="27" selection-end-line="625" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/../jdk1.7.0_40.jdk/Contents/Home/src.zip!/java/util/Map.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3329832" vertical-offset="4018" max-vertical-offset="6915">
-          <caret line="312" column="11" selection-start-line="312" selection-start-column="11" selection-end-line="312" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/../jdk1.7.0_40.jdk/Contents/Home/src.zip!/java/util/Collections.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2293" max-vertical-offset="57900">
@@ -1549,13 +1558,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33846155" vertical-offset="585" max-vertical-offset="1560">
-          <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/images/tl-logo.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -1641,14 +1643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68640643" vertical-offset="1260" max-vertical-offset="2985">
-          <caret line="120" column="25" selection-start-line="120" selection-start-column="25" selection-end-line="120" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/CachedTileProvider.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.68640643" vertical-offset="0" max-vertical-offset="743">
@@ -1689,17 +1683,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="157" max-vertical-offset="900">
-          <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
-          <folding>
-            <element signature="e#1582#1583#0" expanded="true" />
-            <element signature="e#1619#1620#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableReader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1128" max-vertical-offset="2625">
@@ -1716,17 +1699,68 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$PROJECT_DIR$/../jdk1.7.0_40.jdk/Contents/Home/src.zip!/java/lang/Override.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.54508746" vertical-offset="0" max-vertical-offset="743">
+          <caret line="50" column="18" selection-start-line="50" selection-start-column="18" selection-end-line="50" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.85733515" vertical-offset="817" max-vertical-offset="1560">
+          <caret line="12" column="12" selection-start-line="12" selection-start-column="12" selection-end-line="12" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/TiledMapComponent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="112" max-vertical-offset="960">
+          <caret line="58" column="30" selection-start-line="58" selection-start-column="30" selection-end-line="58" selection-end-column="30" />
+          <folding>
+            <element signature="e#1468#1469#0" expanded="true" />
+            <element signature="e#1503#1504#0" expanded="true" />
+            <element signature="e#1528#1529#0" expanded="true" />
+            <element signature="e#1555#1556#0" expanded="true" />
+            <element signature="e#1591#1592#0" expanded="true" />
+            <element signature="e#1628#1629#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4520548" vertical-offset="0" max-vertical-offset="4245">
-          <caret line="22" column="86" selection-start-line="22" selection-start-column="86" selection-end-line="22" selection-end-column="86" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1950" max-vertical-offset="4485">
+          <caret line="153" column="63" selection-start-line="153" selection-start-column="63" selection-end-line="153" selection-end-column="63" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3324#3709#0" expanded="true" />
-            <element signature="e#3698#3699#0" expanded="true" />
-            <element signature="e#3750#4027#0" expanded="true" />
-            <element signature="e#4016#4017#0" expanded="true" />
+            <element signature="e#3403#3788#0" expanded="true" />
+            <element signature="e#3777#3778#0" expanded="true" />
+            <element signature="e#3829#4106#0" expanded="true" />
+            <element signature="e#4095#4096#0" expanded="true" />
+            <element signature="e#6097#6285#0" expanded="true" />
+            <element signature="e#6274#6275#0" expanded="true" />
+            <element signature="e#7139#7658#0" expanded="true" />
+            <element signature="e#7647#7648#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/../jdk1.7.0_40.jdk/Contents/Home/src.zip!/java/util/Arrays.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33243608" vertical-offset="218" max-vertical-offset="54480">
+          <caret line="54" column="13" selection-start-line="54" selection-start-column="13" selection-end-line="54" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/GraphEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5154778" vertical-offset="1342" max-vertical-offset="2925">
+          <caret line="117" column="45" selection-start-line="117" selection-start-column="45" selection-end-line="117" selection-end-column="45" />
+          <folding />
         </state>
       </provider>
     </entry>

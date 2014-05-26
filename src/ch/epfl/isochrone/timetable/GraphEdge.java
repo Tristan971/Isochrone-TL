@@ -110,24 +110,20 @@ public final class GraphEdge {
             departureTimes[i]=unpackTripDepartureTime(packTripsArray[i]);
         }
 
-        Arrays.sort(departureTimes);
+        int minimalTransportationTime = SecondsPastMidnight.INFINITE;
 
-        int minimalTransportationTime;
-        int position = Arrays.binarySearch(departureTimes, departureTime);
-
-        if (position >= 0) {
-            minimalTransportationTime = unpackTripArrivalTime(packTripsArray[position]);
-        } else {
-            position = - position - 1;
-            if (position == packTripsArray.length) {
-                minimalTransportationTime = SecondsPastMidnight.INFINITE;
-            } else {
-                minimalTransportationTime = unpackTripArrivalTime(packTripsArray[position]);
+        if(!packedTrips.isEmpty()){
+            for (int trip : packedTrips) {
+                if(unpackTripDepartureTime(trip) >= departureTime && unpackTripArrivalTime(trip) < minimalTransportationTime){
+                    minimalTransportationTime = unpackTripArrivalTime(trip);
+                }
             }
         }
 
         return walk < minimalTransportationTime ? walk : minimalTransportationTime;
     }
+
+
 
     private int earliestByWalking (int startingTime) {
         return (walkingTime < 0) ? SecondsPastMidnight.INFINITE : startingTime+walkingTime;

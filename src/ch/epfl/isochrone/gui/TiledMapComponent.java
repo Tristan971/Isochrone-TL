@@ -56,7 +56,7 @@ public final class TiledMapComponent extends JComponent {
         return zoom;
     }
 
-    public void clear() {
+    public void clearProviders() {
         tileProviders.clear();
     }
 }
