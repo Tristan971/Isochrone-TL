@@ -34,26 +34,29 @@ public final class IsochroneTL {
     private Graph graph;
     private FastestPathTree fastestPathTree;
     private Set<Stop> stopSet;
-    private Set<Service> serviceSet;
 
     private final TiledMapComponent tiledMapComponent;
     private TileProvider cachedIsochroneTileProvider;
-    private TileProvider bgTileProvider;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
 
     public IsochroneTL() throws IOException {
-        startingStop = new Stop(INITIAL_STARTING_STOP_NAME, INITIAL_POSITION);
         departureDate = INITIAL_DATE;
         departureTime = INITIAL_DEPARTURE_TIME;
         timeTableReader = new TimeTableReader("/time-table/");
         timeTable = timeTableReader.readTimeTable();
 
+        for (Stop aStop : timeTable.stops()) {
+            if (aStop.name().equals(INITIAL_STARTING_STOP_NAME)) {
+                startingStop = aStop;
+            }
+        }
+
         updateDate();
         updateFastestPathTree();
 
-        bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
+        TileProvider bgTileProvider = new CachedTileProvider(new OSMTileProvider(new URL(OSM_TILE_URL)));
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
         cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
@@ -135,26 +138,25 @@ public final class IsochroneTL {
     }
 
     private JComponent createManagingPanel() {
-        JLabel departLabel = new JLabel("Départ : ");
-        Vector<Stop> stops = new Vector<>(stopSet);
-        JComboBox<Stop> stopJComboBox = new JComboBox<>(stops);
-        System.out.println(startingStop);
-        stopJComboBox.setSelectedItem(startingStop);
+        JLabel startLabel = new JLabel("Départ : ");
+        JLabel dateLabel = new JLabel("Date et heure : ");
+
+        Vector<Stop> stopsVector = new Vector<>(stopSet);
+        JComboBox<Stop> stopsJComboBox = new JComboBox<>(stopsVector);
+        stopsJComboBox.setSelectedItem(startingStop);
 
         SpinnerDateModel spinnerDateModel = new SpinnerDateModel();
         JSpinner dateSpinner = new JSpinner(spinnerDateModel);
+
         java.util.Date javaDate = departureDate.toJavaDate();
         javaDate.setHours(SecondsPastMidnight.hours(departureTime));
         javaDate.setMinutes(SecondsPastMidnight.minutes(departureTime));
-
         dateSpinner.setValue(javaDate);
-
-        JLabel dateLabel = new JLabel("Date et heure : ");
 
         JPanel myPanel = new JPanel(new FlowLayout());
 
-        myPanel.add(departLabel);
-        myPanel.add(stopJComboBox);
+        myPanel.add(startLabel);
+        myPanel.add(stopsJComboBox);
         myPanel.add(dateLabel);
         myPanel.add(dateSpinner);
 
@@ -247,7 +249,7 @@ public final class IsochroneTL {
         for (int i = 0; i < argDateArray.length; i++) {
             dateArray[i] = Integer.parseInt(argDateArray[i]);
         }
-        serviceSet = timeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]));
+        Set<Service> serviceSet = timeTable.servicesForDate(new Date(dateArray[2], dateArray[1], dateArray[0]));
 
         stopSet = new HashSet<>(timeTable.stops());
         graph = timeTableReader.readGraphForServices(stopSet, new HashSet<>(serviceSet), Integer.parseInt(Integer.toString(WALKING_TIME)), Double.parseDouble(Double.toString(WALKING_SPEED)));
@@ -273,7 +275,7 @@ public final class IsochroneTL {
         fastestPathTree = graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
 
         /*
-        tiledMapComponent.clear();
+        tiledMapComponent = new TiledMapComponent(currentZoom);
         tiledMapComponent.addProvider(bgTileProvider);
 
         cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
