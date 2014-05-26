@@ -104,12 +104,6 @@ public final class GraphEdge {
         Integer[] packTripsArray = packedTrips.toArray(new Integer[packedTrips.size()]);
         Arrays.sort(packTripsArray);
 
-        Integer[] departureTimes = new Integer[packTripsArray.length];
-
-        for (int i = 0; i < packTripsArray.length; i++) {
-            departureTimes[i]=unpackTripDepartureTime(packTripsArray[i]);
-        }
-
         int minimalTransportationTime = SecondsPastMidnight.INFINITE;
 
         if(!packedTrips.isEmpty()){
