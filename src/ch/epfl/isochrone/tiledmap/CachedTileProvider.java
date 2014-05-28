@@ -12,7 +12,7 @@ public class CachedTileProvider implements TileProvider {
     /**
      * Constructeur principal de la classe
      * @param genericTileProvider
-     *          Le provider utilisé
+     *          Le provider à mettre en cache
      */
     public CachedTileProvider(TileProvider genericTileProvider) {
         this.tileProvider = genericTileProvider;

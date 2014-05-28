@@ -17,33 +17,41 @@ import java.net.URL;
 import java.util.*;
 import java.util.List;
 
+/**
+ * Classe principale du programme, gérant l'UI et appelant les autres classes quand nécessaire
+ * @author Tristan Deloche (234045)
+ */
 public final class IsochroneTL {
     private static final String OSM_TILE_URL = "http://b.tile.openstreetmap.org/";
-    private static final int INITIAL_ZOOM = 11;
     private static final PointWGS84 INITIAL_POSITION = new PointWGS84(Math.toRadians(6.476), Math.toRadians(46.613));
     private static final String INITIAL_STARTING_STOP_NAME = "Lausanne-Flon";
-    private static final int INITIAL_DEPARTURE_TIME = SecondsPastMidnight.fromHMS(6, 8, 0);
     private static final Date INITIAL_DATE = new Date(1, Month.OCTOBER, 2013);
+    private static final int INITIAL_ZOOM = 11;
+    private static final int INITIAL_DEPARTURE_TIME = SecondsPastMidnight.fromHMS(6, 8, 0);
     private static final int WALKING_TIME = 5 * 60;
     private static final double WALKING_SPEED = 1.25;
     private static final double OPACITY = 0.5;
 
+    private final TiledMapComponent tiledMapComponent;
+    private final TileProvider bgTileProvider;
+    private TileProvider cachedIsochroneTileProvider;
+
     private Stop startingStop;
     private Date departureDate;
-    private int departureTime;
     private TimeTable timeTable;
     private TimeTableReader timeTableReader;
     private Graph graph;
     private FastestPathTree fastestPathTree;
     private Set<Stop> stopSet;
-
-    private final TiledMapComponent tiledMapComponent;
-    private TileProvider cachedIsochroneTileProvider;
-    private TileProvider bgTileProvider;
+    private int departureTime;
 
     private Point mousePositionBeforeMove = new Point();
     private Point viewPositionBeforeMove = new Point();
 
+    /**
+     * Constructeur principal de la classe
+     * @throws IOException
+     */
     public IsochroneTL() throws IOException {
         departureDate = INITIAL_DATE;
         departureTime = INITIAL_DEPARTURE_TIME;
@@ -92,6 +100,7 @@ public final class IsochroneTL {
             }
         });
 
+        // Détecte la position du pointeur
         layeredPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -100,6 +109,7 @@ public final class IsochroneTL {
             }
         });
 
+        // Détecte les mouvements de la souris quand le bouton gauche est pressé
         layeredPane.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -113,6 +123,7 @@ public final class IsochroneTL {
             }
         });
 
+        // Détection des mouvements de la roulette de la souris pour adapter le zoom
         layeredPane.addMouseWheelListener(new MouseWheelListener() {
             @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
@@ -139,6 +150,7 @@ public final class IsochroneTL {
         return centerPanel;
     }
 
+    // Création du panel contenant les éléments de contrôle (Arrêts et Date/Heure)
     private JComponent createManagingPanel() {
         JLabel startLabel = new JLabel("Départ : ");
         JLabel dateLabel = new JLabel("Date et heure : ");
@@ -171,6 +183,7 @@ public final class IsochroneTL {
         myPanel.add(dateLabel);
         myPanel.add(dateSpinner);
 
+        // Détecte une modification de la date ou de l'heure
         spinnerDateModel.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -178,14 +191,14 @@ public final class IsochroneTL {
                 int departureTime = SecondsPastMidnight.fromJavaDate(spinnerDateModel.getDate());
 
                 try {
-                    setDepartureDate(modelDate);
-                    setDepartureTime(departureTime);
+                    setDateAndDepartureTime(modelDate, departureTime);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             }
         });
 
+        // Détecte et applique un changement de l'arrêt de départ
         stopsJComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -240,6 +253,19 @@ public final class IsochroneTL {
         });
     }
 
+    // Applique la correction d'horaires dûe aux horaire non-civils utilisés par les TL (4h/4h au lieu de 0h/24h)
+    private void setDateAndDepartureTime(Date newDepartureDate, int newDepartureTime) throws IOException {
+        if (SecondsPastMidnight.hours(newDepartureTime) < 4) {
+            newDepartureTime += SecondsPastMidnight.fromHMS(24,0,0);
+            setDepartureTime(newDepartureTime);
+            setDepartureDate(newDepartureDate.relative(-1));
+        } else {
+            setDepartureTime(newDepartureTime);
+            setDepartureDate(newDepartureDate);
+        }
+    }
+
+    // Change la date de recherche
     private void setDepartureDate(Date newDepartureDate) throws IOException {
         if (!departureDate.equals(newDepartureDate)) {
             Date oldDate = departureDate;
@@ -252,6 +278,7 @@ public final class IsochroneTL {
         }
     }
 
+    // Change l'heure de départ
     private void setDepartureTime(int newDepartureTime) throws IOException {
         if (newDepartureTime != departureTime) {
             departureTime = newDepartureTime;
@@ -260,6 +287,7 @@ public final class IsochroneTL {
         }
     }
 
+    // Change le stop de départ
     private void setStartingStop(Stop newStartingStop) throws IOException {
         if (!startingStop.equals(newStartingStop)) {
             startingStop = newStartingStop;
@@ -268,6 +296,7 @@ public final class IsochroneTL {
         }
     }
 
+    // Génère une carte isochrone à l'aide des attributs privés de la classe qui sont modifiées par les méthodes de contrôle de l'UI
     private IsochroneTileProvider makeIsochroneTileProvider() throws IOException {
         LinkedList<Color> colorLinkedList = new LinkedList<>();
         colorLinkedList.add(new Color(0, 0, 0));
@@ -280,6 +309,7 @@ public final class IsochroneTL {
         return new IsochroneTileProvider(fastestPathTree, myColorTable, WALKING_SPEED);
     }
 
+    // MÀJ la carte isochrone en fonction de la nouvelle date de recherche
     private void updateDate() throws IOException {
         String[] argDateArray = departureDate.toString().split("-");
         Integer[] dateArray = new Integer[3];
@@ -294,6 +324,7 @@ public final class IsochroneTL {
         updateFastestPathTree();
     }
 
+    // MÀJ le FastestPathTree en fonction des nouveaux paramètres
     private void updateFastestPathTree() throws IOException {
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
@@ -313,6 +344,7 @@ public final class IsochroneTL {
         fastestPathTree = graph.fastestPaths(firstStop, SecondsPastMidnight.fromHMS(Integer.parseInt(hourArray[0]), Integer.parseInt(hourArray[1]), Integer.parseInt(hourArray[2])));
     }
 
+    // Refresh le TiledMapComponent une fois les nouveaux providers créés
     private void refreshProviders() throws IOException {
         tiledMapComponent.clearProviders();
         cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));

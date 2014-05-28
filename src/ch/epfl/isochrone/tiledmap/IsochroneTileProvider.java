@@ -20,14 +20,34 @@ public final class IsochroneTileProvider implements TileProvider {
     private ColorTable colorTable;
     private double walkingSpeed;
 
+    /**
+     * Constructeur principal de la classe
+     * @param fastestPathTree
+     *          FastetPathTree à utiliser pour calculer les trajets
+     * @param colorTable
+     *          Table de couleurs à utiliser pour les cercles
+     * @param walkingSpeed
+     *          Vitesse de marche à considérer
+     * @throws IOException
+     *          Si problème d'accès aux données OSM
+     */
     public IsochroneTileProvider(FastestPathTree fastestPathTree, ColorTable colorTable, double walkingSpeed) throws IOException {
-
         this.fastestPathTree = fastestPathTree;
         this.colorTable = colorTable;
         this.walkingSpeed = walkingSpeed;
-
     }
 
+    /**
+     * Renvoie la tile aux coordonnées et zoom passés en argument
+     * @param zoom
+     *      Zoom à considérer
+     * @param x
+     *      Longitude
+     * @param y
+     *      Latitude
+     * @return
+     *      Tile associée
+     */
     @Override
     public Tile tileAt(int zoom, int x, int y) {
         BufferedImage bufferedImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
@@ -40,6 +60,7 @@ public final class IsochroneTileProvider implements TileProvider {
         PointOSM point2 = new PointOSM(zoom, x*256, (y+1)*256);
         double distancePerPixel = point1.toWGS84().distanceTo(point2.toWGS84()) /256;
 
+        // Pour chaque tranche, on itère sur chaque stop et on dessine en fonction du temps restant les cercles autour dudit stop
         for (Integer anInteger : colorTable.getDurations()) {
             graphics2D.setColor(colorTable.getColorForDuration(anInteger));
             for (Stop aStop : fastestPathTree.stops()) {

@@ -6,5 +6,5 @@ package ch.epfl.isochrone.timetable;
  */
 
 public class TimeTableSearch {
-    // now useless
+    // now useless since the program now has a GUI
 }

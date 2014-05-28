@@ -14,6 +14,13 @@ public final class ColorTable {
     private LinkedList<Color> colorLinkedList;
     private int divDuration;
 
+    /**
+     * Constructeur principal de la classe
+     * @param dividingDuration
+     *          Durée d'une tranche de temps
+     * @param colorList
+     *          Liste des couleurs associées (moitié-moins car les intermédiaires sont générées)
+     */
     public ColorTable(int dividingDuration, LinkedList<Color> colorList) {
         LinkedList<Color> colorLinkedListB = new LinkedList<>();
 

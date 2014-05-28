@@ -65,6 +65,11 @@ public final class Graph {
 
     }
 
+    /**
+     * Getteur sur les stops
+     * @return
+     *      Renvoie les stops sous forme de set
+     */
     public Set<Stop> getStops() {
         return stops;
     }

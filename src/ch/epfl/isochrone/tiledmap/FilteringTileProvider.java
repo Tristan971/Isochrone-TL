@@ -6,5 +6,12 @@ package ch.epfl.isochrone.tiledmap;
  */
 
 public abstract class FilteringTileProvider implements TileProvider {
+    /**
+     * Tansforme un pixel en modifiant l'une de ses caractéristiques RGBa
+     * @param argb
+     *      Pixel d'origine
+     * @return
+     *      Pixel modifié
+     */
     abstract public int transformARGB(int argb);
 }
