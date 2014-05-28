@@ -98,29 +98,25 @@ public final class GraphEdge {
      * @return
      *          L'heure d'arrivée la plus proche en utilisant cet arc
      */
-    public int earliestArrivalTime(int departureTime) {
-        int walk = earliestByWalking(departureTime);
+    public int earliestArrivalTime(int departureTime){
+        return(arrivalTimeByWalking(departureTime) > arrivalTimeByDriving(departureTime)) ? arrivalTimeByDriving(departureTime) : arrivalTimeByWalking(departureTime);
+    }
 
-        Integer[] packTripsArray = packedTrips.toArray(new Integer[packedTrips.size()]);
-        Arrays.sort(packTripsArray);
+    private int arrivalTimeByWalking(int departureTime){
+        return (walkingTime == -1) ? SecondsPastMidnight.INFINITE : (walkingTime + departureTime);
+    }
 
-        int minimalTransportationTime = SecondsPastMidnight.INFINITE;
+    private int arrivalTimeByDriving(int departureTime){
+        int time = SecondsPastMidnight.INFINITE;
 
         if(!packedTrips.isEmpty()){
             for (int trip : packedTrips) {
-                if(unpackTripDepartureTime(trip) >= departureTime && unpackTripArrivalTime(trip) < minimalTransportationTime){
-                    minimalTransportationTime = unpackTripArrivalTime(trip);
+                if(unpackTripDepartureTime(trip) >= departureTime && unpackTripArrivalTime(trip) < time){
+                    time = unpackTripArrivalTime(trip);
                 }
             }
         }
-
-        return walk < minimalTransportationTime ? walk : minimalTransportationTime;
-    }
-
-
-
-    private int earliestByWalking (int startingTime) {
-        return (walkingTime < 0) ? SecondsPastMidnight.INFINITE : startingTime+walkingTime;
+        return time;
     }
 
     /**
