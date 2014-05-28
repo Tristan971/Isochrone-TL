@@ -58,14 +58,16 @@ public final class Tile {
     /**
      * Permet de contenir toutes les coordonnées de la tuile dans un seul objet ; utile ensuite pour
      * @return
+     *      Un long contenant l'ensemble des coordonnées de la tile
      */
     public long packCoordinates() {
         return getZoom()+100*getLongitude()+(int) Math.pow(10,9)*getLatitude();
     }
 
     /**
-     * Renvoie le PNG lié à la tuile en question
+     * Renvoie la BufferedImage liée à la tuile en question
      * @return
+     *      La BufferedImage associée
      */
     public BufferedImage getBufferedImage() {
         return bufferedImage;
