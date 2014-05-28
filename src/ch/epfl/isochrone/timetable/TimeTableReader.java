@@ -56,7 +56,8 @@ public final class TimeTableReader {
          */
         bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "calendar.csv"));
         while ((currentLine = bufferedReader.readLine()) != null) {
-            stringBuilderHashMap.put(makeServiceWithLine(currentLine).name(), makeServiceWithLine(currentLine));
+            Service.Builder s = makeServiceWithLine(currentLine);
+            stringBuilderHashMap.put(s.name(), s);
         }
         bufferedReader.close();
 
@@ -72,7 +73,10 @@ public final class TimeTableReader {
             } else {
                 stringBuilderHashMap.get(currentLine.split(";")[0]).addExcludedDate(date);
             }
-            TTBuilder.addService(stringBuilderHashMap.get(currentLine.split(";")[0]).build());
+
+            for (Service.Builder serviceBuilder : stringBuilderHashMap.values()) {
+                TTBuilder.addService(serviceBuilder.build());
+            }
 
         }
         bufferedReader.close();
