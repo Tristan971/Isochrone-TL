@@ -1,27 +1,14 @@
 package ch.epfl.isochrone.timetable;
 
-import java.util.Set;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
-import static java.lang.Math.toRadians;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
+import ch.epfl.isochrone.geo.PointWGS84;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.isochrone.geo.PointWGS84;
+import java.io.IOException;
+import java.util.*;
+
+import static java.lang.Math.toRadians;
+import static org.junit.Assert.assertEquals;
 
 public class TestGraph {
     
@@ -273,23 +260,6 @@ public class TestGraph {
         str = s1.name()+SecondsPastMidnight.toString(f.arrivalTime(s1))+f.pathTo(s1);
         assertEquals(str444, str);
         
-    }
-
-    
-    // Le "test" suivant n'en est pas un à proprement parler, raison pour
-    // laquelle il est ignoré (annotation @Ignore). Son seul but est de garantir
-    // que les noms des classes et méthodes sont corrects.
-    @Test
-    @Ignore
-    public void namesAreOk() {
-        // Graph n'a aucune méthode publique à ce stade...
-
-        Set<Stop> stops = null;
-        Stop stop = null;
-        Graph.Builder gb = new Graph.Builder(stops);
-        gb.addTripEdge(stop, stop, 0, 0);
-        gb.addAllWalkEdges(0, 0);
-        gb.build();
     }
 
     // A compléter avec de véritables méthodes de test...
