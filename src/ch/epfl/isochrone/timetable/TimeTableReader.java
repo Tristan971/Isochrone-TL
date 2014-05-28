@@ -17,9 +17,6 @@ import java.util.Set;
  */
 
 public final class TimeTableReader {
-    /**
-     * InputStreams modélisant les streams de chaque fichier
-     */
     private String baseResourceName;
 
     /**
