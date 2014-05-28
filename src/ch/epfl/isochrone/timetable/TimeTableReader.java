@@ -73,13 +73,12 @@ public final class TimeTableReader {
             } else {
                 stringBuilderHashMap.get(currentLine.split(";")[0]).addExcludedDate(date);
             }
-
-            for (Service.Builder serviceBuilder : stringBuilderHashMap.values()) {
-                TTBuilder.addService(serviceBuilder.build());
-            }
-
         }
         bufferedReader.close();
+
+        for (Service.Builder serviceBuilder : stringBuilderHashMap.values()) {
+            TTBuilder.addService(serviceBuilder.build());
+        }
 
         /**
          * On se sert des données pour bâtir l'horaire
