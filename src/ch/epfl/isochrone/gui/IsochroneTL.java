@@ -347,7 +347,6 @@ public final class IsochroneTL {
     // Refresh le TiledMapComponent une fois les nouveaux providers créés
     private void refreshProviders() throws IOException {
         tiledMapComponent.clearProviders();
-        cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         tiledMapComponent.addProvider(bgTileProvider);
         cachedIsochroneTileProvider = new CachedTileProvider(new TransparentTileProvider(makeIsochroneTileProvider(), OPACITY));
         tiledMapComponent.addProvider(cachedIsochroneTileProvider);
