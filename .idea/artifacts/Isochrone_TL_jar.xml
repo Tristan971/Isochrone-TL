@@ -3,8 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/Isochrone_TL_jar</output-path>
     <root id="archive" name="Isochrone-TL.jar">
       <element id="module-output" name="Isochrone-TL" />
-      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/junit-4.11.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$USER_HOME$/Downloads/hamcrest-core-1.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$APPLICATION_HOME_DIR$/lib/junit-4.11.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -152,8 +152,8 @@ public final class IsochroneTL {
 
     // Création du panel contenant les éléments de contrôle (Arrêts et Date/Heure)
     private JComponent createManagingPanel() {
-        JLabel startLabel = new JLabel("Départ : ");
-        JLabel dateLabel = new JLabel("Date et heure : ");
+        JLabel startLabel = new JLabel("Starting stop : ");
+        JLabel dateLabel = new JLabel("Date and hour (DD/MM/YY) : ");
 
         List<Stop> orderedStopList = new LinkedList<>(stopSet);
         Collections.sort(orderedStopList, new Comparator<Stop>() {
@@ -215,7 +215,7 @@ public final class IsochroneTL {
 
     private JPanel createCopyrightPanel() {
         Icon tlIcon = new ImageIcon(getClass().getResource("/images/tl-logo.png"));
-        String copyrightText = "Données horaires 2013. Source : Transports publics de la région lausannoise / Carte : © contributeurs d'OpenStreetMap";
+        String copyrightText = "TL's Data (2013)/ ©OpenStreetMap contributors / Program by Tristan Deloche";
         JLabel copyrightLabel = new JLabel(copyrightText, tlIcon, SwingConstants.CENTER);
         copyrightLabel.setOpaque(true);
         copyrightLabel.setForeground(new Color(1f, 1f, 1f, 0.6f));
@@ -353,4 +353,3 @@ public final class IsochroneTL {
         tiledMapComponent.addProvider(cachedIsochroneTileProvider);
     }
 }
-
