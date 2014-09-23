@@ -24,9 +24,6 @@ import ch.epfl.isochrone.geo.PointWGS84;
      */
     public Stop(String name, PointWGS84 position) {
         this.name = name;
-        if (name.equals("Lausanne-Flon")) {
-            System.out.println(name + " valide");
-        }
         this.position = position;
     }
 
