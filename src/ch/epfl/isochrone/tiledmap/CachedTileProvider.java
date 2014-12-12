@@ -19,7 +19,7 @@ public class CachedTileProvider implements TileProvider {
     }
 
     /**
-     * Renvoie la tile d'un envroit donné
+     * Renvoie la tile d'un endroit donné
      * @param zoom
      *      Zoom lié
      * @param x
