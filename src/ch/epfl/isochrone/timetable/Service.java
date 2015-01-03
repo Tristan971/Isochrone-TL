@@ -69,11 +69,11 @@ public final class Service {
     }
 
     /**
-     * Vérifie si service actif à une date donnée
+     * Verifies if a given service is active on a given date
      * @param date
-     *      Date en question
+     *      Date to check
      * @return
-     *      booléen, true pour actif et false pour inactif
+     *      A boolean, of value true for active and false for inactive
      */
     boolean isOperatingOn(Date date) {
         boolean isBetweenStartingAndEnding = date.compareTo(startingDate) >= 0 && date.compareTo(endingDate) <= 0;
