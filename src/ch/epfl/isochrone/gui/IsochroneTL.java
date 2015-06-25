@@ -240,7 +240,8 @@ public final class IsochroneTL {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
