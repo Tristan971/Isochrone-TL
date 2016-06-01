@@ -1,95 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c756f982-c704-4025-bedb-04ce2ceb624d" name="Default" comment="Cleaning up going on. Will sanitize the codebase of my first ever &quot;real&quot; java project :')">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/artifacts/Isochrone_TL_jar/Isochrone-TL.jar" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/META-INF/MANIFEST.MF" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/geo/PointOSM.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/geo/PointWGS84.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$3.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$4.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$5.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$6.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$7.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$8.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL$9.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/IsochroneTL.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/gui/TiledMapComponent.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/math/Math.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/CachedTileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/ColorTable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/FilteringTileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/IsochroneTileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/OSMTileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/Tile.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/TileCache$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/TileCache.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/TileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/tiledmap/TransparentTileProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Date$DayOfWeek.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Date$Month.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Date.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/FastestPathTree$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/FastestPathTree.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Graph$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Graph$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Graph.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/GraphEdge$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/GraphEdge.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/SecondsPastMidnight.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Service$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Service.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/Stop.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/TimeTable$Builder.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/TimeTable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/TimeTableReader.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/ch/epfl/isochrone/timetable/TimeTableSearch.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/images/error-tile.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/images/tl-logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/time-table/calendar.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/time-table/calendar_dates.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/time-table/stop_times.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/Isochrone-TL/time-table/stops.csv" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/geo/TestPointOSM.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/geo/TestPointWGS84.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/math/TestMathDiv.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/math/TestMathTrig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestDate.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestFastestPathTree.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestGraph$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestGraph.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestGraphEdge.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestSecondsPastMidnight.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestService.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestTimeTable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestTimeTableReader$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestTimeTableReader$ServiceComparator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestTimeTableReader$StopComparator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/test/Isochrone-TL/ch/epfl/isochrone/timetable/TestTimeTableReader.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Isochrone_TL.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Isochrone_TL.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Isochrone-TL.iml" afterPath="$PROJECT_DIR$/Isochrone-TL.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/gui/IsochroneTL.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/ColorTable.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/ColorTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/TileCache.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/TileCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/TileProvider.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/tiledmap/TileProvider.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Date.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Date.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/FastestPathTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Graph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/SecondsPastMidnight.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/Service.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTable.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableReader.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableReader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" afterPath="$PROJECT_DIR$/src/ch/epfl/isochrone/timetable/TimeTableSearch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestFastestPathTree.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestFastestPathTree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraph.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraphEdge.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestGraphEdge.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTable.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTable.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTableReader.java" afterPath="$PROJECT_DIR$/test/ch/epfl/isochrone/timetable/TestTimeTableReader.java" />
+    <list default="true" id="c756f982-c704-4025-bedb-04ce2ceb624d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
     </list>
     <ignored path="Isochrone-TL.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -781,12 +694,20 @@
       <updated>1464821321398</updated>
       <workItem from="1464821323434" duration="107000" />
       <workItem from="1464821524376" duration="58000" />
-      <workItem from="1464822687594" duration="1561000" />
+      <workItem from="1464822687594" duration="1573000" />
     </task>
+    <task id="LOCAL-00001" summary="Cleaning up going on. Will sanitize the codebase of my first ever &quot;real&quot; java project :')">
+      <created>1464824257024</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1464824257024</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1726000" />
+    <option name="totallyTimeSpent" value="1738000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1920" height="1093" extended-state="6" />
