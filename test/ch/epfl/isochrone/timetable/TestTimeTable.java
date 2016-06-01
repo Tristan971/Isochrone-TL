@@ -15,7 +15,7 @@ public class TestTimeTable {
     
     @Test
     public void testServicesForDate() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -27,7 +27,7 @@ public class TestTimeTable {
         stops.add(stop4);
         stops.add(stop5);
         
-        Set<Service> services = new HashSet<Service>();
+        Set<Service> services = new HashSet<>();
         Date start = new Date(20, Month.MARCH, 2014);
         Date end = new Date(30, Month.MARCH, 2014);
         

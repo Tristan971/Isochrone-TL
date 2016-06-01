@@ -10,6 +10,11 @@ import java.util.*;
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings({
+        "Duplicates",
+        "unused",
+        "UnusedAssignment"
+})
 public class TestGraph {
     
     
@@ -25,7 +30,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testFromStop() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -43,7 +48,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testToStop() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -60,7 +65,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testDeparture() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -77,7 +82,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testArrival() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -94,7 +99,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testArrivalBeforeDeparture() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         Stop stop3 = new Stop("Lausanne-Gare", new PointWGS84(toRadians(6.629371849),toRadians(46.5174432543)));
@@ -111,7 +116,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testMaxWalkingTime() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
        
@@ -125,7 +130,7 @@ public class TestGraph {
     
     @Test(expected = java.lang.IllegalArgumentException.class)
     public void testMaxWalkingSpeed() {
-        Set<Stop> stops = new HashSet<Stop>();
+        Set<Stop> stops = new HashSet<>();
         Stop stop1 = new Stop("Stand", new PointWGS84(toRadians(6.5624795866),toRadians(46.5327194855)));
         Stop stop2 = new Stop("EPFL", new PointWGS84(toRadians(6.56591465573),toRadians(46.5221889086)));
         stops.add(stop1);
@@ -216,16 +221,12 @@ public class TestGraph {
         FastestPathTree f = g.fastestPaths(startingStop, startingTime);
         
         List<Stop> sortedStops = new ArrayList<>(f.stops());
-        Collections.sort(sortedStops, new Comparator<Stop>() {
-            @Override
-            public int compare(Stop o1, Stop o2) {
-                return o1.name().compareTo(o2.name());
-        }});
+        Collections.sort(sortedStops, (o1, o2) -> o1.name().compareTo(o2.name()));
         
-        /**
-         * random check five records 
-         * if all five tests are passed, we assume that 
-         * the program is right.
+        /*
+          random check five records
+          if all five tests are passed, we assume that
+          the program is right.
          */
         String str1 = "1er Mai06:26:00[Lausanne-Flon, Port-Franc, EPSIC, Ecole des Métiers, Couchirard, Prélaz-les-Roses, Galicien, Perrelet, Florissant, Broye, Bourg-Dessus, Follieu, Borjod, Saugiaz, 1er Mai]";
         String str67 = "CHUV06:15:16[Lausanne-Flon, Rôtillon, Bessières, Ours, CHUV]";

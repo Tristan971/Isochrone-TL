@@ -5,6 +5,8 @@ package ch.epfl.isochrone.timetable;
  * @author Tristan Deloche (234045)
  */
 
+@SuppressWarnings("unused")
 public class TimeTableSearch {
     // now useless since the program now has a GUI
+    private final static String STATUS = "LEGACY";
 }

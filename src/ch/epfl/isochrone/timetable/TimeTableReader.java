@@ -43,16 +43,16 @@ public final class TimeTableReader {
         BufferedReader bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "stops.csv"));
         String currentLine;
 
-        /**
-         * On lit les stops
+        /*
+          On lit les stops
          */
         while ((currentLine = bufferedReader.readLine()) != null) {
             TTBuilder.addStop(makeStopWithLine(currentLine));
         }
         bufferedReader.close();
 
-        /**
-         * On lit les services
+        /*
+          On lit les services
          */
         bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "calendar.csv"));
         while ((currentLine = bufferedReader.readLine()) != null) {
@@ -61,8 +61,8 @@ public final class TimeTableReader {
         }
         bufferedReader.close();
 
-        /**
-         * On lit les exceptions des services (inclues et exclues)
+        /*
+          On lit les exceptions des services (inclues et exclues)
          */
         bufferedReader = readerFromInputStream(getClass().getResourceAsStream(baseResourceName + "calendar_dates.csv"));
         while ((currentLine = bufferedReader.readLine()) != null) {
@@ -80,8 +80,8 @@ public final class TimeTableReader {
             TTBuilder.addService(serviceBuilder.build());
         }
 
-        /**
-         * On se sert des données pour bâtir l'horaire
+        /*
+          On se sert des données pour bâtir l'horaire
          */
         return TTBuilder.build();
     }

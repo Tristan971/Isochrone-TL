@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Classe gérant la notion d'Horaire
@@ -47,13 +48,9 @@ public final class TimeTable {
      *      Ensemble des services actifs à la date donnée
      */
     public Set<Service> servicesForDate(Date date) {
-        Set<Service> serviceSet = new HashSet<>();
-        for (Service aService : services) {
-            if (aService.isOperatingOn(date)) {
-                serviceSet.add(aService);
-            }
-        }
-        return serviceSet;
+        return services.stream()
+                .filter(aService -> aService.isOperatingOn(date))
+                .collect(Collectors.toSet());
     }
 
     /**

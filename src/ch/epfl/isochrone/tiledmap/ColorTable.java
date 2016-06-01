@@ -37,7 +37,7 @@ public final class ColorTable {
         this.divDuration = dividingDuration;
     }
 
-    public static Color blend(Color c0, Color c1) {
+    private static Color blend(Color c0, Color c1) {
         double r = (c0.getRed() + c1.getRed()) / 2;
         double g = (c0.getGreen() + c1.getGreen()) /2;
         double b = (c0.getBlue() + c1.getBlue())/2;
@@ -52,10 +52,6 @@ public final class ColorTable {
             durationList.add(i+1);
         }
         return durationList;
-    }
-
-    public int getNumberOfDurations() {
-        return getDurations().size();
     }
 
     public Color getColorForDuration(int time) {

@@ -34,7 +34,7 @@ public final class Service {
      * @param includedDates
      *          Dates spéciales inclues
      */
-    public Service(String name, Date startingDate, Date endingDate, Set<Date.DayOfWeek> operatingDays, Set<Date> excludedDates, Set<Date> includedDates) {
+    private Service(String name, Date startingDate, Date endingDate, Set<Date.DayOfWeek> operatingDays, Set<Date> excludedDates, Set<Date> includedDates) {
 
         this.name = name;
         this.startingDate = startingDate;
@@ -104,8 +104,8 @@ public final class Service {
          */
         private final String name;
         private final Date startingDate, endingDate;
-        private Set<Date.DayOfWeek> operatingDays = new HashSet<Date.DayOfWeek>();
-        private Set<Date> excludedDates = new HashSet<Date>(), includedDates = new HashSet<Date>();
+        private Set<Date.DayOfWeek> operatingDays = new HashSet<>();
+        private Set<Date> excludedDates = new HashSet<>(), includedDates = new HashSet<>();
 
         public Builder(String name, Date startingDate, Date endingDate) {
 

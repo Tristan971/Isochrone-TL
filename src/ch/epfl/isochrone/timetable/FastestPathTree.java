@@ -23,7 +23,7 @@ public final class FastestPathTree {
      * @param arrivalTime
      *          Heure d'arrivée à chacun des stops (sous forme de map)
      */
-    public FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime, Map<Stop, Stop> predecessor) {
+    private FastestPathTree(Stop startingStop, Map<Stop, Integer> arrivalTime, Map<Stop, Stop> predecessor) {
 
         Set<Stop> test = new HashSet<>();
         test.add(startingStop);
@@ -35,16 +35,6 @@ public final class FastestPathTree {
         this.startingStop = startingStop;
         this.arrivalTime = new HashMap<>(Collections.unmodifiableMap(arrivalTime));
         this.predecessor = new HashMap<>(Collections.unmodifiableMap(predecessor));
-    }
-
-
-    /**
-     * Simple getter sur l'arrêt de départ
-     * @return
-     *      L'arrêt de départ
-     */
-    public Stop startingStop() {
-        return startingStop;
     }
 
     /**
@@ -95,7 +85,7 @@ public final class FastestPathTree {
         LinkedList<Stop> pathList = new LinkedList<>();
         Stop s1 = stop;
 
-        while (!s1.equals(startingStop())) {
+        while (!s1.equals(startingStop)) {
             pathList.addFirst(s1);
             s1=predecessor.get(s1);
         }

@@ -2,23 +2,24 @@ package ch.epfl.isochrone.timetable;
 
 import ch.epfl.isochrone.math.Math;
 
-/**
- * Classe de gestion des Dates.
- * @author Tristan Deloche (234045)
+/*
+  Classe de gestion des Dates.
+  @author Tristan Deloche (234045)
  */
 
 /**
  * On évite des warnings inutiles liés à l'utilisation de java.util.Date
  */
 
+@SuppressWarnings("deprecation")
 public final class Date implements Comparable<Date> {
 
     /**
      * Création d'un tableau contentant les données suivantes : [ 0:JOUR | 1:MOIS | 2:ANNÉE ]
      */
-    int day;
-    int month;
-    int year;
+    private int day;
+    private int month;
+    private int year;
 
     /**
      * Énumération des jours de la semaine
@@ -104,7 +105,7 @@ public final class Date implements Comparable<Date> {
      * @param year  Année en question, au cas où bissextile
      * @return Durée en jours du mois envoyé sur l'année envoyée
      */
-    public int getNumberOfDaysForMonth(int month, int year) {
+    private int getNumberOfDaysForMonth(int month, int year) {
         switch (month) {
         case 1:
             return 31;
@@ -246,7 +247,7 @@ public final class Date implements Comparable<Date> {
      * @param intMonth Numéro du mois
      * @return Months correspondant au int passé en argument
      */
-    public static Month intToMonth(int intMonth) {
+    private static Month intToMonth(int intMonth) {
         if (intMonth < 1 || intMonth > 12) {
             throw new IllegalArgumentException("Pas un numéro de mois valide : " + intMonth);
         }
@@ -259,7 +260,7 @@ public final class Date implements Comparable<Date> {
      * @param month Mois envoyé en paramètre et à transformer
      * @return index de celui-ci (1-12)
      */
-    public int monthToInt(Month month) {
+    private int monthToInt(Month month) {
         return month.ordinal() + 1;
     }
 
@@ -271,7 +272,7 @@ public final class Date implements Comparable<Date> {
      * @param year  Année
      * @return Représentation entière de la date
      */
-    public int dateToFixed(int day, int month, int year) {
+    private int dateToFixed(int day, int month, int year) {
         int c, y0 = year - 1;
 
         if (month <= 2) {
@@ -291,7 +292,7 @@ public final class Date implements Comparable<Date> {
      *
      * @return Représentation entière de la date pour laquelle la méthode est appelée.
      */
-    public int getIntValue() {
+    private int getIntValue() {
         return dateToFixed(day(), intMonth(), year());
     }
 
@@ -302,7 +303,7 @@ public final class Date implements Comparable<Date> {
      * @param intDate Représentation entière passée en argument
      * @return ch.epfl.isochrone.timetable.Date correspondante
      */
-    public Date fixedToDate(int intDate) {
+    private Date fixedToDate(int intDate) {
         int p, c;
 
         int d0 = (intDate - 1);
@@ -342,7 +343,7 @@ public final class Date implements Comparable<Date> {
      * @param year Année à vérifier
      * @return booléen (1 si bissextile, 0 sinon)
      */
-    public boolean isLeapYear(int year) {
+    private boolean isLeapYear(int year) {
         return ((Math.modF(year, 4) == 0 && Math.modF(year, 100) != 0) || (Math.modF(year, 400) == 0));
     }
 }

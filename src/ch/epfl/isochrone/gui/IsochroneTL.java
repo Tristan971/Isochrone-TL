@@ -8,8 +8,6 @@ import ch.epfl.isochrone.timetable.Date.Month;
 import ch.epfl.isochrone.timetable.*;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -52,17 +50,17 @@ public final class IsochroneTL {
      * Constructeur principal de la classe
      * @throws IOException
      */
-    public IsochroneTL() throws IOException {
+    private IsochroneTL() throws IOException {
         departureDate = INITIAL_DATE;
         departureTime = INITIAL_DEPARTURE_TIME;
         timeTableReader = new TimeTableReader("/time-table/");
         timeTable = timeTableReader.readTimeTable();
 
-        for (Stop aStop : timeTable.stops()) {
-            if (aStop.name().equals(INITIAL_STARTING_STOP_NAME)) {
-                startingStop = aStop;
-            }
-        }
+        timeTable.stops().parallelStream()
+                .filter(aStop ->
+                        aStop.name().equals(INITIAL_STARTING_STOP_NAME)
+                )
+                .forEach(aStop -> startingStop = aStop);
 
         tiledMapComponent = new TiledMapComponent(INITIAL_ZOOM);
 
@@ -124,25 +122,22 @@ public final class IsochroneTL {
         });
 
         // Détection des mouvements de la roulette de la souris pour adapter le zoom
-        layeredPane.addMouseWheelListener(new MouseWheelListener() {
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                Point cursorPosition = e.getPoint();
-                int oldZoom = tiledMapComponent.zoom();
-                int newZoom = oldZoom - e.getWheelRotation();
+        layeredPane.addMouseWheelListener(e -> {
+            Point cursorPosition = e.getPoint();
+            int oldZoom = tiledMapComponent.zoom();
+            int newZoom = oldZoom - e.getWheelRotation();
 
-                if (newZoom > 19) {
-                    newZoom = 19;
-                } else if (newZoom < 10) {
-                    newZoom = 10;
-                }
-
-                tiledMapComponent.setZoom(newZoom);
-
-                PointOSM unzoomedPointOSM = new PointOSM(oldZoom, cursorPosition.getX() + viewPort.getViewPosition().getX(), cursorPosition.getY() + viewPort.getViewPosition().getY());
-                PointOSM zoomedPointOSM = unzoomedPointOSM.atZoom(newZoom);
-                viewPort.setViewPosition(new Point(zoomedPointOSM.roundedX() - cursorPosition.x, zoomedPointOSM.roundedY() - cursorPosition.y));
+            if (newZoom > 19) {
+                newZoom = 19;
+            } else if (newZoom < 10) {
+                newZoom = 10;
             }
+
+            tiledMapComponent.setZoom(newZoom);
+
+            PointOSM unzoomedPointOSM = new PointOSM(oldZoom, cursorPosition.getX() + viewPort.getViewPosition().getX(), cursorPosition.getY() + viewPort.getViewPosition().getY());
+            PointOSM zoomedPointOSM = unzoomedPointOSM.atZoom(newZoom);
+            viewPort.setViewPosition(new Point(zoomedPointOSM.roundedX() - cursorPosition.x, zoomedPointOSM.roundedY() - cursorPosition.y));
         });
 
         JPanel centerPanel = new JPanel(new BorderLayout());
@@ -156,12 +151,7 @@ public final class IsochroneTL {
         JLabel dateLabel = new JLabel("Date and hour (DD/MM/YY) : ");
 
         List<Stop> orderedStopList = new LinkedList<>(stopSet);
-        Collections.sort(orderedStopList, new Comparator<Stop>() {
-            @Override
-            public int compare(Stop stop1, Stop stop2) {
-                return stop1.name().compareTo(stop2.name());
-            }
-        });
+        Collections.sort(orderedStopList, (stop1, stop2) -> stop1.name().compareTo(stop2.name()));
 
         Vector<Stop> stopsVector = new Vector<>(orderedStopList);
         final JComboBox<Stop> stopsJComboBox = new JComboBox<>(stopsVector);
@@ -171,7 +161,9 @@ public final class IsochroneTL {
         JSpinner dateSpinner = new JSpinner(spinnerDateModel);
 
         java.util.Date javaDate = departureDate.toJavaDate();
+        //noinspection deprecation
         javaDate.setHours(SecondsPastMidnight.hours(departureTime));
+        //noinspection deprecation
         javaDate.setMinutes(SecondsPastMidnight.minutes(departureTime));
         dateSpinner.setValue(javaDate);
 
@@ -184,29 +176,23 @@ public final class IsochroneTL {
         myPanel.add(dateSpinner);
 
         // Détecte une modification de la date ou de l'heure
-        spinnerDateModel.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                Date modelDate = new Date(spinnerDateModel.getDate());
-                int departureTime = SecondsPastMidnight.fromJavaDate(spinnerDateModel.getDate());
+        spinnerDateModel.addChangeListener(e -> {
+            Date modelDate = new Date(spinnerDateModel.getDate());
+            int departureTime1 = SecondsPastMidnight.fromJavaDate(spinnerDateModel.getDate());
 
-                try {
-                    setDateAndDepartureTime(modelDate, departureTime);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+            try {
+                setDateAndDepartureTime(modelDate, departureTime1);
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
 
         // Détecte et applique un changement de l'arrêt de départ
-        stopsJComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    setStartingStop((Stop) stopsJComboBox.getSelectedItem());
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+        stopsJComboBox.addActionListener(e -> {
+            try {
+                setStartingStop((Stop) stopsJComboBox.getSelectedItem());
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
         });
 
@@ -230,7 +216,7 @@ public final class IsochroneTL {
 
     private void start() {
         JFrame frame = new JFrame("Isochrone TL");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(createCenterPanel(), BorderLayout.CENTER);
@@ -240,16 +226,14 @@ public final class IsochroneTL {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
+    public static void main(String... args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    new IsochroneTL().start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            try {
+                new IsochroneTL().start();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         });
     }
@@ -329,12 +313,7 @@ public final class IsochroneTL {
     private void updateFastestPathTree() throws IOException {
         List<Stop> stopList = new LinkedList<>();
         stopList.addAll(stopSet);
-        Collections.sort(stopList, new Comparator<Stop>() {
-            @Override
-            public int compare(Stop s1, Stop s2) {
-                return s1.name().compareTo(s2.name());
-            }
-        });
+        Collections.sort(stopList, (s1, s2) -> s1.name().compareTo(s2.name()));
         Stop firstStop = new Stop("NULL", null);
         for (Stop aStop : stopList) {
             if (aStop.name().equals(startingStop.name())) {

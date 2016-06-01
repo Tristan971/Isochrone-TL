@@ -1,19 +1,17 @@
 package ch.epfl.isochrone.timetable;
 
+import ch.epfl.isochrone.geo.PointWGS84;
+import org.junit.Test;
+
+import java.util.*;
+
 import static java.lang.Math.toRadians;
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
-
-import org.junit.Ignore;
-import org.junit.Test;
-
-import ch.epfl.isochrone.geo.PointWGS84;
-
+@SuppressWarnings({
+        "DanglingJavadoc",
+        "UnusedAssignment"
+})
 public class TestGraphEdge {
     private static final double DELTA = 0.000001;
     private static final double REPEAT = 100;
@@ -78,7 +76,7 @@ public class TestGraphEdge {
     @Test (expected = java.lang.IllegalArgumentException.class)
     public void testConstructorWalkingTimeTooSmall() {
         Stop destination = new Stop("test",new PointWGS84(toRadians(6.543), toRadians(6.543)));
-        Set<Integer> packedTrips = new HashSet<Integer>();
+        Set<Integer> packedTrips = new HashSet<>();
         new GraphEdge(destination, -2, packedTrips);
     }
 
@@ -91,7 +89,7 @@ public class TestGraphEdge {
     // Testing without the Builder
     @Test
     public void testEarliestArrivalTimeTooLongOnFootNoPackedTrips() {
-        GraphEdge e = new GraphEdge(null, -1, Collections.<Integer>emptySet());
+        GraphEdge e = new GraphEdge(null, -1, Collections.emptySet());
         Random gen = new Random();
         for (int i = 0; i < REPEAT; i++) {
             int departureTime = gen.nextInt(107999); // NotTooBig
@@ -107,7 +105,7 @@ public class TestGraphEdge {
             int departureTime = gen.nextInt(107999); // NotTooBig
             int walkingTime = gen.nextInt(200000);
             int totalTime = (departureTime + walkingTime);
-            GraphEdge e = new GraphEdge(null, walkingTime, Collections.<Integer>emptySet());
+            GraphEdge e = new GraphEdge(null, walkingTime, Collections.emptySet());
             assertEquals(
                     (totalTime < SecondsPastMidnight.INFINITE) ? totalTime : SecondsPastMidnight.INFINITE, 
                     e.earliestArrivalTime(departureTime), DELTA);
@@ -286,8 +284,8 @@ public class TestGraphEdge {
         i1 = GraphEdge.unpackTripDepartureTime(0);
         i1 = GraphEdge.unpackTripDuration(0);
         i1 = GraphEdge.unpackTripArrivalTime(0) + i1;
-        Stop s = null;
-        GraphEdge e = new GraphEdge(s, 0, Collections.<Integer>emptySet());
+        Stop s;
+        GraphEdge e = new GraphEdge(null, 0, Collections.emptySet());
         s = e.destination();
         i1 = e.earliestArrivalTime(0);
 
@@ -344,7 +342,7 @@ public class TestGraphEdge {
     }
    
     // Modify nonWalkingArrivalTime(int departureTime)
-    private static int nonWalkingArrivalTime(int departureTime, Integer[] packedTrips) {
+    private static int nonWalkingArrivalTime(int departureTime, Integer... packedTrips) {
         int packedDepartureTime = GraphEdge.packTrip(departureTime, departureTime);
         Arrays.sort(packedTrips);
         int i = Arrays.binarySearch(packedTrips, packedDepartureTime);

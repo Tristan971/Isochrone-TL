@@ -17,5 +17,5 @@ public interface TileProvider {
      * @return
      *      La tile liée
      */
-    public Tile tileAt(int zoom, int x, int y);
+    Tile tileAt(int zoom, int x, int y);
 }

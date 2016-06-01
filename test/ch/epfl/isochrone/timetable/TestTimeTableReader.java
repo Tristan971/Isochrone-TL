@@ -12,6 +12,10 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
+@SuppressWarnings({
+        "DanglingJavadoc",
+        "unused"
+})
 public class TestTimeTableReader {
 
     private static final double DELTA = 0.000001;

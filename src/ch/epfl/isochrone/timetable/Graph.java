@@ -1,6 +1,7 @@
 package ch.epfl.isochrone.timetable;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Classe gérant la notion de Graphe
@@ -66,15 +67,6 @@ public final class Graph {
     }
 
     /**
-     * Getteur sur les stops
-     * @return
-     *      Renvoie les stops sous forme de set
-     */
-    public Set<Stop> getStops() {
-        return stops;
-    }
-
-    /**
      * Bâtisseur permettant de créer un graphe pas-à-pas
      */
     public final static class Builder {
@@ -93,7 +85,7 @@ public final class Graph {
         public Builder(Set<Stop> stops) {
             this.stops=stops;
             for (Stop aStop : stops) {
-                outgoingEdges.put(aStop, new ArrayList<GraphEdge>());
+                outgoingEdges.put(aStop, new ArrayList<>());
             }
         }
 
@@ -166,9 +158,7 @@ public final class Graph {
                 maMap.put(toStop, new GraphEdge.Builder(toStop));
                 doubleTable.put(fromStop, maMap);
             }
-            if (doubleTable.get(fromStop).get(toStop) == null) {
-                doubleTable.get(fromStop).put(toStop, new GraphEdge.Builder(toStop));
-            }
+            doubleTable.get(fromStop).putIfAbsent(toStop, new GraphEdge.Builder(toStop));
 
             return doubleTable.get(fromStop).get(toStop);
         }
@@ -182,9 +172,11 @@ public final class Graph {
             List<GraphEdge> tempList;
             for (Stop aStop : stops) {
                 tempList = new LinkedList<>();
-                for (Stop aStop2 : stops) {
-                    tempList.add(getBuilder(aStop, aStop2).build());
-                }
+                tempList.addAll(
+                        stops.stream()
+                                .map(aStop2 -> getBuilder(aStop, aStop2).build())
+                                .collect(Collectors.toList())
+                );
 
                 outgoingEdges.put(aStop, tempList);
             }

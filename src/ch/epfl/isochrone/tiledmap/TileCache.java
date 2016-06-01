@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Tristan Deloche (234045)
  */
 
-public class TileCache extends LinkedHashMap {
+public class TileCache extends LinkedHashMap<Long, Tile> {
     private static final int MAX_SIZE = 100;
 
     //Hashmap ayant une taille maximale et stopckant le cache à proprement parler

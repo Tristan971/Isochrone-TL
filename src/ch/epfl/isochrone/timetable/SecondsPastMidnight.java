@@ -49,6 +49,7 @@ public final class SecondsPastMidnight {
      *      Temps écoulé depuis minuit au moment contenu dans la date passée en argument
      */
     public static int fromJavaDate(java.util.Date date) {
+        //noinspection deprecation
         return (3600*date.getHours()+60*date.getMinutes()+date.getSeconds());
     }
 
