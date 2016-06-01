@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<eclipse-userlibraries>
-  <library name="hamcrest-core-1.3">
-    <archive path="/Users/Tristan/Downloads/hamcrest-core-1.3.jar" />
-  </library>
-</eclipse-userlibraries>
-

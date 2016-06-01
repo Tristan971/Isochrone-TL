@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Isochrone-TL">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/Isochrone_TL_jar/Isochrone-TL.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
